@@ -26,7 +26,7 @@ export default function FilmDetailPage({ params }: { params: { id: string } }) {
           layout="fill"
           objectFit="cover"
           className="opacity-20"
-          data-ai-hint="movie backdrop"
+          data-ai-hint="youtube thumbnail"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
       </section>
@@ -40,7 +40,7 @@ export default function FilmDetailPage({ params }: { params: { id: string } }) {
               width={300}
               height={450}
               className="rounded-lg shadow-2xl w-full"
-              data-ai-hint="movie poster"
+              data-ai-hint="youtube thumbnail"
             />
             <Button asChild size="lg" className="w-full mt-4">
               <Link href={`/watch/${film.id}`}>

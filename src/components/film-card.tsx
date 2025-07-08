@@ -26,7 +26,7 @@ export default function FilmCard({ film, className }: FilmCardProps) {
               layout="fill"
               objectFit="cover"
               className="transition-opacity duration-300 group-hover:opacity-80"
-              data-ai-hint="movie poster"
+              data-ai-hint="youtube thumbnail"
             />
           </div>
         </CardContent>

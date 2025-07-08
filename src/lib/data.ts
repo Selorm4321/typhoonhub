@@ -32,9 +32,9 @@ export const films: Film[] = yourShowsData.map((show, index) => ({
   title: show.title,
   youtubeVideoId: show.youtubeVideoId,
   tagline: `A great tagline for ${show.title}.`,
-  synopsis: `A detailed synopsis for ${show.title}. You can edit this file (src/lib/data.ts) to update the film details.`,
-  posterUrl: `https://placehold.co/500x${750 + index}`,
-  backdropUrl: `https://placehold.co/1920x${1080 + index}`,
+  synopsis: `You can edit the details for this show (like the title, tagline, and synopsis) in the src/lib/data.ts file.`,
+  posterUrl: `https://img.youtube.com/vi/${show.youtubeVideoId}/hqdefault.jpg`,
+  backdropUrl: `https://img.youtube.com/vi/${show.youtubeVideoId}/maxresdefault.jpg`,
   releaseYear: 2024,
   genres: ['Indie', 'Short'],
   cast: [

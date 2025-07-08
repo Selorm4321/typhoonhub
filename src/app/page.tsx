@@ -20,7 +20,7 @@ export default function Home() {
           layout="fill"
           objectFit="cover"
           className="absolute inset-0 opacity-40"
-          data-ai-hint="movie backdrop"
+          data-ai-hint="youtube thumbnail"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         <div className="relative z-10 flex h-full items-end p-8 md:p-16">
