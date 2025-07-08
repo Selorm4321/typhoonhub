@@ -1,4 +1,4 @@
-import { Clapperboard, Github, Twitter, Youtube } from 'lucide-react';
+import { Clapperboard, Instagram, Youtube } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Footer() {
@@ -8,15 +8,12 @@ export default function Footer() {
         <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
           <Clapperboard className="h-6 w-6 text-primary" />
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            &copy; {new Date().getFullYear()} Typhoon Indie Stream. All Rights Reserved.
+            &copy; Typhoon Indie Stream. All Rights Reserved.
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <Link href="#" aria-label="Twitter">
-            <Twitter className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
-          </Link>
-          <Link href="#" aria-label="GitHub">
-            <Github className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
+          <Link href="https://www.instagram.com/typhoonentertainment/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <Instagram className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
           </Link>
           <Link href="#" aria-label="YouTube">
             <Youtube className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
