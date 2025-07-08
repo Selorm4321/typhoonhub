@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Clapperboard, Search } from 'lucide-react';
@@ -13,6 +14,7 @@ const navLinks = [
   { href: '/live', label: 'Live TV' },
   { href: '/search', label: 'Search' },
   { href: '/recommendations', label: 'AI Recommends' },
+  { href: '/submit', label: 'Submit Film' },
 ];
 
 export default function Header() {
