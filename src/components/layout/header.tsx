@@ -1,13 +1,14 @@
 
 'use client';
 
-import { Clapperboard, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import SearchInput from '@/components/search-input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import Logo from './logo';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -23,9 +24,8 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <Clapperboard className="h-6 w-6 text-primary" />
-          <span className="hidden font-bold font-headline sm:inline-block">Typhoon Entertainment</span>
+        <Link href="/" className="mr-6 flex items-center">
+          <Logo className="h-12 w-auto" />
         </Link>
         <nav className="hidden items-center gap-6 text-sm md:flex">
           {navLinks.map((link) => (
