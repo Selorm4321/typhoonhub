@@ -4,7 +4,7 @@ import React from 'react';
 import FilmCarousel from '@/components/film-carousel';
 import { Button } from '@/components/ui/button';
 import { films } from '@/lib/data';
-import { PlayCircle } from 'lucide-react';
+import { PlayCircle, Send } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -77,6 +77,21 @@ export default function Home() {
 
       <main className="container mx-auto space-y-12 pb-16 pt-16">
         <FilmCarousel title="All Shows" films={films} />
+
+        <section className="text-center py-16 bg-secondary/20 rounded-lg">
+          <div className="container mx-auto max-w-3xl">
+            <Send className="mx-auto h-12 w-12 text-primary" />
+            <h2 className="mt-4 font-headline text-3xl font-bold">Share Your Vision</h2>
+            <p className="mt-4 mx-auto text-muted-foreground">
+              Are you an independent filmmaker with a story to tell? We want to see it. Submit your film for a chance to be featured on Typhoon Indie Stream.
+            </p>
+            <Button asChild size="lg" className="mt-8">
+              <Link href="/submit">
+                Submit Your Film
+              </Link>
+            </Button>
+          </div>
+        </section>
       </main>
     </div>
   );
