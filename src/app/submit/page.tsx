@@ -4,7 +4,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { UploadCloud, FileText, Loader2, AlertTriangle } from 'lucide-react';
+import { Send, FileText, Loader2, AlertTriangle, LinkIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -68,10 +68,10 @@ export default function SubmitPage() {
     <div className="container mx-auto py-12">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
-          <UploadCloud className="mx-auto h-12 w-12 text-primary" />
+          <Send className="mx-auto h-12 w-12 text-primary" />
           <h1 className="mt-4 font-headline text-4xl font-bold">Submit Your Film</h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Share your work with the world through Typhoon Indie Stream.
+            Ready to share your work? Submit a link to your film for consideration on Typhoon Indie Stream.
           </p>
         </div>
 
@@ -148,12 +148,15 @@ export default function SubmitPage() {
                       name="filmLink"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Link to Film</FormLabel>
+                          <FormLabel>Film URL</FormLabel>
                           <FormControl>
-                            <Input placeholder="https://youtube.com/watch?v=..." {...field} />
+                            <div className="relative">
+                              <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input placeholder="https://youtube.com/watch?v=..." {...field} className="pl-10" />
+                            </div>
                           </FormControl>
                           <FormDescription>
-                            Please provide a link to a private or unlisted video (e.g., YouTube, Vimeo).
+                            Please provide a link to your film on a platform like YouTube or Vimeo. We do not accept direct file uploads at this time.
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
