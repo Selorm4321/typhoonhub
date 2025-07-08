@@ -1,5 +1,5 @@
 import { films } from '@/lib/data';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
@@ -7,9 +7,11 @@ import { ArrowLeft } from 'lucide-react';
 export default function WatchPage({ params }: { params: { id: string } }) {
   const film = films.find((f) => f.id.toString() === params.id);
 
-  if (!film) {
+  if (!film || !film.youtubeVideoId) {
     notFound();
   }
+
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${film.youtubeVideoId}?autoplay=1`;
 
   return (
     <div className="bg-black flex flex-col h-screen">
@@ -24,16 +26,14 @@ export default function WatchPage({ params }: { params: { id: string } }) {
       </header>
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-6xl aspect-video bg-black">
-          {/* In a real app, this would be a sophisticated video player component like Plyr, Video.js, etc. */}
-          <video
+          <iframe
             className="w-full h-full"
-            controls
-            autoPlay
-            src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-            poster={film.backdropUrl}
-          >
-            Your browser does not support the video tag.
-          </video>
+            src={youtubeEmbedUrl}
+            title={film.title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </div>
       </div>
     </div>
