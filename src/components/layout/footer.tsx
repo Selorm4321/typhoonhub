@@ -1,4 +1,4 @@
-import { Clapperboard, Instagram, Youtube } from 'lucide-react';
+import { Clapperboard, Facebook, Instagram, Youtube } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Footer() {
@@ -12,6 +12,9 @@ export default function Footer() {
           </p>
         </div>
         <div className="flex items-center gap-4">
+          <Link href="https://www.facebook.com/share/1JndZR7e8X/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <Facebook className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
+          </Link>
           <Link href="https://www.instagram.com/typhoonentertainment/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <Instagram className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
           </Link>
