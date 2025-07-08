@@ -58,7 +58,7 @@ export default function SubmitPage() {
     console.log(values);
     toast({
       title: 'Submission Received!',
-      description: "Thank you for submitting your film. We'll be in touch soon.",
+      description: "Thank you for your submission! Your film will be reviewed, and we'll contact you if it's a good fit for our platform.",
     });
     form.reset();
     setIsLoading(false);
