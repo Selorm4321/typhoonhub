@@ -15,15 +15,15 @@ export type Film = {
 };
 
 const yourShowsData: { title: string; youtubeVideoId: string }[] = [
-    { title: 'My Awesome Show 1', youtubeVideoId: 'MtIRD4VX_bo' },
-    { title: 'My Awesome Show 2', youtubeVideoId: 'v3_ueH-TMdc' },
-    { title: 'My Awesome Show 3', youtubeVideoId: 'IHWigm2UgQE' },
-    { title: 'My Awesome Show 4', youtubeVideoId: 'YCvqZ2nygGg' },
-    { title: 'My Awesome Show 5', youtubeVideoId: 'kMBqikKeXYM' },
-    { title: 'My Awesome Show 6', youtubeVideoId: 'QW6_dfNfE0c' },
-    { title: 'My Awesome Show 7', youtubeVideoId: '6gmYHtOfWa4' },
-    { title: 'My Awesome Show 8', youtubeVideoId: 'FmyrrtqP3Sc' },
-    { title: 'My Awesome Show 9', youtubeVideoId: 'krNFpw5gnDI' },
+    { title: 'New Day', youtubeVideoId: 'IHWigm2UgQE' },
+    { title: 'Alice And Huck', youtubeVideoId: 'QW6_dfNfE0c' },
+    { title: 'Typhoon Talk Episode 1 - Break the Stigma', youtubeVideoId: '6gmYHtOfWa4' },
+    { title: 'MAMI', youtubeVideoId: 'MtIRD4VX_bo' },
+    { title: 'jwohnjovouchor and the Yiiiii Kakai Voice of Waste Masks', youtubeVideoId: 'v3_ueH-TMdc' },
+    { title: 'HARBINGER CUSTOMS AD', youtubeVideoId: 'V2iPIiOn3vU' },
+    { title: 'When Jesse was born', youtubeVideoId: 'kMBqikKeXYM' },
+    { title: 'The Art Of Indie | Ep. 1: Exploring Creativity with Nikki Wallin', youtubeVideoId: 'FmyrrtqP3Sc' },
+    { title: 'The Art Of Indie | Episode #2: Comedy Gold with Devon Ferguson', youtubeVideoId: 'krNFpw5gnDI' },
 ];
 
 
