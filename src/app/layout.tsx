@@ -5,7 +5,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 
 export const metadata: Metadata = {
-  title: 'Typhoon Indie Stream',
+  title: 'Typhoon Entertainment',
   description: 'Your home for independent cinema.',
 };
 

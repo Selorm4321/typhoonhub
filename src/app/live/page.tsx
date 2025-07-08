@@ -45,7 +45,7 @@ export default function LivePage() {
         <iframe
           className="w-full h-full"
           src={youtubeEmbedUrl}
-          title="Typhoon Indie Stream Live Channel"
+          title="Typhoon Entertainment Live Channel"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen

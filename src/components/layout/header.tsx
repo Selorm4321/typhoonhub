@@ -25,7 +25,7 @@ export default function Header() {
       <div className="container flex h-16 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <Clapperboard className="h-6 w-6 text-primary" />
-          <span className="hidden font-bold font-headline sm:inline-block">Typhoon Indie Stream</span>
+          <span className="hidden font-bold font-headline sm:inline-block">Typhoon Entertainment</span>
         </Link>
         <nav className="hidden items-center gap-6 text-sm md:flex">
           {navLinks.map((link) => (

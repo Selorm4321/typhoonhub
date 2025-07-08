@@ -4,7 +4,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Send, FileText, Loader2, AlertTriangle, LinkIcon } from 'lucide-react';
+import { Send, FileText, Loader2, LinkIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -21,7 +21,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 
 const submissionFormSchema = z.object({
@@ -71,7 +70,7 @@ export default function SubmitPage() {
           <Send className="mx-auto h-12 w-12 text-primary" />
           <h1 className="mt-4 font-headline text-4xl font-bold">Submit Your Film</h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Ready to share your work? Submit a link to your film for consideration on Typhoon Indie Stream.
+            Ready to share your work? Submit a link to your film for consideration on Typhoon Entertainment.
           </p>
         </div>
 
@@ -210,7 +209,7 @@ export default function SubmitPage() {
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-muted-foreground">
                 <p>
-                  Before your film can be featured on Typhoon Indie Stream, you must ensure you have all the necessary legal rights and permissions. This is crucial to protect both you as a filmmaker and our platform.
+                  Before your film can be featured on Typhoon Entertainment, you must ensure you have all the necessary legal rights and permissions. This is crucial to protect both you as a filmmaker and our platform.
                 </p>
                 <ul className="list-disc space-y-2 pl-5">
                   <li>
@@ -229,13 +228,6 @@ export default function SubmitPage() {
               </CardContent>
             </Card>
 
-            <Alert variant="destructive">
-                <AlertTriangle className="h-4 w-4" />
-                <AlertTitle>Disclaimer</AlertTitle>
-                <AlertDescription>
-                  The information provided here is for guidance only and does not constitute legal advice. We strongly recommend consulting with an entertainment lawyer to ensure all your legal paperwork is in order before submission.
-                </AlertDescription>
-            </Alert>
           </div>
         </div>
       </div>
