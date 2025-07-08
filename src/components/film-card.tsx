@@ -33,7 +33,6 @@ export default function FilmCard({ film, className }: FilmCardProps) {
       </Card>
       <div className="mt-2">
         <h3 className="font-semibold text-sm truncate">{film.title}</h3>
-        <p className="text-xs text-muted-foreground">{film.releaseYear}</p>
       </div>
     </Link>
   );

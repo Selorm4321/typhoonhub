@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Calendar, Clock, PlayCircle, Star } from 'lucide-react';
+import { Clock, PlayCircle, Star } from 'lucide-react';
 
 import { films, type Film } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -55,10 +55,6 @@ export default function FilmDetailPage({ params }: { params: { id: string } }) {
               <h1 className="font-headline text-4xl lg:text-5xl font-bold">{film.title}</h1>
               <p className="text-lg text-muted-foreground">{film.tagline}</p>
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  <span>{film.releaseYear}</span>
-                </div>
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />
                   <span>{film.durationMinutes} min</span>
