@@ -13,7 +13,6 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/live', label: 'Live TV' },
   { href: '/search', label: 'Search' },
-  { href: '/recommendations', label: 'AI Recommends' },
   { href: '/submit', label: 'Submit Film' },
 ];
 
