@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import FilmCard from '@/components/film-card';
 
 export default function FilmDetailPage({ params }: { params: { id: string } }) {
   const film = films.find((f) => f.id.toString() === params.id);
@@ -16,6 +17,8 @@ export default function FilmDetailPage({ params }: { params: { id: string } }) {
   if (!film) {
     notFound();
   }
+
+  const similarFilms = films.filter((f) => f.id !== film.id);
 
   return (
     <div className="flex flex-col">
@@ -99,26 +102,44 @@ export default function FilmDetailPage({ params }: { params: { id: string } }) {
 
           <section className="space-y-6">
             <h2 className="font-headline text-2xl font-semibold">Reviews</h2>
-            <div className="space-y-4">
-              {film.reviews.map((review) => (
-                <Card key={review.author}>
-                  <CardHeader>
-                    <CardTitle className="text-lg flex items-center justify-between">
-                      <span>{review.author}</span>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Star className="h-4 w-4 text-accent fill-accent" />
-                        <span>{review.rating}/5</span>
-                      </div>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">"{review.text}"</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            {film.reviews.length > 0 ? (
+              <div className="space-y-4">
+                {film.reviews.map((review) => (
+                  <Card key={review.author}>
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center justify-between">
+                        <span>{review.author}</span>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Star className="h-4 w-4 text-accent fill-accent" />
+                          <span>{review.rating}/5</span>
+                        </div>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">"{review.text}"</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+               <p className="text-muted-foreground">No reviews yet.</p>
+            )}
           </section>
         </div>
+
+        {similarFilms.length > 0 && (
+          <>
+            <Separator className="my-12" />
+            <section className="space-y-6">
+              <h2 className="font-headline text-2xl font-semibold">You Might Also Like</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                {similarFilms.map((similarFilm) => (
+                  <FilmCard key={similarFilm.id} film={similarFilm} />
+                ))}
+              </div>
+            </section>
+          </>
+        )}
       </div>
     </div>
   );
