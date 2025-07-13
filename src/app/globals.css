@@ -70,35 +70,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
-@layer components {
-  .glitch-text-container {
-    @apply relative;
-  }
-  .glitch-text {
-    @apply relative;
-  }
-  .glitch-text::before,
-  .glitch-text::after {
-    content: attr(aria-label);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    clip: rect(0, 0, 0, 0);
-  }
-
-  .glitch-text::before {
-    @apply animate-glitch-top;
-    left: 2px;
-    text-shadow: -1px 0 #00d1ff;
-  }
-
-  .glitch-text::after {
-    @apply animate-glitch-bottom;
-    left: -2px;
-    text-shadow: -1px 0 #ff00a0, 1px 1px #00d1ff;
-  }
-}
