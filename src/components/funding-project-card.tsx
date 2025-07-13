@@ -88,7 +88,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
             <span>{project.investors} Investors</span>
           </div>
         </div>
-        <Button onClick={handleInvestClick}>
+        <Button onClick={handleInvestClick} disabled>
           <DollarSign className="mr-2 h-4 w-4" />
           Invest Now
         </Button>
