@@ -18,61 +18,61 @@ const yourShowsData: { title: string; youtubeVideoId: string; tagline: string; s
       title: 'MAMI',
       youtubeVideoId: 'MtIRD4VX_bo',
       tagline: 'Some things are best left at the bottom of the sea.',
-      synopsis: 'A father and son\'s routine fishing trip turns into a living nightmare...'
+      synopsis: 'A father and son\'s routine fishing trip turns into a living nightmare when they discover a cursed mermaid statue at the bottom of the ocean.'
     },
     {
       title: 'Alice And Huck',
       youtubeVideoId: 'QW6_dfNfE0c',
       tagline: 'The rabbit hole is a dangerous place.',
-      synopsis: 'In this dark and gritty reimagining of classic characters...'
+      synopsis: 'In this dark and gritty reimagining of classic characters, a street-smart Alice teams up with a cynical Huck Finn to navigate a surreal, corrupt underworld.'
     },
     {
       title: 'HARBINGER CUSTOMS: Distinguished Gentleman\'s Ride',
       youtubeVideoId: 'kMBqikKeXYM',
       tagline: 'Riding Dapper for a Cause.',
-      synopsis: 'More than just motorcycles, it\'s a movement...'
+      synopsis: 'More than just motorcycles, it\'s a movement. Join Harbinger Customs as they participate in the Distinguished Gentleman\'s Ride, raising funds and awareness for men\'s health.'
     },
     {
       title: 'HARBINGER CUSTOMS SHOP INTRO',
       youtubeVideoId: 'IHWigm2UgQE',
       tagline: 'Where Metal Meets Soul.',
-      synopsis: 'Step inside the Harbinger Customs workshop in Squamish, BC...'
+      synopsis: 'Step inside the Harbinger Customs workshop in Squamish, BC, and witness the artistry and passion that goes into every custom motorcycle build.'
     },
     {
       title: 'Typhoon Talk: Break the Stigma',
       youtubeVideoId: '6gmYHtOfWa4',
       tagline: 'A new conversation for a new culture.',
-      synopsis: 'Host Jill Maria dives deep into Canada\'s evolving culture...'
+      synopsis: 'Host Jill Maria dives deep into Canada\'s evolving culture, discussing important and often overlooked topics with a panel of insightful guests.'
     },
     {
       title: 'The Art Of Indie | Ep. 1: Exploring Creativity with Nikki Wallin',
       youtubeVideoId: 'FmyrrtqP3Sc',
       tagline: 'The journey behind the vision.',
-      synopsis: 'In the debut episode of "The Art Of Indie," host Alyssa Parker is joined by the multi-talented Nikki Wallin...'
+      synopsis: 'In the debut episode of "The Art Of Indie," host Alyssa Parker is joined by the multi-talented Nikki Wallin to discuss the creative process and the life of an independent artist.'
     },
     {
       title: 'The Art Of Indie | Episode #2: Comedy Gold with Devon Ferguson',
       youtubeVideoId: 'krNFpw5gnDI',
       tagline: 'Unpacking the art of the laugh.',
-      synopsis: 'Host Alyssa Parker sits down with comedy mastermind Devon Ferguson...'
+      synopsis: 'Host Alyssa Parker sits down with comedy mastermind Devon Ferguson to explore the nuances of joke writing, performance, and finding humor in the everyday.'
     },
     {
       title: 'HARBINGER CUSTOMS AD',
       youtubeVideoId: 'v3_ueH-TMdc',
       tagline: 'Forged in Fire. Built to Ride.',
-      synopsis: 'A high-octane showcase of Harbinger Customs...'
+      synopsis: 'A high-octane showcase of Harbinger Customs, featuring stunning visuals of their unique bikes and the rugged beauty of the Canadian landscape.'
     },
     {
       title: 'Thirsty (Trailer)',
       youtubeVideoId: 'l6QMx5w1TGc',
       tagline: 'Some cravings can\'t be quenched.',
-      synopsis: 'A woman\'s grip on reality unravels as she is plagued by an unquenchable thirst...'
+      synopsis: 'A woman\'s grip on reality unravels as she is plagued by an unquenchable thirst. This psychological thriller will leave you questioning everything.'
     },
     {
       title: 'Thato - Ster-Kinekor Vision Mission',
       youtubeVideoId: '_smkf5Iv2Z0',
       tagline: 'Bringing a child\'s world into focus.',
-      synopsis: 'Follow the touching story of Thato, a young boy navigating a blurry, out-of-focus world...'
+      synopsis: 'Follow the touching story of Thato, a young boy navigating a blurry, out-of-focus world, and the incredible impact of Ster-Kinekor\'s Vision Mission.'
     }
 ];
 
@@ -107,32 +107,32 @@ export type FundingProject = {
 export const fundingProjects: FundingProject[] = [
   {
     id: 1,
-    title: 'Project Nebula',
-    tagline: 'A journey beyond the stars.',
-    synopsis: 'A small crew of explorers travels to a newly discovered star system, only to find they are not alone. A sci-fi thriller about first contact and survival.',
-    trailerYoutubeId: 'IHWigm2UgQE',
-    fundingGoal: 50000,
-    currentFunding: 22500,
-    investors: 142,
+    title: 'MAMI',
+    tagline: 'Some things are best left at the bottom of the sea.',
+    synopsis: 'A father and son\'s routine fishing trip turns into a living nightmare when they discover a cursed mermaid statue at the bottom of the ocean. Help us bring the full feature-length version of this terrifying short to life.',
+    trailerYoutubeId: 'MtIRD4VX_bo',
+    fundingGoal: 80000,
+    currentFunding: 34500,
+    investors: 188,
   },
   {
     id: 2,
-    title: 'Echoes of the Past',
-    tagline: 'Some memories are best left forgotten.',
-    synopsis: 'A historian discovers an ancient artifact that allows her to relive memories from the past. But when she uncovers a dark secret, she becomes the target of a shadowy organization.',
+    title: 'Alice And Huck',
+    tagline: 'The rabbit hole is a dangerous place.',
+    synopsis: 'We\'ve introduced you to the gritty world of Alice and Huck. Now, we want to expand their story into a full series. Fund the pilot episode and join them on their first big case.',
     trailerYoutubeId: 'QW6_dfNfE0c',
-    fundingGoal: 75000,
-    currentFunding: 68250,
-    investors: 310,
+    fundingGoal: 120000,
+    currentFunding: 95000,
+    investors: 451,
   },
   {
     id: 3,
-    title: 'The Last City',
-    tagline: 'Hope is their only currency.',
-    synopsis: 'In a post-apocalyptic world, a young woman leads a small group of survivors on a perilous journey to find the last known human city. A story of resilience and hope.',
-    trailerYoutubeId: 'MtIRD4VX_bo',
-    fundingGoal: 100000,
-    currentFunding: 45000,
-    investors: 255,
+    title: 'Thirsty',
+    tagline: 'Some cravings can\'t be quenched.',
+    synopsis: 'The trailer left you wanting more. We want to produce the full-length feature film, exploring the depths of obsession and madness. Your investment can make it happen.',
+    trailerYoutubeId: 'l6QMx5w1TGc',
+    fundingGoal: 65000,
+    currentFunding: 12000,
+    investors: 95,
   },
 ];
