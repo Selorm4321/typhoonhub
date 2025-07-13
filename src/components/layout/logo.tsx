@@ -46,6 +46,7 @@ export default function Logo({ className }: { className?: string }) {
           <text
             x="50%"
             y="95"
+            aria-label="TYPHOON"
             textAnchor="middle"
             fontSize="56"
             fontWeight="bold"
