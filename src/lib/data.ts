@@ -78,26 +78,30 @@ const yourShowsData: { title: string; youtubeVideoId: string; tagline: string; s
       title: 'The Art Of Indie | Episode #2: Comedy Gold with Devon Ferguson',
       youtubeVideoId: 'krNFpw5gnDI',
       tagline: "Unpacking the art of the laugh.",
-      synopsis: "Host Alyssa Parker sits down with comedy mastermind Devon Ferguson to explore the craft of making people laugh. This episode unpacks the art of indie comedy, from writing and producing to the inspirations that fuel a unique comedic voice."
+      synopsis: "Host Alyssa Parker sits down with comedy mastermind Devon Ferguson to explore the art of indie comedy, from writing and producing to the inspirations that fuel a unique comedic voice."
     }
 ];
 
 
-export const films: Film[] = yourShowsData.map((show, index) => ({
-  id: index + 1,
-  title: show.title,
-  youtubeVideoId: show.youtubeVideoId,
-  tagline: show.tagline,
-  synopsis: show.synopsis,
-  posterUrl: `https://img.youtube.com/vi/${show.youtubeVideoId}/hqdefault.jpg`,
-  backdropUrl: `https://img.youtube.com/vi/${show.youtubeVideoId}/maxresdefault.jpg`,
-  genres: ['Indie', 'Short'],
-  cast: [
-    { name: 'Creator Name', character: 'Host/Director', avatarUrl: `https://placehold.co/100x${100 + index}` },
-  ],
-  reviews: [],
-  durationMinutes: 15,
-}));
+export const films: Film[] = yourShowsData.map((show, index) => {
+  const isJesse = show.title === 'When Jesse was Born';
+  return {
+    id: index + 1,
+    title: show.title,
+    youtubeVideoId: show.youtubeVideoId,
+    tagline: show.tagline,
+    synopsis: show.synopsis,
+    posterUrl: isJesse ? `https://placehold.co/480x360.png` : `https://img.youtube.com/vi/${show.youtubeVideoId}/hqdefault.jpg`,
+    backdropUrl: isJesse ? `https://placehold.co/1280x720.png` : `https://img.youtube.com/vi/${show.youtubeVideoId}/maxresdefault.jpg`,
+    genres: ['Indie', 'Short'],
+    cast: [
+      { name: 'Creator Name', character: 'Host/Director', avatarUrl: `https://placehold.co/100x${100 + index}` },
+    ],
+    reviews: [],
+    durationMinutes: 15,
+  };
+});
+
 
 export type FundingProject = {
   id: number;
