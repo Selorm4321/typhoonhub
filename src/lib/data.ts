@@ -45,10 +45,10 @@ const yourShowsData: { title: string; youtubeVideoId: string; tagline: string; s
       synopsis: "An intimate look into the world of Ghanaian artist Jwhonjovouchor, who transforms discarded materials and ocean waste into breathtaking masks and sculptures. This documentary explores his philosophy of finding hope in what society throws away and his mission to give a voice to the environment through his unique and powerful art."
     },
     {
-      title: 'HARBINGER CUSTOMS AD',
+      title: 'New Day',
       youtubeVideoId: 'IHWigm2UgQE',
-      tagline: "Where Metal Meets Soul.",
-      synopsis: "A high-octane showcase of Harbinger Customs, capturing the grit, fire, and artistry of their motorcycle builds in a rapid-fire visual experience set to a hard-rocking soundtrack."
+      tagline: "When the world locks down, the doors to hatred swing wide open.",
+      synopsis: 'When the world locks down, the doors to hatred swing wide open. "A New Day" is a gripping short film that explores the dark side of pandemic paranoia and the rise of anti-Asian hate. Mike, a single father, finds himself trapped with his young daughter, Yoyo, and a xenophobic landlord, Lucas, whose fear of the "China virus" quickly turns into aggressive prejudice. After losing his job and facing escalating hostility at home, Mike is confronted with the brutal reality of racism when he is violently assaulted on the street. He returns to a gut-wrenching scene that forces him into a final, desperate confrontation to save his daughter. This film is a powerful, unflinching look at the human cost of fear and the enduring strength of a father\'s love in the search for a better tomorrow. --- A Film by Max Xu'
     },
     {
       title: 'Thato - Sterkinekor Vision Mission',
