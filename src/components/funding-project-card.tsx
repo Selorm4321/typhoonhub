@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -25,13 +26,6 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
     currency: 'USD',
     minimumFractionDigits: 0,
   });
-
-  const handleInvestClick = () => {
-    toast({
-      title: 'Feature Coming Soon!',
-      description: 'The ability to invest in projects is currently in development. Please check back later.',
-    });
-  };
 
   return (
     <Card className="flex flex-col overflow-hidden">
@@ -87,10 +81,6 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
             <span>{project.investors} Investors</span>
           </div>
         </div>
-        <Button onClick={handleInvestClick}>
-          <DollarSign className="mr-2 h-4 w-4" />
-          Invest Now
-        </Button>
       </CardFooter>
     </Card>
   );
