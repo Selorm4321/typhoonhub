@@ -91,7 +91,7 @@ export const films: Film[] = yourShowsData.map((show, index) => {
     youtubeVideoId: show.youtubeVideoId,
     tagline: show.tagline,
     synopsis: show.synopsis,
-    posterUrl: isJesse ? `https://placehold.co/480x360.png` : `https://img.youtube.com/vi/${show.youtubeVideoId}/hqdefault.jpg`,
+    posterUrl: isJesse ? `https://placehold.co/400x600.png` : `https://img.youtube.com/vi/${show.youtubeVideoId}/hqdefault.jpg`,
     backdropUrl: isJesse ? `https://placehold.co/1280x720.png` : `https://img.youtube.com/vi/${show.youtubeVideoId}/maxresdefault.jpg`,
     genres: ['Indie', 'Short'],
     cast: [
