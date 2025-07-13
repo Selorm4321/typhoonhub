@@ -4,6 +4,22 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Facebook, Instagram, Youtube } from 'lucide-react';
 
+const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M16.6 5.82s.51.5 0 0A4.24 4.24 0 0 1 12.53 3h-.1a4.24 4.24 0 0 0-4.13 4.34v8.41a4.24 4.24 0 0 0 4.24 4.24h.1a4.24 4.24 0 0 0 4.13-4.34s-.51-.5 0 0a4.24 4.24 0 0 1 4.13 4.34h.1a4.24 4.24 0 0 0 4.24-4.24V10.1a4.24 4.24 0 0 0-4.24-4.24h-.1a4.24 4.24 0 0 0-4.13 4.34Z" />
+    </svg>
+);
+
+
 export default function JoinUsPage() {
   return (
     <div className="container mx-auto py-12">
@@ -79,6 +95,11 @@ export default function JoinUsPage() {
                <Button asChild variant="outline" size="icon">
                  <Link href="https://www.instagram.com/typhoonentertainment/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                     <Instagram className="h-5 w-5" />
+                  </Link>
+               </Button>
+               <Button asChild variant="outline" size="icon">
+                 <Link href="https://www.tiktok.com/@typhoonent" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                    <TikTokIcon className="h-5 w-5" />
                   </Link>
                </Button>
                <Button asChild variant="outline" size="icon">
