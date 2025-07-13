@@ -27,7 +27,7 @@ export default function FilmDetailPage({ params }: { params: { id: string } }) {
           src={film.backdropUrl}
           alt={`Backdrop for ${film.title}`}
           layout="fill"
-          objectFit="cover"
+ style={{ objectFit: "cover" }}
           className="opacity-20"
           data-ai-hint="youtube thumbnail"
         />

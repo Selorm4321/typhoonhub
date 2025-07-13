@@ -17,7 +17,7 @@ const navLinks = [
   { href: '/live', label: 'Live TV' },
   { href: '/invest', label: 'Invest' },
   { href: '/submit', label: 'Submit Film' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/contact', label: 'Join Us' },
 ];
 
 export default function Header() {

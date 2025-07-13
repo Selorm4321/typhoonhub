@@ -1,26 +1,64 @@
-import { Mail, Phone, MapPin } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Mail, Waves, Users, Tv } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Facebook, Instagram, Youtube } from 'lucide-react';
 
-export default function ContactPage() {
+export default function JoinUsPage() {
   return (
     <div className="container mx-auto py-12">
-      <div className="max-w-3xl mx-auto text-center">
-        <Mail className="mx-auto h-12 w-12 text-primary" />
-        <h1 className="mt-4 font-headline text-4xl font-bold">Contact Us</h1>
+      <div className="max-w-4xl mx-auto text-center">
+        <Waves className="mx-auto h-12 w-12 text-primary" />
+        <h1 className="mt-4 font-headline text-4xl font-bold">Join the Typhoon Movement</h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          We'd love to hear from you. Whether you have a question, feedback, or a submission, feel free to reach out.
+          This isn't just another streaming service. We're building a home for stories that defy the mainstream—a platform where independent creators are championed and viewers discover their next favorite film.
         </p>
       </div>
 
+      <div className="max-w-5xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Card className="bg-secondary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-6 w-6 text-accent" />
+              <span>For Film Lovers</span>
+            </CardTitle>
+            <CardDescription>Tired of the same old formula? So are we.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 text-muted-foreground">
+            <p>
+              Dive into a curated library of films that challenge, inspire, and entertain. Discover hidden gems, support emerging artists, and be part of a community that celebrates authentic, unfiltered storytelling. 
+            </p>
+             <p>Your next great movie night starts here.</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-secondary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Tv className="h-6 w-6 text-accent" />
+              <span>For Filmmakers</span>
+            </CardTitle>
+            <CardDescription>Your vision deserves a stage.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 text-muted-foreground">
+            <p>
+              We believe in the power of your voice. Typhoon Entertainment is your platform to connect with a dedicated audience eager for fresh perspectives. We provide the space, you bring the story.
+            </p>
+            <p>
+              <Button asChild>
+                <Link href="/submit">Submit Your Film</Link>
+              </Button>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
       <Card className="max-w-2xl mx-auto mt-12">
-        <CardHeader>
-          <CardTitle>Get in Touch</CardTitle>
+        <CardHeader className="text-center">
+          <CardTitle>Connect With Us</CardTitle>
+          <CardDescription>Have a question or a great idea? We'd love to hear it.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center gap-4 border-b pb-6">
             <Mail className="h-6 w-6 text-primary" />
             <div>
               <h3 className="font-semibold">Email</h3>
@@ -30,9 +68,9 @@ export default function ContactPage() {
             </div>
           </div>
           
-          <div className="border-t pt-6">
-            <h3 className="font-semibold mb-4">Follow Us</h3>
-            <div className="flex items-center gap-6">
+          <div className="pt-2 text-center">
+            <h3 className="font-semibold mb-4">Follow the Movement</h3>
+            <div className="flex items-center justify-center gap-6">
                <Button asChild variant="outline" size="icon">
                   <Link href="https://www.facebook.com/share/1JndZR7e8X/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                     <Facebook className="h-5 w-5" />

@@ -41,7 +41,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
                 src={`https://img.youtube.com/vi/${project.trailerYoutubeId}/maxresdefault.jpg`}
                 alt={`Trailer for ${project.title}`}
                 layout="fill"
-                objectFit="cover"
+                style={{ objectFit: "cover" }}
                 data-ai-hint="movie trailer"
               />
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
