@@ -78,14 +78,22 @@ const yourShowsData: { title: string; youtubeVideoId: string; tagline: string; s
 
 
 export const films: Film[] = yourShowsData.map((show, index) => {
+  const posterUrl = show.youtubeVideoId
+    ? `https://img.youtube.com/vi/${show.youtubeVideoId}/hqdefault.jpg`
+    : `https://placehold.co/480x360.png`;
+
+  const backdropUrl = show.youtubeVideoId
+    ? `https://img.youtube.com/vi/${show.youtubeVideoId}/maxresdefault.jpg`
+    : `https://placehold.co/1280x720.png`;
+
   return {
     id: index + 1,
     title: show.title,
     youtubeVideoId: show.youtubeVideoId,
     tagline: show.tagline,
     synopsis: show.synopsis,
-    posterUrl: `https://img.youtube.com/vi/${show.youtubeVideoId}/hqdefault.jpg`,
-    backdropUrl: `https://img.youtube.com/vi/${show.youtubeVideoId}/maxresdefault.jpg`,
+    posterUrl: posterUrl,
+    backdropUrl: backdropUrl,
     genres: ['Indie', 'Short'],
     cast: [
       { name: 'Creator Name', character: 'Host/Director', avatarUrl: `https://placehold.co/100x${100 + index}` },
