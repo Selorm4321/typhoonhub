@@ -26,6 +26,13 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
     currency: 'USD',
     minimumFractionDigits: 0,
   });
+  
+  const handleInvestClick = () => {
+    toast({
+      title: 'Coming Soon!',
+      description: 'Stripe integration is currently in development.',
+    });
+  };
 
   return (
     <Card className="flex flex-col overflow-hidden">
@@ -81,6 +88,10 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
             <span>{project.investors} Investors</span>
           </div>
         </div>
+        <Button onClick={handleInvestClick}>
+          <DollarSign className="mr-2 h-4 w-4" />
+          Invest Now
+        </Button>
       </CardFooter>
     </Card>
   );
