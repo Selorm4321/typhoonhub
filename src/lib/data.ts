@@ -28,7 +28,7 @@ const yourShowsData: { title: string; youtubeVideoId: string; tagline: string; s
     },
      {
       title: 'When Jesse was Born',
-      youtubeVideoId: 'placeholder_id',
+      youtubeVideoId: 'kMBqikKeXYM',
       tagline: "Everything changes in a single moment.",
       synopsis: "A short film drama that explores the profound and pivotal moment of a new life's arrival. Starring Ryan Robbins and Erica Carroll, the story delves into the emotional landscape that shifts forever when a child is born."
     },
@@ -39,28 +39,22 @@ const yourShowsData: { title: string; youtubeVideoId: string; tagline: string; s
       synopsis: "A woman's grip on reality unravels as she is plagued by an unquenchable thirst and haunting visions. This psychological thriller blurs the line between nightmare and waking life, trapping its protagonist in a cycle of paranoia and fear."
     },
     {
-      title: 'Hope Arising: The Voice of Waste',
+      title: 'Jwhonjovouchor and the Yiiiii Kakai Voice of Waste Mask',
       youtubeVideoId: 'v3_ueH-TMdc',
       tagline: "From Trash Comes a Voice. From Waste Comes Art.",
-      synopsis: "An intimate look into the world of Ghanaian artist Jwhonjovouchor, who transforms discarded materials and ocean waste into breathtaking masks and sculptures. This documentary explores his philosophy of finding hope in what society throws away."
+      synopsis: "An intimate look into the world of Ghanaian artist Jwhonjovouchor, who transforms discarded materials and ocean waste into breathtaking masks and sculptures. This documentary explores his philosophy of finding hope in what society throws away and his mission to give a voice to the environment through his unique and powerful art."
     },
     {
-      title: "HARBINGER CUSTOMS: Distinguished Gentleman's Ride",
-      youtubeVideoId: 'kMBqikKeXYM',
-      tagline: "Riding Dapper for a Cause.",
-      synopsis: "More than just motorcycles, it's a movement. This mini-documentary follows Harbinger Customs as they join the 'Distinguished Gentleman’s Ride,' a global event where dapper riders unite on vintage bikes to raise funds and awareness for men's health."
-    },
-    {
-      title: 'HARBINGER CUSTOMS SHOP INTRO',
+      title: 'HARBINGER CUSTOMS AD',
       youtubeVideoId: 'IHWigm2UgQE',
       tagline: "Where Metal Meets Soul.",
-      synopsis: "Step inside the Harbinger Customs workshop in Squamish, BC. This atmospheric introduction captures the meticulous craft, dedicated passion, and raw materials that are forged into unique, custom-built motorcycles."
+      synopsis: "A high-octane showcase of Harbinger Customs, capturing the grit, fire, and artistry of their motorcycle builds in a rapid-fire visual experience set to a hard-rocking soundtrack."
     },
     {
-      title: "Thato - Ster-Kinekor Vision Mission (Commercial)",
+      title: 'Thato - Sterkinekor Vision Mission',
       youtubeVideoId: '_smkf5Iv2Z0',
       tagline: "Bringing a child's world into focus.",
-      synopsis: "Follow the touching story of Thato, a young boy navigating a blurry, out-of-focus world. This award-winning commercial beautifully illustrates how the simple gift of eyeglasses can bring a child's life into sharp, joyful focus."
+      synopsis: "Share the Gift of Sight. Thato, a Sterkinekor Vision Mission commercial. A collaboration between AFDA and Vega School of Brand . Silver Lorie Award Winner Director: Zwelethu Radebe Producers: Ahmed Seedat & Dithapelo Segodi D.O.P: Ofentse Mwase Editor: Masonwabe Joka Sound Designer: Cale Wadacor"
     },
     {
       title: 'Typhoon Talk: Break the Stigma',
@@ -78,21 +72,20 @@ const yourShowsData: { title: string; youtubeVideoId: string; tagline: string; s
       title: 'The Art Of Indie | Episode #2: Comedy Gold with Devon Ferguson',
       youtubeVideoId: 'krNFpw5gnDI',
       tagline: "Unpacking the art of the laugh.",
-      synopsis: "Host Alyssa Parker sits down with comedy mastermind Devon Ferguson to explore the art of indie comedy, from writing and producing to the inspirations that fuel a unique comedic voice."
+      synopsis: "Host Alyssa Parker sits down with comedy mastermind Devon Ferguson to explore the craft of making people laugh. This episode unpacks the art of indie comedy, from writing and producing to the inspirations that fuel a unique comedic voice."
     }
 ];
 
 
 export const films: Film[] = yourShowsData.map((show, index) => {
-  const isJesse = show.title === 'When Jesse was Born';
   return {
     id: index + 1,
     title: show.title,
     youtubeVideoId: show.youtubeVideoId,
     tagline: show.tagline,
     synopsis: show.synopsis,
-    posterUrl: isJesse ? `https://placehold.co/400x600.png` : `https://img.youtube.com/vi/${show.youtubeVideoId}/hqdefault.jpg`,
-    backdropUrl: isJesse ? `https://placehold.co/1280x720.png` : `https://img.youtube.com/vi/${show.youtubeVideoId}/maxresdefault.jpg`,
+    posterUrl: `https://img.youtube.com/vi/${show.youtubeVideoId}/hqdefault.jpg`,
+    backdropUrl: `https://img.youtube.com/vi/${show.youtubeVideoId}/maxresdefault.jpg`,
     genres: ['Indie', 'Short'],
     cast: [
       { name: 'Creator Name', character: 'Host/Director', avatarUrl: `https://placehold.co/100x${100 + index}` },
