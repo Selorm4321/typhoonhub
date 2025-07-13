@@ -14,60 +14,66 @@ export type Film = {
 };
 
 const yourShowsData: { title: string; youtubeVideoId: string; tagline: string; synopsis: string; }[] = [
-    { 
-      title: 'New Day', 
-      youtubeVideoId: 'IHWigm2UgQE', 
-      tagline: 'A fresh start, a new perspective.',
-      synopsis: 'A visually stunning and uplifting short film that captures the promise and potential of a new beginning, following a character through a transformative day.'
+    {
+      title: 'MAMI',
+      youtubeVideoId: 'MtIRD4VX_bo',
+      tagline: 'Some things are best left at the bottom of the sea.',
+      synopsis: 'A father and son\'s routine fishing trip turns into a living nightmare...'
     },
-    { 
-      title: 'Alice And Huck', 
-      youtubeVideoId: 'QW6_dfNfE0c', 
-      tagline: 'Two classic tales, one surreal journey.',
-      synopsis: 'This inventive film blends the classic tales of Alice in Wonderland and Huckleberry Finn into a unique and surreal journey of discovery and adventure.'
+    {
+      title: 'Alice And Huck',
+      youtubeVideoId: 'QW6_dfNfE0c',
+      tagline: 'The rabbit hole is a dangerous place.',
+      synopsis: 'In this dark and gritty reimagining of classic characters...'
     },
-    { 
-      title: 'Typhoon Talk Episode 1 - Break the Stigma', 
-      youtubeVideoId: '6gmYHtOfWa4', 
-      tagline: 'Open conversations that matter.',
-      synopsis: 'In the inaugural episode of Typhoon Talk, the hosts dive into an open and honest conversation about mental health, aiming to break down stigmas and foster understanding.'
+    {
+      title: 'HARBINGER CUSTOMS: Distinguished Gentleman\'s Ride',
+      youtubeVideoId: 'kMBqikKeXYM',
+      tagline: 'Riding Dapper for a Cause.',
+      synopsis: 'More than just motorcycles, it\'s a movement...'
     },
-    { 
-      title: 'MAMI', 
-      youtubeVideoId: 'MtIRD4VX_bo', 
-      tagline: 'A powerful story of motherhood.',
-      synopsis: 'An intimate and emotional portrayal of the bonds of motherhood, exploring its joys, challenges, and enduring strength through a personal and artistic lens.'
+    {
+      title: 'HARBINGER CUSTOMS SHOP INTRO',
+      youtubeVideoId: 'IHWigm2UgQE',
+      tagline: 'Where Metal Meets Soul.',
+      synopsis: 'Step inside the Harbinger Customs workshop in Squamish, BC...'
     },
-    { 
-      title: 'jwohnjovouchor and the Yiiiii Kakai Voice of Waste Masks', 
-      youtubeVideoId: 'v3_ueH-TMdc', 
-      tagline: 'Art, identity, and the voices unheard.',
-      synopsis: 'A thought-provoking look at how art can transform discarded materials into powerful statements on identity, consumer culture, and environmental consciousness.'
+    {
+      title: 'Typhoon Talk: Break the Stigma',
+      youtubeVideoId: '6gmYHtOfWa4',
+      tagline: 'A new conversation for a new culture.',
+      synopsis: 'Host Jill Maria dives deep into Canada\'s evolving culture...'
     },
-    { 
-      title: 'HARBINGER CUSTOMS AD', 
-      youtubeVideoId: 'V2iPIiOn3vU', 
-      tagline: 'Craftsmanship in motion.',
-      synopsis: 'Experience the artistry and precision of custom craftsmanship in this stylish and fast-paced promotional piece that showcases true dedication to detail.'
+    {
+      title: 'The Art Of Indie | Ep. 1: Exploring Creativity with Nikki Wallin',
+      youtubeVideoId: 'FmyrrtqP3Sc',
+      tagline: 'The journey behind the vision.',
+      synopsis: 'In the debut episode of "The Art Of Indie," host Alyssa Parker is joined by the multi-talented Nikki Wallin...'
     },
-    { 
-      title: 'When Jesse was born', 
-      youtubeVideoId: 'kMBqikKeXYM', 
-      tagline: 'A new life, a new journey.',
-      synopsis: 'A heartfelt and personal film documenting the precious and intimate moments surrounding the arrival of a new life and the beginning of a family\'s journey.'
+    {
+      title: 'The Art Of Indie | Episode #2: Comedy Gold with Devon Ferguson',
+      youtubeVideoId: 'krNFpw5gnDI',
+      tagline: 'Unpacking the art of the laugh.',
+      synopsis: 'Host Alyssa Parker sits down with comedy mastermind Devon Ferguson...'
     },
-    { 
-      title: 'The Art Of Indie | Ep. 1: Exploring Creativity with Nikki Wallin', 
-      youtubeVideoId: 'FmyrrtqP3Sc', 
-      tagline: 'Diving into the creative mind.',
-      synopsis: 'Join us for the first episode of The Art Of Indie, featuring a deep dive into the creative process, inspirations, and unique artistic vision of guest Nikki Wallin.'
+    {
+      title: 'HARBINGER CUSTOMS AD',
+      youtubeVideoId: 'v3_ueH-TMdc',
+      tagline: 'Forged in Fire. Built to Ride.',
+      synopsis: 'A high-octane showcase of Harbinger Customs...'
     },
-    { 
-      title: 'The Art Of Indie | Episode #2: Comedy Gold with Devon Ferguson', 
-      youtubeVideoId: 'krNFpw5gnDI', 
-      tagline: 'Finding the funny in the everyday.',
-      synopsis: 'The Art of Indie continues with a hilarious and insightful look at the world of stand-up comedy, exploring the craft with the talented Devon Ferguson.'
+    {
+      title: 'Thirsty (Trailer)',
+      youtubeVideoId: 'l6QMx5w1TGc',
+      tagline: 'Some cravings can\'t be quenched.',
+      synopsis: 'A woman\'s grip on reality unravels as she is plagued by an unquenchable thirst...'
     },
+    {
+      title: 'Thato - Ster-Kinekor Vision Mission',
+      youtubeVideoId: '_smkf5Iv2Z0',
+      tagline: 'Bringing a child\'s world into focus.',
+      synopsis: 'Follow the touching story of Thato, a young boy navigating a blurry, out-of-focus world...'
+    }
 ];
 
 
