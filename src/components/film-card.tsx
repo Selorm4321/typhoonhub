@@ -23,8 +23,8 @@ export default function FilmCard({ film, className }: FilmCardProps) {
             <Image
               src={film.posterUrl}
               alt={film.title}
-              layout="fill"
-              objectFit="cover"
+ layout="fill"
+ style={{ objectFit: "cover" }}
               className="transition-opacity duration-300 group-hover:opacity-80"
               data-ai-hint="youtube thumbnail"
             />
