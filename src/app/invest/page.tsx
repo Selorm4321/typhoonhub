@@ -18,7 +18,7 @@ export default function InvestPage() {
         <Info className="h-4 w-4" />
         <AlertTitle>Demonstration Only</AlertTitle>
         <AlertDescription>
-          The investment projects and funding data shown on this page are for placeholder purposes. This is not a real investment platform.
+          The investment projects and funding data shown on this page are for placeholder purposes.
         </AlertDescription>
       </Alert>
 
