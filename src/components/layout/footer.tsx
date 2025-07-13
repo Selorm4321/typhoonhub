@@ -37,7 +37,7 @@ export default function Footer() {
           <Link href="https://www.tiktok.com/@typhoonent" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
             <TikTokIcon className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
           </Link>
-          <Link href="#" aria-label="YouTube">
+          <Link href="https://www.youtube.com/channel/UCkSB2BkituD7xZ-kusViQfw" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
             <Youtube className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
           </Link>
         </div>

@@ -103,7 +103,7 @@ export default function JoinUsPage() {
                   </Link>
                </Button>
                <Button asChild variant="outline" size="icon">
-                 <Link href="#" aria-label="YouTube">
+                 <Link href="https://www.youtube.com/channel/UCkSB2BkituD7xZ-kusViQfw" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
                     <Youtube className="h-5 w-5" />
                   </Link>
                </Button>
