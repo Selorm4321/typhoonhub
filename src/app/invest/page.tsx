@@ -1,6 +1,7 @@
-import { HandCoins } from 'lucide-react';
+import { HandCoins, Info } from 'lucide-react';
 import { fundingProjects } from '@/lib/data';
 import FundingProjectCard from '@/components/funding-project-card';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function InvestPage() {
   return (
@@ -12,6 +13,14 @@ export default function InvestPage() {
           Become a producer and help bring these creative visions to life. Browse projects seeking funding and invest in the next wave of indie cinema.
         </p>
       </div>
+
+      <Alert className="max-w-4xl mx-auto mt-8">
+        <Info className="h-4 w-4" />
+        <AlertTitle>Demonstration Only</AlertTitle>
+        <AlertDescription>
+          The investment projects and funding data shown on this page are for placeholder purposes. This is not a real investment platform.
+        </AlertDescription>
+      </Alert>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12 max-w-6xl mx-auto">
         {fundingProjects.map((project) => (
