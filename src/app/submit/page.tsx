@@ -52,12 +52,29 @@ export default function SubmitPage() {
 
   async function onSubmit(values: z.infer<typeof submissionFormSchema>) {
     setIsLoading(true);
-    // Simulate an API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log(values);
+
+    const subject = `Film Submission: ${values.filmTitle}`;
+    const body = `
+      New Film Submission:
+      --------------------
+      Filmmaker Name: ${values.name}
+      Filmmaker Email: ${values.email}
+      Film Title: ${values.filmTitle}
+      Synopsis: ${values.synopsis}
+      Film Link: ${values.filmLink}
+      --------------------
+      Agreement to terms: ${values.agreement ? 'Yes' : 'No'}
+    `;
+
+    const mailtoLink = `mailto:selorm@typhoonentertainment.ca?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    window.location.href = mailtoLink;
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    
     toast({
-      title: 'Submission Received!',
-      description: "Thank you for your submission! Your film will be reviewed, and we'll contact you if it's a good fit for our platform.",
+      title: 'Email client opened',
+      description: 'Please complete and send the email in your mail client to submit your film.',
     });
     form.reset();
     setIsLoading(false);
@@ -185,7 +202,7 @@ export default function SubmitPage() {
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Submitting...
+                          Processing...
                         </>
                       ) : (
                         'Submit Film'
