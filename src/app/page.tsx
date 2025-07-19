@@ -83,7 +83,7 @@ export default function Home() {
             <Send className="mx-auto h-12 w-12 text-primary" />
             <h2 className="mt-4 font-headline text-3xl font-bold">Share Your Vision</h2>
             <p className="mt-4 mx-auto text-muted-foreground">
-              Are you an independent filmmaker with a story to tell? We want to see it. Submit your film for a chance to be featured on Typhoon Entertainment.
+              Are you an independent filmmaker with a story to tell? We want to see it. Submit your film for a chance to be featured on Typhoonhub.
             </p>
             <Button asChild size="lg" className="mt-8">
               <Link href="/submit">

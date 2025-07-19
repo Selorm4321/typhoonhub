@@ -25,7 +25,7 @@ export default function JoinUsPage() {
     <div className="container mx-auto py-12">
       <div className="max-w-4xl mx-auto text-center">
         <Waves className="mx-auto h-12 w-12 text-primary" />
-        <h1 className="mt-4 font-headline text-4xl font-bold">Join the Typhoon Movement</h1>
+        <h1 className="mt-4 font-headline text-4xl font-bold">Join the Typhoonhub Movement</h1>
         <p className="mt-4 text-lg text-muted-foreground">
           This isn't just another streaming service. We're building a home for stories that defy the mainstream—a platform where independent creators are championed and viewers discover their next favorite film.
         </p>
@@ -57,7 +57,7 @@ export default function JoinUsPage() {
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground">
             <p>
-              We believe in the power of your voice. Typhoon Entertainment is your platform to connect with a dedicated audience eager for fresh perspectives. We provide the space, you bring the story.
+              We believe in the power of your voice. Typhoonhub is your platform to connect with a dedicated audience eager for fresh perspectives. We provide the space, you bring the story.
             </p>
             <p>
               <Button asChild>

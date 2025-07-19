@@ -4,64 +4,89 @@ export default function Logo({ className }: { className?: string }) {
   return (
     <div className={cn('relative', className)}>
       <svg
-        width="600"
-        height="480"
-        viewBox="0 0 600 480"
+        width="200"
+        height="150"
+        viewBox="0 0 200 150"
+        fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        aria-label="Typhoon Entertainment Logo"
+        aria-label="Typhoonhub Logo"
         className="w-full h-full"
       >
         <defs>
-          <style>
-            {`
-              @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-              .glow-blue { animation: pulse-blue 5s infinite ease-in-out; }
-              .glow-pink { animation: pulse-pink 4s infinite ease-in-out; }
-              .highlight { animation: flicker 3s infinite linear alternate; }
-
-              @keyframes pulse-blue {
-                50% { opacity: 1; }
-              }
-              @keyframes pulse-pink {
-                50% { opacity: 1; }
-              }
-              @keyframes flicker {
-                0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
-                20%, 24%, 55% { opacity: 0.7; }
-              }
-            `}
-          </style>
-
-          <filter id="neon-blue-glow-anim" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="8" result="coloredBlur" />
+          <style>{`
+            @keyframes rotate-film {
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
+            }
+            .film-rotate {
+              animation: rotate-film 5s linear infinite;
+            }
+            @keyframes flicker-glow {
+              0% { filter: drop-shadow(0 0 3px #00E0FF) drop-shadow(0 0 3px #FF00E0); }
+              50% { filter: drop-shadow(0 0 5px #00E0FF) drop-shadow(0 0 5px #FF00E0); }
+              100% { filter: drop-shadow(0 0 3px #00E0FF) drop-shadow(0 0 3px #FF00E0); }
+            }
+            .film-flicker {
+              animation: flicker-glow 1.5s infinite alternate;
+            }
+          `}</style>
+          <linearGradient id="neonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#00E0FF" />
+            <stop offset="100%" stopColor="#FF00E0" />
+          </linearGradient>
+          <linearGradient id="solidNeonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#00BFFF" />
+            <stop offset="100%" stopColor="#FF1493" />
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
-          <filter id="neon-pink-glow-anim" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="10" result="coloredBlur" />
-          </filter>
-          <g id="film-reel-icon-anim" strokeLinecap="round" strokeLinejoin="round" fill="none">
-            <path d="M155,212 C100,212 80,160 100,120 L150,45" /><path d="M150,45 A75 75 0 1 1 295,190" /><path d="M150,45 L215,65" /><ellipse cx="220" cy="120" rx="55" ry="60" /><ellipse cx="220" cy="120" rx="20" ry="22" /><path d="M148,202 L138,185 M138,192 L128,175 M128,182 L118,165 M118,172 L108,155 M108,162 L98,145" /><ellipse cx="260" cy="125" rx="5" ry="12" transform="rotate(30, 260, 125)" /><ellipse cx="235" cy="160" rx="5" ry="12" transform="rotate(90, 235, 160)" /><ellipse cx="205" cy="160" rx="5" ry="12" transform="rotate(90, 205, 160)" /><ellipse cx="180" cy="125" rx="5" ry="12" transform="rotate(-30, 180, 125)" /><ellipse cx="190" cy="85" rx="5" ry="12" transform="rotate(30, 190, 85)" /><ellipse cx="245" cy="85" rx="5" ry="12" transform="rotate(-30, 245, 85)" />
-          </g>
         </defs>
 
-        <g stroke="#00bfff">
-          <use href="#film-reel-icon-anim" className="glow-blue" strokeWidth="12" filter="url(#neon-blue-glow-anim)" opacity="0.7" />
-          <use href="#film-reel-icon-anim" strokeWidth="5" />
-          <use href="#film-reel-icon-anim" className="highlight" stroke="#c4ffff" strokeWidth="1.5" />
-          <g fontFamily="Montserrat, sans-serif" fontSize="28" letterSpacing="4" textAnchor="middle">
-            <text x="300" y="380" className="glow-blue" filter="url(#neon-blue-glow-anim)" strokeWidth="6" opacity="0.7">ENTERTAINMENT</text>
-            <text x="300" y="380" strokeWidth="2">ENTERTAINMENT</text>
-            <text x="300" y="380" className="highlight" fill="#c4ffff" stroke="none">ENTERTAINMENT</text>
-          </g>
-        </g>
+        <circle cx="50" cy="75" r="40" fill="url(#solidNeonGradient)" opacity="0.9" filter="url(#glow)" className="film-rotate" style={{ transformOrigin: '50px 75px' }} />
+        <circle cx="50" cy="75" r="35" fill="#0d0d1a" />
+        <line x1="50" y1="35" x2="50" y2="115" stroke="#00E0FF" strokeWidth="2" strokeLinecap="round" className="film-rotate" style={{ transformOrigin: '50px 75px' }} />
+        <line x1="22.9" y1="50.6" x2="77.1" y2="99.4" stroke="#FF00E0" strokeWidth="2" strokeLinecap="round" className="film-rotate" style={{ transformOrigin: '50px 75px' }} />
+        <line x1="77.1" y1="50.6" x2="22.9" y2="99.4" stroke="#00E0FF" strokeWidth="2" strokeLinecap="round" className="film-rotate" style={{ transformOrigin: '50px 75px' }} />
+
+        <circle cx="150" cy="75" r="40" fill="url(#solidNeonGradient)" opacity="0.9" filter="url(#glow)" className="film-rotate" style={{ transformOrigin: '150px 75px' }} />
+        <circle cx="150" cy="75" r="35" fill="#0d0d1a" />
+        <line x1="150" y1="35" x2="150" y2="115" stroke="#00E0FF" strokeWidth="2" strokeLinecap="round" className="film-rotate" style={{ transformOrigin: '150px 75px' }} />
+        <line x1="122.9" y1="50.6" x2="177.1" y2="99.4" stroke="#FF00E0" strokeWidth="2" strokeLinecap="round" className="film-rotate" style={{ transformOrigin: '150px 75px' }} />
+        <line x1="177.1" y1="50.6" x2="122.9" y2="99.4" stroke="#00E0FF" strokeWidth="2" strokeLinecap="round" className="film-rotate" style={{ transformOrigin: '150px 75px' }} />
+
+        <path d="M 50 75 A 40 40 0 0 1 70 40 L 130 40 A 40 40 0 0 1 150 75 A 40 40 0 0 1 130 110 L 70 110 A 40 40 0 0 1 50 75 Z"
+              fill="none" stroke="url(#neonGradient)" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round"
+              className="film-flicker" />
+
+        <circle cx="75" cy="35" r="2" fill="#0d0d1a" />
+        <circle cx="85" cy="35" r="2" fill="#0d0d1a" />
+        <circle cx="115" cy="35" r="2" fill="#0d0d1a" />
+        <circle cx="125" cy="35" r="2" fill="#0d0d1a" />
+
+        <circle cx="75" cy="115" r="2" fill="#0d0d1a" />
+        <circle cx="85" cy="115" r="2" fill="#0d0d1a" />
+        <circle cx="115" cy="115" r="2" fill="#0d0d1a" />
+        <circle cx="125" cy="115" r="2" fill="#0d0d1a" />
         
-        <g stroke="#ff00a8">
-          <g fontFamily="Montserrat, sans-serif" fontWeight="700" fontSize="80" letterSpacing="2" textAnchor="middle">
-            <text x="300" y="320" className="glow-pink" filter="url(#neon-pink-glow-anim)" strokeWidth="15" opacity="0.8">TYPHOON</text>
-            <text x="300" y="320" strokeWidth="6">TYPHOON</text>
-            <text x="300" y="320" className="highlight" fill="#ffd6f5" stroke="none">TYPHOON</text>
-          </g>
-        </g>
+        <text
+          x="100"
+          y="145"
+          fontFamily="Inter, sans-serif"
+          fontSize="24"
+          fontWeight="900"
+          letterSpacing="0.1em"
+          textAnchor="middle"
+          fill="url(#neonGradient)"
+          style={{textTransform: "uppercase"}}
+          className="film-flicker"
+        >
+          Typhoonhub
+        </text>
       </svg>
     </div>
   );

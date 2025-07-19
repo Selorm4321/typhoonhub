@@ -87,7 +87,7 @@ export default function SubmitPage() {
           <Send className="mx-auto h-12 w-12 text-primary" />
           <h1 className="mt-4 font-headline text-4xl font-bold">Submit Your Film</h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Ready to share your work? Submit a link to your film for consideration on Typhoon Entertainment.
+            Ready to share your work? Submit a link to your film for consideration on Typhoonhub.
           </p>
         </div>
 
@@ -226,7 +226,7 @@ export default function SubmitPage() {
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-muted-foreground">
                 <p>
-                  Before your film can be featured on Typhoon Entertainment, you must ensure you have all the necessary legal rights and permissions. This is crucial to protect both you as a filmmaker and our platform.
+                  Before your film can be featured on Typhoonhub, you must ensure you have all the necessary legal rights and permissions. This is crucial to protect both you as a filmmaker and our platform.
                 </p>
                 <ul className="list-disc space-y-2 pl-5">
                   <li>

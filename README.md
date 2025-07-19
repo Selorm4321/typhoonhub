@@ -1,6 +1,6 @@
-# Typhoon Entertainment
+# Typhoonhub
 
-This is a Next.js application for Typhoon Entertainment, a streaming platform for independent films.
+This is a Next.js application for Typhoonhub, a streaming platform for independent films.
 
 ## Core Features
 
