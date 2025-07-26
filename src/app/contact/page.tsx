@@ -93,7 +93,7 @@ export default function JoinUsPage() {
                   </Link>
                </Button>
                <Button asChild variant="outline" size="icon">
-                 <Link href="https://www.instagram.com/typhoonentertainment/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                 <Link href="https://www.instagram.com/typhoonhub.ca?igsh=MnFrb3dzZDVuaDRp" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                     <Instagram className="h-5 w-5" />
                   </Link>
                </Button>
