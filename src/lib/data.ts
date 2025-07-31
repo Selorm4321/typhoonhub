@@ -147,3 +147,21 @@ export const fundingProjects: FundingProject[] = [
     investors: 95,
   },
 ];
+
+export type PodcastEpisode = {
+  id: number;
+  title: string;
+  audioUrl: string;
+  showNotes: string;
+  durationMinutes: number;
+};
+
+export const podcastEpisodes: PodcastEpisode[] = [
+  {
+    id: 1,
+    title: 'Episode 1: The Indie Film Renaissance',
+    audioUrl: '/podcasts/episode-1.mp3', // NOTE: Assumes you will place the file in `public/podcasts/`
+    showNotes: 'In our inaugural episode, we discuss the resurgence of independent cinema, interview a rising star director, and explore the challenges and triumphs of getting a film made outside the studio system.',
+    durationMinutes: 45,
+  }
+];
