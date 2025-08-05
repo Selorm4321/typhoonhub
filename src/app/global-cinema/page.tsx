@@ -2,11 +2,12 @@
 'use client';
 
 import { useState } from 'react';
-import { podcastEpisodes, type PodcastEpisode } from '@/lib/data';
+import { podcastEpisodes } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { Headphones, Play, Pause, Forward, Rewind } from 'lucide-react';
+import { Headphones, Play } from 'lucide-react';
+import Image from 'next/image';
 
 export default function GlobalCinemaPage() {
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
@@ -35,16 +36,25 @@ export default function GlobalCinemaPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <Card className="bg-secondary/20">
+          <Card className="bg-secondary/20 overflow-hidden">
+             <div className="aspect-video relative w-full">
+                <Image 
+                    src={activeEpisode.coverUrl} 
+                    alt={activeEpisode.title} 
+                    layout="fill"
+                    className="object-cover"
+                    data-ai-hint="podcast cover art"
+                />
+             </div>
             <CardHeader>
               <CardTitle className="font-headline text-2xl">{activeEpisode.title}</CardTitle>
-              <CardDescription>{activeEpisode.showNotes}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="p-4 space-y-4 rounded-lg bg-background/50">
-                <audio controls className="w-full" src={activeEpisode.audioUrl}>
+              <div className="space-y-4 rounded-lg">
+                <audio controls className="w-full" key={activeEpisode.id} src={activeEpisode.audioUrl}>
                   Your browser does not support the audio element.
                 </audio>
+                 <CardDescription>{activeEpisode.showNotes}</CardDescription>
               </div>
             </CardContent>
           </Card>
@@ -56,21 +66,28 @@ export default function GlobalCinemaPage() {
               <CardTitle>All Episodes</CardTitle>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="h-[300px]">
+              <ScrollArea className="h-[400px]">
                 <div className="space-y-3 pr-4">
                   {podcastEpisodes.map((episode, index) => (
                     <button
                       key={episode.id}
                       onClick={() => setCurrentEpisodeIndex(index)}
                       className={cn(
-                        "w-full text-left p-3 rounded-md transition-colors flex items-center gap-3",
+                        "w-full text-left p-3 rounded-md transition-colors flex items-center gap-4",
                         index === currentEpisodeIndex
                           ? "bg-primary text-primary-foreground"
                           : "bg-secondary hover:bg-secondary/80"
                       )}
                     >
-                      {index === currentEpisodeIndex ? <Play className="h-4 w-4 shrink-0" /> : <Headphones className="h-4 w-4 shrink-0" />}
-                      <span className="truncate font-medium">{episode.title}</span>
+                      <Image 
+                        src={episode.coverUrl} 
+                        alt={episode.title} 
+                        width={64}
+                        height={64}
+                        className="w-16 h-16 object-cover rounded-lg shrink-0"
+                        data-ai-hint="podcast cover art"
+                      />
+                      <span className="font-medium truncate">{episode.title}</span>
                     </button>
                   ))}
                 </div>

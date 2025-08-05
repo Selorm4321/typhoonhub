@@ -152,6 +152,7 @@ export type PodcastEpisode = {
   id: number;
   title: string;
   audioUrl: string;
+  coverUrl: string;
   showNotes: string;
   durationMinutes: number;
 };
@@ -159,8 +160,9 @@ export type PodcastEpisode = {
 export const podcastEpisodes: PodcastEpisode[] = [
   {
     id: 1,
-    title: 'Episode 1: The Indie Film Renaissance',
-    audioUrl: '/podcasts/episode-1.mp3', // NOTE: Assumes you will place the file in `public/podcasts/`
+    title: 'Global Cinema: Filming Around the World',
+    audioUrl: '/podcasts/global-cinema-2025.mp3',
+    coverUrl: 'https://placehold.co/600x400.png',
     showNotes: 'In our inaugural episode, we discuss the resurgence of independent cinema, interview a rising star director, and explore the challenges and triumphs of getting a film made outside the studio system.',
     durationMinutes: 45,
   }
