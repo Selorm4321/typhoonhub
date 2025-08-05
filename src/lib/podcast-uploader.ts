@@ -9,7 +9,11 @@ class PodcastUploader {
     this.storage = storage;
   }
 
-  async uploadPodcast(file: File, metadata: Record<string, string> = {}) {
+  async uploadPodcast(
+    file: File, 
+    metadata: Record<string, string> = {}, 
+    onProgress: (progress: number) => void
+  ): Promise<any> {
     try {
       // Create a unique filename
       const timestamp = Date.now();
@@ -35,18 +39,7 @@ class PodcastUploader {
           (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log(`Upload is ${progress.toFixed(2)}% done`);
-            
-            // Update UI progress bar if you have one
-            this.updateProgressBar(progress);
-            
-            switch (snapshot.state) {
-              case 'paused':
-                console.log('Upload is paused');
-                break;
-              case 'running':
-                console.log('Upload is running');
-                break;
-            }
+            onProgress(progress);
           }, 
           (error) => {
             console.error('Upload failed:', error);
@@ -76,15 +69,6 @@ class PodcastUploader {
     } catch (error) {
       console.error('Error initiating upload:', error);
       throw error;
-    }
-  }
-
-  updateProgressBar(progress: number) {
-    if (typeof document === 'undefined') return;
-    const progressBar = document.getElementById('upload-progress');
-    if (progressBar) {
-      progressBar.style.width = `${progress}%`;
-      progressBar.textContent = `${progress.toFixed(1)}%`;
     }
   }
 }
