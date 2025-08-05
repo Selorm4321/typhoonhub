@@ -162,7 +162,7 @@ export const podcastEpisodes: PodcastEpisode[] = [
     id: 1,
     title: 'Global Cinema: Filming Around the World',
     audioUrl: '/podcasts/global-cinema-2025.mp3',
-    coverUrl: 'https://placehold.co/600x400.png',
+    coverUrl: '/images/episode1-cover.jpg',
     showNotes: 'In our inaugural episode, we discuss the resurgence of independent cinema, interview a rising star director, and explore the challenges and triumphs of getting a film made outside the studio system.',
     durationMinutes: 45,
   }
