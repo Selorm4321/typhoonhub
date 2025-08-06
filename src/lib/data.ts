@@ -161,8 +161,8 @@ export const podcastEpisodes: PodcastEpisode[] = [
   {
     id: 1,
     title: 'Global Cinema: Filming Around the World',
-    audioUrl: '/podcasts/global-cinema-2025.mp3',
-    coverUrl: '/images/episode1-cover.jpg',
+    audioUrl: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/Global%20Cinema_%20Filming%20Around%20the%20World_2025_07_29%20(2).mp3?alt=media&token=9f44f211-fa8d-4b93-b307-270456028874',
+    coverUrl: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/Global%20cinema%20cover.png?alt=media&token=04f7a39d-18c7-4bcf-890b-b80be847fc54',
     showNotes: 'In our inaugural episode, we discuss the resurgence of independent cinema, interview a rising star director, and explore the challenges and triumphs of getting a film made outside the studio system.',
     durationMinutes: 45,
   }

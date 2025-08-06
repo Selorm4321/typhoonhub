@@ -37,13 +37,13 @@ export default function GlobalCinemaPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
           <Card className="bg-secondary/20 overflow-hidden">
-             <div className="aspect-video relative w-full">
-                <Image 
-                    src={activeEpisode.coverUrl} 
-                    alt={activeEpisode.title} 
-                    layout="fill"
-                    className="object-cover"
-                    data-ai-hint="podcast cover art"
+ <div className="aspect-video relative w-full">
+ <Image
+                    src={activeEpisode.coverUrl}
+ alt={activeEpisode.title}
+ layout="fill"
+ className="object-cover"
+ data-ai-hint="podcast cover art"
                 />
              </div>
             <CardHeader>
@@ -79,15 +79,10 @@ export default function GlobalCinemaPage() {
                           : "bg-secondary hover:bg-secondary/80"
                       )}
                     >
-                      <Image 
-                        src={episode.coverUrl} 
-                        alt={episode.title} 
-                        width={64}
-                        height={64}
-                        className="w-16 h-16 object-cover rounded-lg shrink-0"
-                        data-ai-hint="podcast cover art"
-                      />
-                      <span className="font-medium truncate">{episode.title}</span>
+ <div className="flex items-center gap-4">
+ <Image src={episode.coverUrl} alt={episode.title} width={64} height={64} className="w-16 h-16 object-cover rounded-lg shrink-0" data-ai-hint="podcast cover art" />
+ <span className="font-medium text-sm truncate">{episode.title}</span>
+ </div>
                     </button>
                   ))}
                 </div>
