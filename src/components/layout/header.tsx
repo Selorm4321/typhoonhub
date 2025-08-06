@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Menu, Search } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -10,6 +10,10 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import Logo from './logo';
+import { useAuth } from '@/context/auth-context';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -23,6 +27,13 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push('/');
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -48,6 +59,25 @@ export default function Header() {
           <div className="hidden md:block">
             <SearchInput />
           </div>
+          <div className="hidden items-center gap-2 md:flex">
+            {!loading &&
+              (user ? (
+                <>
+                  <Button variant="outline" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button asChild variant="ghost">
+                    <Link href="/login">Log In</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link href="/signup">Sign Up</Link>
+                  </Button>
+                </>
+              ))}
+          </div>
            <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -72,6 +102,25 @@ export default function Header() {
                  <div className="mt-4">
                   <SearchInput />
                 </div>
+                 <div className="mt-6 flex flex-col gap-4">
+                  {!loading &&
+                    (user ? (
+                      <>
+                        <Button variant="outline" onClick={handleLogout}>
+                          Logout
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button asChild variant="ghost">
+                          <Link href="/login">Log In</Link>
+                        </Button>
+                        <Button asChild>
+                          <Link href="/signup">Sign Up</Link>
+                        </Button>
+                      </>
+                    ))}
+                 </div>
               </nav>
             </SheetContent>
           </Sheet>
