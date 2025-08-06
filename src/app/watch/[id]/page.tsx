@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect } from 'react';
@@ -33,7 +34,7 @@ export default function WatchPage({ params }: { params: { id: string } }) {
     notFound();
   }
 
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${film.youtubeVideoId}?autoplay=1`;
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${film.youtubeVideoId}?autoplay=1&rel=0`;
 
   return (
     <div className="bg-black flex flex-col h-screen">
