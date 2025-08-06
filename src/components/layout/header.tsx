@@ -19,7 +19,6 @@ const navLinks = [
   { href: '/global-cinema', label: 'Global Cinema' },
   { href: '/submit', label: 'Submit Film' },
   { href: '/contact', label: 'Join Us' },
-  { href: '/upload-podcast', label: 'Upload Podcast' },
 ];
 
 export default function Header() {
