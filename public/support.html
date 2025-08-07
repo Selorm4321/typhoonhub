@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Our Show - Payment</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Stripe SDK -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .payment-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .support-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .support-btn:hover, .support-btn.selected {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+        }
+        
+        .custom-amount {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .custom-amount::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .pay-button {
+            width: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            color: white;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .pay-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .pay-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .auth-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .auth-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        #user-info {
+            background: rgba(76, 175, 80, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1>🎬 Support Our Show & Company</h1>
+        <p>Help us create amazing content! Your support means everything to us.</p>
+        
+        <!-- Authentication Section -->
+        <div class="auth-section">
+            <div id="login-section">
+                <button class="auth-button" onclick="signInWithGoogle()">Sign in with Google</button>
+                <button class="auth-button" onclick="signInAnonymously()">Continue as Guest</button>
+            </div>
+            <div id="user-info">
+                <p>Welcome, <span id="user-name"></span>!</p>
+                <button class="auth-button" onclick="signOut()">Sign Out</button>
+            </div>
+        </div>
+        
+        <!-- Payment Options -->
+        <div id="payment-section" style="display: none;">
+            <h3>Choose Your Support Amount:</h3>
+            
+            <div class="support-options">
+                <button class="support-btn" data-amount="500">$5 - Coffee</button>
+                <button class="support-btn" data-amount="1000">$10 - Snacks</button>
+                <button class="support-btn" data-amount="2500">$25 - Fan</button>
+                <button class="support-btn" data-amount="5000">$50 - Supporter</button>
+                <button class="support-btn" data-amount="10000">$100 - Producer</button>
+            </div>
+            
+            <input 
+                type="number" 
+                class="custom-amount" 
+                id="customAmount" 
+                placeholder="Or enter custom amount ($)"
+                min="1"
+            />
+            
+            <button class="pay-button" id="checkout-button" onclick="createCheckoutSession()">
+                🚀 Support Our Show Now!
+            </button>
+            
+            <div class="loading" id="loading">
+                <p>Creating your payment session... 🎬</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration (Replace with your config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDv2MJ0VZFv4tKUnSxXZN99C4fs7ewE2tY",
+            authDomain: "typhoon-indie-stream.firebaseapp.com",
+            projectId: "typhoon-indie-stream",
+            storageBucket: "typhoon-indie-stream.appspot.com",
+            messagingSenderId: "752758817433",
+            appId: "1:752758817433:web:367558c83c4e67fbb56e08"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Initialize Stripe
+        const stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+
+        let selectedAmount = 0;
+        let currentUser = null;
+
+        // Authentication Functions
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider);
+        }
+
+        function signInAnonymously() {
+            auth.signInAnonymously();
+        }
+
+        function signOut() {
+            auth.signOut();
+        }
+
+        // Auth State Observer
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('user-info').style.display = 'block';
+                document.getElementById('payment-section').style.display = 'block';
+                document.getElementById('user-name').textContent = user.displayName || 'Anonymous Supporter';
+            } else {
+                document.getElementById('login-section').style.display = 'block';
+                document.getElementById('user-info').style.display = 'none';
+                document.getElementById('payment-section').style.display = 'none';
+            }
+        });
+
+        // Amount Selection Logic
+        document.querySelectorAll('.support-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove selected class from all buttons
+                document.querySelectorAll('.support-btn').forEach(b => b.classList.remove('selected'));
+                
+                // Add selected class to clicked button
+                this.classList.add('selected');
+                
+                // Set selected amount
+                selectedAmount = parseInt(this.dataset.amount);
+                
+                // Clear custom amount
+                document.getElementById('customAmount').value = '';
+                
+                // Update button text
+                updatePayButtonText();
+            });
+        });
+
+        // Custom Amount Logic
+        document.getElementById('customAmount').addEventListener('input', function() {
+            const customValue = parseFloat(this.value);
+            if (customValue > 0) {
+                selectedAmount = Math.round(customValue * 100); // Convert to cents
+                
+                // Remove selected class from preset buttons
+                document.querySelectorAll('.support-btn').forEach(b => b.classList.remove('selected'));
+                
+                updatePayButtonText();
+            }
+        });
+
+        function updatePayButtonText() {
+            const button = document.getElementById('checkout-button');
+            if (selectedAmount > 0) {
+                const dollarAmount = (selectedAmount / 100).toFixed(2);
+                button.textContent = `🚀 Support with $${dollarAmount}`;
+                button.disabled = false;
+            } else {
+                button.textContent = '🚀 Support Our Show Now!';
+                button.disabled = false;
+            }
+        }
+
+        // Create Checkout Session
+        async function createCheckoutSession() {
+            if (!currentUser) {
+                alert('Please sign in first!');
+                return;
+            }
+
+            if (selectedAmount === 0) {
+                alert('Please select or enter an amount!');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('checkout-button').disabled = true;
+
+            try {
+                // Create checkout session in Firestore
+                const checkoutSessionRef = await db
+                    .collection('customers')
+                    .doc(currentUser.uid)
+                    .collection('checkout_sessions')
+                    .add({
+                        mode: 'payment',
+                        amount: selectedAmount,
+                        currency: 'usd',
+                        automatic_tax: true,
+                        customer_creation: 'always',
+                        success_url: window.location.origin + '/success.html',
+                        cancel_url: window.location.origin,
+                        metadata: {
+                            purpose: 'show_support',
+                            supporter_name: currentUser.displayName || 'Anonymous',
+                            amount_dollars: (selectedAmount / 100).toFixed(2)
+                        },
+                        line_items: [{
+                            price_data: {
+                                currency: 'usd',
+                                product_data: {
+                                    name: '🎬 Show Support',
+                                    description: 'Supporting amazing content creation!',
+                                    images: ['https://your-logo-url.com/logo.png']
+                                },
+                                unit_amount: selectedAmount,
+                            },
+                            quantity: 1,
+                        }]
+                    });
+
+                // Listen for the checkout URL
+                checkoutSessionRef.onSnapshot((doc) => {
+                    const data = doc.data();
+                    if (data && data.url) {
+                        // Redirect to Stripe Checkout
+                        window.location.assign(data.url);
+                    }
+                    if (data && data.error) {
+                        console.error('Checkout error:', data.error);
+                        alert('Payment setup failed. Please try again.');
+                        document.getElementById('loading').style.display = 'none';
+                        document.getElementById('checkout-button').disabled = false;
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error creating checkout session:', error);
+                alert('Something went wrong. Please try again.');
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('checkout-button').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
