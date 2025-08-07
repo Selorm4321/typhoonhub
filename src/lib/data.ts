@@ -104,6 +104,13 @@ export const films: Film[] = yourShowsData.map((show, index) => {
 });
 
 
+export type InvestmentTier = {
+  name: string;
+  amount: number;
+  perks: string[];
+  profitShare: string;
+};
+
 export type FundingProject = {
   id: number;
   title: string;
@@ -113,40 +120,69 @@ export type FundingProject = {
   fundingGoal: number;
   currentFunding: number;
   investors: number;
+  posterUrl: string;
+  investmentTiers: InvestmentTier[];
 };
 
 export const fundingProjects: FundingProject[] = [
   {
     id: 1,
-    title: 'MAMI',
-    tagline: 'Some things are best left at the bottom of the sea.',
-    synopsis: 'A father and son\'s routine fishing trip turns into a living nightmare when they discover a cursed mermaid statue at the bottom of the ocean. Help us bring the full feature-length version of this terrifying short to life.',
-    trailerYoutubeId: 'MtIRD4VX_bo',
-    fundingGoal: 80000,
-    currentFunding: 34500,
-    investors: 188,
-  },
-  {
-    id: 2,
-    title: 'Alice And Huck',
-    tagline: 'The rabbit hole is a dangerous place.',
-    synopsis: 'We\'ve introduced you to the gritty world of Alice and Huck. Now, we want to expand their story into a full series. Fund the pilot episode and join them on their first big case.',
-    trailerYoutubeId: 'QW6_dfNfE0c',
-    fundingGoal: 120000,
-    currentFunding: 95000,
-    investors: 451,
-  },
-  {
-    id: 3,
-    title: 'Thirsty',
-    tagline: 'Some cravings can\'t be quenched.',
-    synopsis: 'The trailer left you wanting more. We want to produce the full-length feature film, exploring the depths of obsession and madness. Your investment can make it happen.',
-    trailerYoutubeId: 'l6QMx5w1TGc',
-    fundingGoal: 65000,
-    currentFunding: 12000,
-    investors: 95,
+    title: 'Cleaning House',
+    tagline: 'Two sisters run cons on the corrupt wealthy to fund life-saving medical treatment.',
+    synopsis: 'A contemporary thriller/drama web series set in British Columbia, Canada. Follow two sisters as they navigate a dangerous world of high-stakes cons to secure the funds for a crucial medical procedure. This is a story of family, survival, and justice.',
+    trailerYoutubeId: 'l6QMx5w1TGc', // Placeholder trailer
+    fundingGoal: 15000,
+    currentFunding: 4250,
+    investors: 23,
+    posterUrl: 'https://placehold.co/600x900.png',
+    investmentTiers: [
+      {
+        name: 'Producer',
+        amount: 100,
+        profitShare: '0.5% net profit sharing',
+        perks: [
+          'Digital screenplay with credit',
+          'Behind-the-scenes photo pack',
+          'Investor Discord access',
+        ],
+      },
+      {
+        name: 'Executive Producer',
+        amount: 500,
+        profitShare: '2.5% net profit sharing',
+        perks: [
+          'Signed poster from cast',
+          'Video call with creator',
+          'Special thanks credit in episode',
+          'Early access to pilot (24hrs)',
+        ],
+      },
+      {
+        name: 'Co-Producer',
+        amount: 1500,
+        profitShare: '7.5% net profit sharing',
+        perks: [
+          'Visit the film set (BC location)',
+          'Receive actual props from the show',
+          'Associate Producer credit',
+          'Input on casting decisions (advisory)',
+        ],
+      },
+      {
+        name: 'Studio Partner',
+        amount: 5000,
+        profitShare: '25% net profit sharing',
+        perks: [
+          'Executive Producer credit',
+          'Invitation to wrap party',
+          'Cameo appearance in background scene',
+          'Complete merchandise package',
+        ],
+      },
+    ],
   },
 ];
+
 
 export type PodcastEpisode = {
   id: number;

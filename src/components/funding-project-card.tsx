@@ -3,96 +3,155 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { DollarSign, PlayCircle, Users } from 'lucide-react';
+import { Award, Check, DollarSign, PlayCircle, Users } from 'lucide-react';
 
-import type { FundingProject } from '@/lib/data';
+import type { FundingProject, InvestmentTier } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { Separator } from './ui/separator';
 
 type FundingProjectCardProps = {
   project: FundingProject;
 };
+
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 0,
+});
 
 export default function FundingProjectCard({ project }: FundingProjectCardProps) {
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const fundingPercentage = (project.currentFunding / project.fundingGoal) * 100;
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-  });
-  
+
   const handleInvestClick = () => {
     toast({
       title: 'Coming Soon!',
-      description: 'Stripe integration is currently in development.',
+      description: 'Stripe, PayPal, and Solana integrations are in development.',
     });
   };
 
   return (
-    <Card className="flex flex-col overflow-hidden">
-      <CardHeader>
-        <CardTitle className="font-headline text-2xl">{project.title}</CardTitle>
-        <CardDescription>{project.tagline}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4 flex-grow">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <div className="relative aspect-video rounded-md overflow-hidden cursor-pointer group">
-              <Image
-                src={`https://img.youtube.com/vi/${project.trailerYoutubeId}/maxresdefault.jpg`}
-                alt={`Trailer for ${project.title}`}
-                layout="fill"
-                style={{ objectFit: "cover" }}
-                data-ai-hint="movie trailer"
-              />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <PlayCircle className="h-16 w-16 text-white" />
-              </div>
-            </div>
-          </DialogTrigger>
-          <DialogContent className="max-w-4xl p-0 border-0">
+    <Card className="overflow-hidden shadow-2xl shadow-primary/10">
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        {/* Left side: Poster and Trailer */}
+        <div className="relative">
+          <Image
+            src={project.posterUrl}
+            alt={`Poster for ${project.title}`}
+            width={600}
+            height={900}
+            className="w-full h-full object-cover"
+            data-ai-hint="movie poster"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                variant="outline"
+                className="absolute bottom-6 left-1/2 -translate-x-1/2"
+              >
+                <PlayCircle className="mr-2" />
+                Watch Trailer
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl p-0 border-0">
               <div className="aspect-video">
-                 <iframe
-                    className="w-full h-full"
-                    src={`https://www.youtube.com/embed/${project.trailerYoutubeId}?autoplay=1`}
-                    title={project.title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
+                <iframe
+                  className="w-full h-full"
+                  src={`https://www.youtube.com/embed/${project.trailerYoutubeId}?autoplay=1`}
+                  title={project.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
                 ></iframe>
               </div>
-          </DialogContent>
-        </Dialog>
-        
-        <p className="text-sm text-muted-foreground">{project.synopsis}</p>
-        
-        <div className="space-y-2 pt-2">
-          <Progress value={fundingPercentage} aria-label={`${fundingPercentage.toFixed(0)}% funded`} />
-          <div className="flex justify-between items-center text-sm font-medium">
-            <span className="text-primary">{formatter.format(project.currentFunding)}</span>
-            <span className="text-muted-foreground">Goal: {formatter.format(project.fundingGoal)}</span>
-          </div>
+            </DialogContent>
+          </Dialog>
         </div>
 
-      </CardContent>
-      <CardFooter className="bg-muted/50 p-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-sm">
-            <Users className="h-4 w-4 text-muted-foreground" />
-            <span>{project.investors} Investors</span>
-          </div>
+        {/* Right side: Details and Investment */}
+        <div className="flex flex-col">
+          <CardHeader className="p-6">
+            <CardTitle className="font-headline text-3xl">{project.title}</CardTitle>
+            <CardDescription className="text-lg">{project.tagline}</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6 p-6 pt-0 flex-grow">
+            <div className="space-y-2">
+              <h3 className="font-semibold">Funding Status</h3>
+              <Progress value={fundingPercentage} aria-label={`${fundingPercentage.toFixed(0)}% funded`} />
+              <div className="flex justify-between items-center text-sm font-medium">
+                <span className="text-primary">{formatter.format(project.currentFunding)} raised</span>
+                <span className="text-muted-foreground">Goal: {formatter.format(project.fundingGoal)}</span>
+              </div>
+              <div className="flex items-center text-sm text-muted-foreground gap-2 pt-1">
+                <Users className="h-4 w-4" />
+                <span>{project.investors} investors</span>
+              </div>
+            </div>
+
+            <Separator />
+            
+            <div>
+              <h3 className="font-semibold mb-2">Synopsis</h3>
+              <p className="text-sm text-muted-foreground">{project.synopsis}</p>
+            </div>
+
+            <Separator />
+
+            <div>
+              <h3 className="font-semibold mb-4">Investment Tiers</h3>
+              <div className="space-y-4">
+                {project.investmentTiers.map((tier) => (
+                  <InvestmentTierCard key={tier.name} tier={tier} onInvest={handleInvestClick} />
+                ))}
+              </div>
+            </div>
+
+          </CardContent>
+          <CardFooter className="bg-secondary/30 p-4">
+             <p className="text-xs text-muted-foreground text-center w-full">
+              Legal Disclaimer: Investments are subject to terms and conditions. Please review all documentation before investing.
+            </p>
+          </CardFooter>
         </div>
-        <Button onClick={handleInvestClick} disabled>
-          <DollarSign className="mr-2 h-4 w-4" />
-          Invest Now
-        </Button>
-      </CardFooter>
+      </div>
     </Card>
   );
+}
+
+function InvestmentTierCard({ tier, onInvest }: { tier: InvestmentTier; onInvest: () => void }) {
+  return (
+    <div className="border rounded-lg p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-background/50">
+      <div className="flex-grow">
+        <div className="flex items-center gap-3">
+          <Award className="text-accent h-6 w-6" />
+          <div>
+            <h4 className="font-bold">{tier.name}</h4>
+            <p className="font-headline text-lg text-primary">{formatter.format(tier.amount)}</p>
+          </div>
+        </div>
+        <div className="mt-3 space-y-1 pl-2">
+          {tier.perks.map((perk, i) => (
+            <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Check className="h-3 w-3 text-green-500" />
+              <span>{perk}</span>
+            </div>
+          ))}
+           <div className="flex items-center gap-2 text-xs text-muted-foreground font-semibold pt-1">
+              <DollarSign className="h-3 w-3 text-green-500" />
+              <span>{tier.profitShare}</span>
+            </div>
+        </div>
+      </div>
+      <Button onClick={onInvest} className="w-full sm:w-auto shrink-0" disabled>
+        Invest
+      </Button>
+    </div>
+  )
 }
