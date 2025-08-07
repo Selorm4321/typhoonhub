@@ -25,6 +25,8 @@ const navLinks = [
   { href: '/contact', label: 'Join Us' },
 ];
 
+const ADMIN_EMAIL = 'selorm@typhoonentertainment.ca';
+
 export default function Header() {
   const pathname = usePathname();
   const { user, loading } = useAuth();
@@ -63,6 +65,11 @@ export default function Header() {
             {!loading &&
               (user ? (
                 <>
+                  {user.email === ADMIN_EMAIL && (
+                     <Button asChild variant="outline">
+                        <Link href="/admin/productions">Admin</Link>
+                     </Button>
+                  )}
                   <Button asChild variant="ghost">
                     <Link href="/dashboard">Dashboard</Link>
                   </Button>
@@ -109,6 +116,11 @@ export default function Header() {
                   {!loading &&
                     (user ? (
                       <>
+                        {user.email === ADMIN_EMAIL && (
+                           <Button asChild variant="outline">
+                              <Link href="/admin/productions">Admin</Link>
+                           </Button>
+                        )}
                         <Button asChild><Link href="/dashboard">Dashboard</Link></Button>
                         <Button variant="outline" onClick={handleLogout}>
                           Logout

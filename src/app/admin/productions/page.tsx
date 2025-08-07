@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Loader2, Clapperboard } from 'lucide-react';
+import { Loader2, Clapperboard, ShieldAlert } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
@@ -29,6 +29,9 @@ const productionFormSchema = z.object({
   expectedROI: z.string().optional(),
   productionTimeline: z.string().optional(),
 });
+
+// Define the authorized admin email
+const ADMIN_EMAIL = 'selorm@typhoonentertainment.ca';
 
 export default function AddProductionPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -87,6 +90,24 @@ export default function AddProductionPage() {
   if (!user) {
     router.push('/login');
     return null;
+  }
+  
+  // Check if the logged-in user is the admin
+  if (user.email !== ADMIN_EMAIL) {
+    return (
+        <div className="container mx-auto py-12 text-center">
+            <Card className="max-w-md mx-auto">
+                <CardHeader>
+                    <ShieldAlert className="mx-auto h-12 w-12 text-destructive"/>
+                    <CardTitle className="mt-4">Access Denied</CardTitle>
+                    <CardDescription>You do not have permission to view this page.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Button onClick={() => router.push('/')}>Go to Homepage</Button>
+                </CardContent>
+            </Card>
+        </div>
+    )
   }
 
   return (
