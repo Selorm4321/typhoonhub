@@ -7,12 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
-export default function InvestPage() {
+function InvestContent() {
   const activeProject = fundingProjects[0];
 
   return (
-    <div className="container mx-auto py-12">
+     <div className="container mx-auto py-12">
       <div className="max-w-4xl mx-auto text-center">
         <HandCoins className="mx-auto h-12 w-12 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold">Invest in Independent Film</h1>
@@ -58,5 +59,9 @@ export default function InvestPage() {
         </div>
       </section>
     </div>
-  );
+  )
 }
+
+export default function InvestPage() {
+  return (
+    

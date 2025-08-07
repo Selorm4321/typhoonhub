@@ -3,18 +3,3 @@
     "public": "public",
     "ignore": [
       "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "/global-cinema",
-        "destination": "/global-cinema.html"
-      },
-      {
-        "source": "/support",
-        "destination": "/support.html"
-      }
-    ]
-  }
-}

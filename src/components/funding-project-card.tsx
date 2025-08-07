@@ -1,9 +1,8 @@
-
 'use client';
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { Award, Check, DollarSign, PlayCircle, Users } from 'lucide-react';
+import { Award, Check, DollarSign, PlayCircle, Users, Loader2 } from 'lucide-react';
 
 import type { FundingProject, InvestmentTier } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -12,6 +11,9 @@ import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
+import { useAuth } from '@/context/auth-context';
+import { createCheckoutSession } from '@/ai/flows/create-checkout-session';
+import { useRouter } from 'next/navigation';
 
 type FundingProjectCardProps = {
   project: FundingProject;
@@ -26,20 +28,54 @@ const formatter = new Intl.NumberFormat('en-US', {
 export default function FundingProjectCard({ project }: FundingProjectCardProps) {
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { user } = useAuth();
+  const router = useRouter();
+  const [loadingTier, setLoadingTier] = useState<string | null>(null);
 
   const fundingPercentage = (project.currentFunding / project.fundingGoal) * 100;
 
-  const handleInvestClick = () => {
-    toast({
-      title: 'Coming Soon!',
-      description: 'Stripe, PayPal, and Solana integrations are in development.',
-    });
+  const handleInvestClick = async (tier: InvestmentTier) => {
+    if (!user) {
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Required',
+        description: 'Please log in or sign up to invest.',
+      });
+      router.push('/login');
+      return;
+    }
+
+    setLoadingTier(tier.name);
+
+    try {
+      const { sessionId, url } = await createCheckoutSession({
+        userId: user.uid,
+        userEmail: user.email!,
+        tierName: tier.name,
+        tierAmount: tier.amount,
+        projectName: project.title
+      });
+
+      if (url) {
+        window.location.assign(url);
+      } else {
+        throw new Error('Could not retrieve checkout URL.');
+      }
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: 'destructive',
+        title: 'Payment Error',
+        description: 'Could not create a checkout session. Please try again.',
+      });
+    } finally {
+      setLoadingTier(null);
+    }
   };
 
   return (
     <Card className="overflow-hidden shadow-2xl shadow-primary/10">
       <div className="grid grid-cols-1 md:grid-cols-2">
-        {/* Left side: Poster and Trailer */}
         <div className="relative">
           <Image
             src={project.posterUrl}
@@ -75,7 +111,6 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
           </Dialog>
         </div>
 
-        {/* Right side: Details and Investment */}
         <div className="flex flex-col">
           <CardHeader className="p-6">
             <CardTitle className="font-headline text-3xl">{project.title}</CardTitle>
@@ -108,7 +143,12 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
               <h3 className="font-semibold mb-4">Investment Tiers</h3>
               <div className="space-y-4">
                 {project.investmentTiers.map((tier) => (
-                  <InvestmentTierCard key={tier.name} tier={tier} onInvest={handleInvestClick} />
+                  <InvestmentTierCard 
+                    key={tier.name} 
+                    tier={tier} 
+                    onInvest={() => handleInvestClick(tier)}
+                    isLoading={loadingTier === tier.name} 
+                  />
                 ))}
               </div>
             </div>
@@ -125,7 +165,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
   );
 }
 
-function InvestmentTierCard({ tier, onInvest }: { tier: InvestmentTier; onInvest: () => void }) {
+function InvestmentTierCard({ tier, onInvest, isLoading }: { tier: InvestmentTier; onInvest: () => void; isLoading: boolean }) {
   return (
     <div className="border rounded-lg p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-background/50">
       <div className="flex-grow">
@@ -149,8 +189,15 @@ function InvestmentTierCard({ tier, onInvest }: { tier: InvestmentTier; onInvest
             </div>
         </div>
       </div>
-      <Button onClick={onInvest} className="w-full sm:w-auto shrink-0" disabled>
-        Invest
+      <Button onClick={onInvest} className="w-full sm:w-auto shrink-0" disabled={isLoading}>
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Processing...
+          </>
+        ) : (
+          'Invest'
+        )}
       </Button>
     </div>
   )
