@@ -63,7 +63,10 @@ export default function Header() {
             {!loading &&
               (user ? (
                 <>
-                  <Button variant="outline" onClick={handleLogout}>
+                  <Button asChild variant="ghost">
+                    <Link href="/dashboard">Dashboard</Link>
+                  </Button>
+                  <Button variant="secondary" onClick={handleLogout}>
                     Logout
                   </Button>
                 </>
@@ -106,6 +109,7 @@ export default function Header() {
                   {!loading &&
                     (user ? (
                       <>
+                        <Button asChild><Link href="/dashboard">Dashboard</Link></Button>
                         <Button variant="outline" onClick={handleLogout}>
                           Logout
                         </Button>

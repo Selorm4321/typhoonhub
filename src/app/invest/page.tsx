@@ -1,67 +1,86 @@
 
-import { HandCoins, Info, Send, Sparkles } from 'lucide-react';
-import { fundingProjects } from '@/lib/data';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { HandCoins, Loader2 } from 'lucide-react';
+import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import FundingProjectCard from '@/components/funding-project-card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Suspense } from 'react';
-
-function InvestContent() {
-  const activeProject = fundingProjects[0];
-
-  return (
-     <div className="container mx-auto py-12">
-      <div className="max-w-4xl mx-auto text-center">
-        <HandCoins className="mx-auto h-12 w-12 text-primary" />
-        <h1 className="mt-4 font-headline text-4xl font-bold">Invest in Independent Film</h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Become a producer. Support independent creators and share in their success.
-        </p>
-      </div>
-
-      <Alert className="max-w-4xl mx-auto mt-12">
-        <Info className="h-4 w-4" />
-        <AlertTitle>Real Projects, Real Impact</AlertTitle>
-        <AlertDescription>
-          This is a professional film investment platform by Typhoon Entertainment. The investment data shown is for our current, real project.
-        </AlertDescription>
-      </Alert>
-
-      <div className="mt-12">
-        {activeProject ? (
-          <FundingProjectCard project={activeProject} />
-        ) : (
-          <Card className="text-center py-16">
-            <CardHeader>
-              <CardTitle>No Active Projects</CardTitle>
-              <CardDescription>There are no projects actively seeking funding right now.</CardDescription>
-            </CardHeader>
-          </Card>
-        )}
-      </div>
-
-      <Separator className="my-16" />
-
-      <section className="text-center">
-        <Sparkles className="mx-auto h-10 w-10 text-primary" />
-        <h2 className="mt-4 font-headline text-3xl font-bold">More Projects Coming Soon</h2>
-        <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
-          Typhoon Entertainment is always developing new and exciting projects. Sign up for our newsletter to be the first to know about new investment opportunities.
-        </p>
-        <div className="mt-8 flex justify-center items-center gap-4">
-          <Button asChild size="lg">
-            <Link href="/submit">Submit Your Project</Link>
-          </Button>
-          <p className="text-muted-foreground">Are you a creator?</p>
-        </div>
-      </section>
-    </div>
-  )
-}
+import type { FundingProject } from '@/lib/data';
 
 export default function InvestPage() {
-  return (
+  const [productions, setProductions] = useState<FundingProject[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, "productions"), where("status", "==", "active"));
     
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const prods: FundingProject[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        prods.push({
+          id: doc.id,
+          title: data.title,
+          tagline: data.tagline,
+          synopsis: data.description,
+          fundingGoal: data.fundingGoal / 100,
+          currentFunding: data.currentFunding / 100,
+          investors: data.investorCount,
+          posterUrl: data.imageUrl || 'https://placehold.co/600x900.png',
+          trailerYoutubeId: data.trailerYoutubeId,
+          investmentTiers: data.investmentTiers, // This might need to be adjusted based on your data model
+          minimumInvestment: data.minimumInvestment / 100,
+          expectedROI: data.expectedROI,
+          productionTimeline: data.productionTimeline,
+          category: data.category,
+        });
+      });
+      setProductions(prods);
+      setLoading(false);
+    }, (error) => {
+      console.error("Error loading productions:", error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  return (
+    <div className="min-h-screen">
+      <div className="bg-gradient-to-b from-primary/10 to-background">
+        <div className="container mx-auto py-12 text-center">
+            <HandCoins className="mx-auto h-12 w-12 text-primary" />
+            <h1 className="mt-4 font-headline text-5xl font-bold">
+              FROM VISION TO SCREEN
+            </h1>
+            <p className="mt-4 text-xl text-muted-foreground max-w-3xl mx-auto">
+              Where independent filmmakers create, collaborate, and connect with audiences globally.
+              Invest in the next generation of cinema.
+            </p>
+        </div>
+      </div>
+      
+      <div className="container mx-auto py-12">
+        <h2 className="text-3xl font-bold mb-8 text-center">Active Investment Opportunities</h2>
+        
+        {loading ? (
+          <div className="flex justify-center items-center py-16">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+          </div>
+        ) : productions.length > 0 ? (
+          <div className="space-y-12">
+            {productions.map((production) => (
+              <FundingProjectCard key={production.id} project={production} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 border-2 border-dashed rounded-lg">
+            <h3 className="text-2xl font-bold text-muted-foreground mb-4">No Active Investments</h3>
+            <p className="text-muted-foreground">Check back soon for new film investment opportunities!</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

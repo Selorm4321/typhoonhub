@@ -10,9 +10,10 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { z } from 'zod';
 import Stripe from 'stripe';
 import * as admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 
 // Initialize Firebase Admin SDK if not already initialized
 if (!admin.apps.length) {
@@ -21,8 +22,7 @@ if (!admin.apps.length) {
     databaseURL: `https://${process.env.GCLOUD_PROJECT}.firebaseio.com`,
   });
 }
-const db = admin.firestore();
-
+const db = getFirestore();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-06-20',
@@ -32,8 +32,9 @@ const CreateCheckoutSessionInputSchema = z.object({
   userId: z.string().describe('The ID of the user making the investment.'),
   userEmail: z.string().email().describe('The email of the user.'),
   tierName: z.string().describe('The name of the investment tier.'),
-  tierAmount: z.number().int().min(1).describe('The investment amount in USD cents.'),
+  tierAmount: z.number().int().min(1).describe('The investment amount in USD dollars.'),
   projectName: z.string().describe('The name of the project being invested in.'),
+  productionId: z.string().describe('The ID of the production being invested in.'),
 });
 export type CreateCheckoutSessionInput = z.infer<typeof CreateCheckoutSessionInputSchema>;
 
@@ -56,20 +57,41 @@ const createCheckoutSessionFlow = ai.defineFlow(
     outputSchema: CreateCheckoutSessionOutputSchema,
   },
   async (input) => {
-    const { userId, userEmail, tierName, tierAmount, projectName } = input;
+    const { userId, userEmail, tierName, tierAmount, projectName, productionId } = input;
     
     const origin = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:9002';
     
     try {
+      // Check for an existing Stripe customer, or create a new one
+      const customerSnapshot = await db.collection('customers').doc(userId).get();
+      let customerId;
+      if (customerSnapshot.exists) {
+        customerId = customerSnapshot.data()?.stripeCustomerId;
+      }
+      
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: userEmail,
+          metadata: { userId },
+        });
+        customerId = customer.id;
+        await db.collection('customers').doc(userId).set({
+          stripeCustomerId: customerId,
+          email: userEmail,
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+      }
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
+        customer: customerId,
         line_items: [
           {
             price_data: {
               currency: 'usd',
               product_data: {
-                name: `${projectName} - ${tierName} Tier`,
+                name: `${projectName} - ${tierName}`,
                 description: `Investment in the project "${projectName}".`,
               },
               unit_amount: tierAmount * 100, // Amount in cents
@@ -77,32 +99,27 @@ const createCheckoutSessionFlow = ai.defineFlow(
             quantity: 1,
           },
         ],
-        customer_email: userEmail,
         metadata: {
           userId,
-          tierName,
+          productionId,
           projectName,
+          tierName,
         },
-        success_url: `${origin}/invest/success?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${origin}/invest/success?session_id={CHECKOUT_SESSION_ID}&production_id=${productionId}`,
         cancel_url: `${origin}/invest/cancel`,
       });
 
       if (!session.id || !session.url) {
         throw new Error('Failed to create a valid Stripe session.');
       }
-
-      await db.collection('users').doc(userId).collection('investments').add({
-        stripeSessionId: session.id,
-        projectName,
-        tierName,
-        amount: tierAmount,
-        status: 'pending',
-        createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      });
-
+      
       return {
         sessionId: session.id,
         url: session.url,
       };
-    } catch (error) {
-      console.error('Stripe session creation failed:', error
+    } catch (error: any) {
+      console.error('Stripe session creation failed:', error);
+      throw new Error(`Stripe error: ${error.message}`);
+    }
+  }
+);

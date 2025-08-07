@@ -1,4 +1,5 @@
 
+
 export type Film = {
   id: number;
   title: string;
@@ -112,76 +113,24 @@ export type InvestmentTier = {
 };
 
 export type FundingProject = {
-  id: number;
+  id: string;
   title: string;
-  tagline: string;
+  tagline?: string;
   synopsis: string;
-  trailerYoutubeId: string;
+  trailerYoutubeId?: string;
   fundingGoal: number;
   currentFunding: number;
   investors: number;
   posterUrl: string;
-  investmentTiers: InvestmentTier[];
+  investmentTiers?: InvestmentTier[];
+  minimumInvestment: number;
+  expectedROI?: string;
+  productionTimeline?: string;
+  category?: string;
 };
 
-export const fundingProjects: FundingProject[] = [
-  {
-    id: 1,
-    title: 'Cleaning House',
-    tagline: 'Two sisters run cons on the corrupt wealthy to fund life-saving medical treatment.',
-    synopsis: 'A contemporary thriller/drama web series set in British Columbia, Canada. Follow two sisters as they navigate a dangerous world of high-stakes cons to secure the funds for a crucial medical procedure. This is a story of family, survival, and justice.',
-    trailerYoutubeId: 'l6QMx5w1TGc', // Placeholder trailer
-    fundingGoal: 15000,
-    currentFunding: 4250,
-    investors: 23,
-    posterUrl: 'https://placehold.co/600x900.png',
-    investmentTiers: [
-      {
-        name: 'Producer',
-        amount: 100,
-        profitShare: '0.5% net profit sharing',
-        perks: [
-          'Digital screenplay with credit',
-          'Behind-the-scenes photo pack',
-          'Investor Discord access',
-        ],
-      },
-      {
-        name: 'Executive Producer',
-        amount: 500,
-        profitShare: '2.5% net profit sharing',
-        perks: [
-          'Signed poster from cast',
-          'Video call with creator',
-          'Special thanks credit in episode',
-          'Early access to pilot (24hrs)',
-        ],
-      },
-      {
-        name: 'Co-Producer',
-        amount: 1500,
-        profitShare: '7.5% net profit sharing',
-        perks: [
-          'Visit the film set (BC location)',
-          'Receive actual props from the show',
-          'Associate Producer credit',
-          'Input on casting decisions (advisory)',
-        ],
-      },
-      {
-        name: 'Studio Partner',
-        amount: 5000,
-        profitShare: '25% net profit sharing',
-        perks: [
-          'Executive Producer credit',
-          'Invitation to wrap party',
-          'Cameo appearance in background scene',
-          'Complete merchandise package',
-        ],
-      },
-    ],
-  },
-];
+// This is now loaded from Firestore
+export const fundingProjects: FundingProject[] = [];
 
 
 export type PodcastEpisode = {
