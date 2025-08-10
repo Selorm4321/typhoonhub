@@ -20,20 +20,21 @@ export default function InvestPage() {
       querySnapshot => {
         const prods: FundingProject[] = [];
         querySnapshot.forEach(doc => {
+          console.log(data);
           const data = doc.data();
           prods.push({
             id: doc.id,
-            title: data.title,
-            synopsis: data.description, // Mapped from description
-            fundingGoal: data.fundingGoal,
-            currentFunding: data.currentFunding,
-            investors: data.investors,
+            title: data.title || 'Untitled Project',
+            synopsis: data.description || 'No synopsis available.',
+            fundingGoal: data.fundingGoal || 0,
+            currentFunding: data.currentFunding || 0,
+            investors: data.investors || 0,
             posterUrl: data.imageUrl || 'https://placehold.co/600x900.png',
-            minimumInvestment: data.minimumInvestment,
-            expectedROI: data.expectedROI,
-            productionTimeline: data.productionTimeline,
+            minimumInvestment: data.minimumInvestment || 0,
+            expectedROI: data.expectedROI || 'N/A',
+            productionTimeline: data.productionTimeline || 'No timeline available.',
             category: data.category,
-            trailerYoutubeId: data.trailerYoutubeId, // Make sure this exists in your data
+            trailerYoutubeId: data.trailerYoutubeId || '',
           } as FundingProject);
         });
         setProductions(prods);
