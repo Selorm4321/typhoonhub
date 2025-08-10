@@ -20,8 +20,8 @@ export default function InvestPage() {
       querySnapshot => {
         const prods: FundingProject[] = [];
         querySnapshot.forEach(doc => {
-          console.log(data);
           const data = doc.data();
+          console.log(data);
           prods.push({
             id: doc.id,
             title: data.title || 'Untitled Project',
