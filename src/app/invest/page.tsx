@@ -15,11 +15,11 @@ export default function InvestPage() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // NOTE: Temporarily simplified query to diagnose a potential missing index issue.
+    // The original query included orderBy('priority', 'desc') and orderBy('createdAt', 'desc').
     const q = query(
       collection(db, 'investments'),
-      where('status', '==', 'active'),
-      orderBy('priority', 'desc'),
-      orderBy('createdAt', 'desc')
+      where('status', '==', 'active')
     );
 
     const unsubscribe = onSnapshot(
