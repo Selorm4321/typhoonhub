@@ -33,7 +33,9 @@ async function migrateProductions() {
     const serviceAccount = JSON.parse(fs.readFileSync(SERVICE_ACCOUNT_PATH, 'utf8'));
 
     // Fix for newline characters in private key
-    serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+    if (serviceAccount.private_key) {
+      serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+    }
 
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
@@ -70,10 +72,13 @@ async function migrateProductions() {
         targetAmount: data.targetAmount,
       };
 
+      let newFundingValue = data.currentFunding;
+
       // 1. Ensure currentFunding exists.
       // If currentFunding is missing (undefined or null), copy from currentAmount.
       if (data.currentFunding === undefined || data.currentFunding === null) {
-        updates.currentFunding = data.currentAmount || 0;
+        newFundingValue = data.currentAmount || 0;
+        updates.currentFunding = newFundingValue;
         needsUpdate = true;
       }
 
@@ -95,7 +100,7 @@ async function migrateProductions() {
         console.log(`📄 Document ID: ${doc.id}`);
         console.log('   [BEFORE]', oldValues);
         console.log('   [AFTER]', { 
-            currentFunding: updates.currentFunding !== undefined ? updates.currentFunding : data.currentFunding,
+            currentFunding: newFundingValue,
             currentAmount: 'DELETED', 
             targetAmount: 'DELETED' 
         });
