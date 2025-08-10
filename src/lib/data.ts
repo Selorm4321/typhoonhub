@@ -129,17 +129,6 @@ export type FundingProject = {
   category?: string;
 };
 
-export type Investment = {
-  id: string;
-  title: string;
-  shortDescription: string;
-  goal: number;
-  raised: number;
-  heroImage: string;
-  slug: string;
-  createdAt: any;
-};
-
 // This is now loaded from Firestore
 export const fundingProjects: FundingProject[] = [];
 
