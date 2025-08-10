@@ -1,10 +1,11 @@
 'use client';
 
+export const dynamic = "force-dynamic";
+
 import { useState, useEffect } from 'react';
 import { notFound, useParams } from 'next/navigation';
-import { collection, getDocs, query, where, limit } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import type { Investment } from '@/lib/types/investment';
+import { fetchInvestmentBySlug } from '@/lib/investments';
 import { pct } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -30,37 +31,15 @@ export default function InvestmentDetailPage() {
   useEffect(() => {
     if (!slug) return;
 
-    const getInvestment = async () => {
-      try {
-        const q = query(collection(db, 'investments'), where('slug', '==', slug), limit(1));
-        const querySnapshot = await getDocs(q);
-
-        if (querySnapshot.empty) {
-          setInvestment(null);
-        } else {
-          const doc = querySnapshot.docs[0];
-          const data = doc.data();
-
-          if (data.createdAt && typeof data.createdAt.toDate === 'function') {
-            data.createdAt = data.createdAt.toDate();
-          }
-          if (data.updatedAt && typeof data.updatedAt.toDate === 'function') {
-            data.updatedAt = data.updatedAt.toDate();
-          }
-
-          const fetchedInvestment = { id: doc.id, ...data } as Investment;
-          setInvestment(fetchedInvestment);
-          document.title = `${fetchedInvestment.title} | Typhoon`;
-        }
-      } catch (error) {
-        console.error("Error fetching investment:", error);
+    fetchInvestmentBySlug(slug).then(fetchedInvestment => {
+      if (fetchedInvestment) {
+        setInvestment(fetchedInvestment);
+        document.title = `${fetchedInvestment.title} | Typhoon`;
+      } else {
         setInvestment(null);
-      } finally {
-        setLoading(false);
       }
-    };
-
-    getInvestment();
+      setLoading(false);
+    });
   }, [slug]);
 
   if (loading) {
