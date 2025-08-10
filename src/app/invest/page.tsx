@@ -24,19 +24,17 @@ export default function InvestPage() {
           prods.push({
             id: doc.id,
             title: data.title,
-            tagline: data.tagline,
-            synopsis: data.description,
+            synopsis: data.description, // Mapped from description
             fundingGoal: data.fundingGoal,
             currentFunding: data.currentFunding,
             investors: data.investors,
             posterUrl: data.imageUrl || 'https://placehold.co/600x900.png',
-            trailerYoutubeId: data.trailerYoutubeId,
-            investmentTiers: data.investmentTiers,
             minimumInvestment: data.minimumInvestment,
             expectedROI: data.expectedROI,
             productionTimeline: data.productionTimeline,
             category: data.category,
-          });
+            trailerYoutubeId: data.trailerYoutubeId, // Make sure this exists in your data
+          } as FundingProject);
         });
         setProductions(prods);
         setLoading(false);

@@ -3,9 +3,9 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { Award, Check, DollarSign, PlayCircle, Users, Loader2 } from 'lucide-react';
+import { PlayCircle, Users, Loader2 } from 'lucide-react';
 
-import type { FundingProject, InvestmentTier } from '@/lib/data';
+import type { FundingProject } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -36,6 +36,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
   const [loading, setLoading] = useState(false);
   const [investmentAmount, setInvestmentAmount] = useState('');
 
+  // All amounts are expected in cents from Firestore
   const fundingGoal = project.fundingGoal / 100;
   const currentFunding = project.currentFunding / 100;
   const minimumInvestment = project.minimumInvestment / 100;
@@ -70,7 +71,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
         userId: user.uid,
         userEmail: user.email!,
         tierName: getInvestmentLevel(amount),
-        tierAmount: amount,
+        tierAmount: amount, // Send amount in dollars
         projectName: project.title,
         productionId: project.id
       });
