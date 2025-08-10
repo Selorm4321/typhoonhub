@@ -26,7 +26,7 @@ export default function InvestPage() {
           synopsis: data.description,
           fundingGoal: data.fundingGoal / 100,
           currentFunding: data.currentFunding / 100,
-          investors: data.investorCount,
+          investors: data.investors,
           posterUrl: data.imageUrl || 'https://placehold.co/600x900.png',
           trailerYoutubeId: data.trailerYoutubeId,
           investmentTiers: data.investmentTiers, // This might need to be adjusted based on your data model
