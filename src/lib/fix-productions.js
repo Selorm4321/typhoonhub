@@ -4,19 +4,18 @@ const fs = require('fs');
 const path = require('path');
 
 // --- CONFIGURATION ---
-// IMPORTANT: This script assumes it is being run from the root of your project directory.
-// It looks for 'serviceAccount.json' in the root.
+// This script assumes it is being run from the root of your project directory.
 const SERVICE_ACCOUNT_PATH = path.join(process.cwd(), 'serviceAccount.json');
 const COLLECTION_NAME = 'productions';
 // -------------------
 
 /**
- * Main script function
+ * Main script function to migrate Firestore data.
  */
 async function migrateProductions() {
-  console.log('--- Firestore Productions Migration Script ---');
+  console.log('--- Firestore Productions Collection Migration Script ---');
 
-  // Check for --apply flag for write mode
+  // Check for --apply flag to determine if this is a dry run or a real write operation.
   const isDryRun = !process.argv.includes('--apply');
   if (isDryRun) {
     console.log('\n[DRY RUN] No changes will be saved to the database. Use the --apply flag to commit changes.');
@@ -32,7 +31,7 @@ async function migrateProductions() {
 
     const serviceAccount = JSON.parse(fs.readFileSync(SERVICE_ACCOUNT_PATH, 'utf8'));
 
-    // Fix for newline characters in private key
+    // Automatically fix the private_key format issue to prevent "ASN.1" errors.
     if (serviceAccount.private_key) {
       serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
     }
@@ -45,7 +44,7 @@ async function migrateProductions() {
     const db = admin.firestore();
     console.log(`\n✅ Successfully connected to Firebase project: ${serviceAccount.project_id}`);
 
-    // --- Fetch Productions ---
+    // --- Fetch all documents from the productions collection ---
     const productionsRef = db.collection(COLLECTION_NAME);
     const snapshot = await productionsRef.get();
 
@@ -65,45 +64,48 @@ async function migrateProductions() {
       const updates = {};
       let needsUpdate = false;
 
-      // Store original values for logging
-      const oldValues = {
-        currentFunding: data.currentFunding,
-        currentAmount: data.currentAmount,
-        targetAmount: data.targetAmount,
-      };
+      // Store original values for logging purposes
+      const oldValues = {};
+      const newValues = {};
+      
+      let newFundingValue;
 
-      let newFundingValue = data.currentFunding;
-
-      // 1. Ensure currentFunding exists.
-      // If currentFunding is missing (undefined or null), copy from currentAmount.
+      // Migration Logic: Ensure `currentFunding` exists and remove old fields.
+      // 1. Check if `currentFunding` is missing or null.
       if (data.currentFunding === undefined || data.currentFunding === null) {
+        oldValues.currentFunding = data.currentFunding;
+        oldValues.currentAmount = data.currentAmount;
+        
         newFundingValue = data.currentAmount || 0;
         updates.currentFunding = newFundingValue;
+        newValues.currentFunding = newFundingValue;
         needsUpdate = true;
       }
-
-      // 2. Mark fields for deletion if they exist
+      
+      // 2. Mark `currentAmount` for deletion if it exists.
       if (data.currentAmount !== undefined) {
-        updates.currentAmount = admin.firestore.FieldValue.delete();
-        needsUpdate = true;
-      }
-      if (data.targetAmount !== undefined) {
-        updates.targetAmount = admin.firestore.FieldValue.delete();
-        needsUpdate = true;
+         oldValues.currentAmount = data.currentAmount;
+         updates.currentAmount = admin.firestore.FieldValue.delete();
+         newValues.currentAmount = 'DELETED';
+         needsUpdate = true;
       }
 
-      // Log and batch write if changes are needed
+      // 3. Mark `targetAmount` for deletion if it exists.
+      if (data.targetAmount !== undefined) {
+         oldValues.targetAmount = data.targetAmount;
+         updates.targetAmount = admin.firestore.FieldValue.delete();
+         newValues.targetAmount = 'DELETED';
+         needsUpdate = true;
+      }
+
+      // If any changes are staged, log them and add to the batch.
       if (needsUpdate) {
         modifiedCount++;
         
         console.log(`\n---------------------------------`);
         console.log(`📄 Document ID: ${doc.id}`);
-        console.log('   [BEFORE]', oldValues);
-        console.log('   [AFTER]', { 
-            currentFunding: newFundingValue,
-            currentAmount: 'DELETED', 
-            targetAmount: 'DELETED' 
-        });
+        console.log('   [BEFORE]', JSON.stringify(oldValues));
+        console.log(`   [AFTER] `, JSON.stringify(newValues));
 
         if (!isDryRun) {
           writeBatch.update(doc.ref, updates);
@@ -128,7 +130,7 @@ async function migrateProductions() {
     console.log(`Total documents ${isDryRun ? 'to be' : ''} modified: ${modifiedCount}`);
 
   } catch (error) {
-    console.error('\n❌ An error occurred:', error.message);
+    console.error('\n❌ An error occurred during migration:', error.message);
     if (error.code === 'ERR_INVALID_ARG_TYPE' || (error.message && error.message.includes('private key'))) {
         console.error('💡 This might be an issue with the service account key. Ensure the private_key is correctly formatted in your serviceAccount.json file.');
     }
@@ -136,5 +138,5 @@ async function migrateProductions() {
   }
 }
 
-// Run the script
+// Run the migration script.
 migrateProductions();
