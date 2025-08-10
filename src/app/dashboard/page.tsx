@@ -3,11 +3,15 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { collection, query, onSnapshot, where } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
   const { user, loading: authLoading } = useAuth();
+  const [totalInvested, setTotalInvested] = useState(0);
+  const [activeInvestments, setActiveInvestments] = useState(0);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -15,7 +19,35 @@ export default function Dashboard() {
     if (!authLoading && !user) {
       router.push('/login');
     } else {
-      setTimeout(() => setLoading(false), 1000);
+      // Fetch investment data
+      if (user) {
+        const investmentsRef = collection(db, 'users', user.uid, 'investments');
+        const q = query(investmentsRef);
+
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          let total = 0;
+          let active = 0;
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            if (data.amount) {
+              total += data.amount;
+            }
+            if (data.status === 'active') {
+              active += 1;
+            }
+          });
+          setTotalInvested(total);
+          setActiveInvestments(active);
+          setLoading(false);
+        }, (error) => {
+          console.error('Error fetching investment data:', error);
+          setLoading(false);
+        });
+
+        return () => unsubscribe(); // Cleanup listener
+      } else {
+        setLoading(false); // Set loading to false if no user
+      }
     }
   }, [user, authLoading, router]);
 
@@ -35,15 +67,15 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-gray-900 p-6 rounded-lg border border-gray-800">
             <h3 className="text-lg font-semibold text-gray-400">Total Invested</h3>
-            <p className="text-3xl font-bold text-green-400">$0.00</p>
+            <p className="text-3xl font-bold text-green-400">${totalInvested.toFixed(2)}</p>
           </div>
           <div className="bg-gray-900 p-6 rounded-lg border border-gray-800">
             <h3 className="text-lg font-semibold text-gray-400">Active Investments</h3>
-            <p className="text-3xl font-bold text-blue-400">0</p>
+            <p className="text-3xl font-bold text-blue-400">{activeInvestments}</p>
           </div>
           <div className="bg-gray-900 p-6 rounded-lg border border-gray-800">
             <h3 className="text-lg font-semibold text-gray-400">Status</h3>
-            <p className="text-3xl font-bold text-yellow-400">New Investor</p>
+            <p className="text-3xl font-bold text-yellow-400">{activeInvestments > 0 ? 'Investor' : 'New Investor'}</p>
           </div>
         </div>
 
