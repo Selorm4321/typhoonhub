@@ -40,7 +40,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
   const currentFunding = project.currentFunding / 100;
   const minimumInvestment = project.minimumInvestment / 100;
 
-  const fundingPercentage = (currentFunding / fundingGoal) * 100;
+  const fundingPercentage = fundingGoal > 0 ? (currentFunding / fundingGoal) * 100 : 0;
   
   const getInvestmentLevel = (amount: number) => {
     if (amount >= 5000) return 'Studio Partner';
@@ -66,7 +66,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
     setLoading(true);
 
     try {
-      const { sessionId, url } = await createCheckoutSession({
+      const { url } = await createCheckoutSession({
         userId: user.uid,
         userEmail: user.email!,
         tierName: getInvestmentLevel(amount),
@@ -138,7 +138,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
               </div>
               <div className="flex items-center text-sm text-muted-foreground gap-2 pt-1">
                 <Users className="h-4 w-4" />
-                <span>{project.investors} investors</span>
+                <span>{project.investors || 0} investors</span>
               </div>
             </div>
             
@@ -160,7 +160,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
                 <span className="text-xl font-bold">$</span>
                 <Input
                     type="number"
-                    placeholder={`Min ${minimumInvestment}`}
+                    placeholder={`${minimumInvestment}`}
                     value={investmentAmount}
                     onChange={(e) => setInvestmentAmount(e.target.value)}
                     className="text-lg font-bold"
