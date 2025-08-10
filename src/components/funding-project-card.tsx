@@ -16,6 +16,7 @@ import { useAuth } from '@/context/auth-context';
 import { createCheckoutSession } from '@/ai/flows/create-checkout-session';
 import { useRouter } from 'next/navigation';
 import { Input } from './ui/input';
+import Link from 'next/link';
 
 type FundingProjectCardProps = {
   project: FundingProject;
@@ -35,7 +36,11 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
   const [loading, setLoading] = useState(false);
   const [investmentAmount, setInvestmentAmount] = useState('');
 
-  const fundingPercentage = (project.currentFunding / project.fundingGoal) * 100;
+  const fundingGoal = project.fundingGoal / 100;
+  const currentFunding = project.currentFunding / 100;
+  const minimumInvestment = project.minimumInvestment / 100;
+
+  const fundingPercentage = (currentFunding / fundingGoal) * 100;
   
   const getInvestmentLevel = (amount: number) => {
     if (amount >= 5000) return 'Studio Partner';
@@ -53,8 +58,8 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
     }
 
     const amount = parseFloat(investmentAmount);
-    if (isNaN(amount) || amount < project.minimumInvestment) {
-      toast({ variant: 'destructive', title: 'Invalid Amount', description: `The minimum investment is ${formatter.format(project.minimumInvestment)}.` });
+    if (isNaN(amount) || amount < minimumInvestment) {
+      toast({ variant: 'destructive', title: 'Invalid Amount', description: `The minimum investment is ${formatter.format(minimumInvestment)}.` });
       return;
     }
     
@@ -128,8 +133,8 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
               <h3 className="font-semibold">Funding Status</h3>
               <Progress value={fundingPercentage} aria-label={`${fundingPercentage.toFixed(0)}% funded`} />
               <div className="flex justify-between items-center text-sm font-medium">
-                <span className="text-primary">{formatter.format(project.currentFunding)} raised</span>
-                <span className="text-muted-foreground">Goal: {formatter.format(project.fundingGoal)}</span>
+                <span className="text-primary">{formatter.format(currentFunding)} raised</span>
+                <span className="text-muted-foreground">Goal: {formatter.format(fundingGoal)}</span>
               </div>
               <div className="flex items-center text-sm text-muted-foreground gap-2 pt-1">
                 <Users className="h-4 w-4" />
@@ -142,7 +147,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
             <Separator />
             
             <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-muted-foreground">Minimum Investment:</span><span className="font-semibold">{formatter.format(project.minimumInvestment)}</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Minimum Investment:</span><span className="font-semibold">{formatter.format(minimumInvestment)}</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Expected ROI:</span><span className="font-semibold">{project.expectedROI}</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Timeline:</span><span className="font-semibold">{project.productionTimeline}</span></div>
             </div>
@@ -155,11 +160,11 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
                 <span className="text-xl font-bold">$</span>
                 <Input
                     type="number"
-                    placeholder={`Min ${project.minimumInvestment}`}
+                    placeholder={`Min ${minimumInvestment}`}
                     value={investmentAmount}
                     onChange={(e) => setInvestmentAmount(e.target.value)}
                     className="text-lg font-bold"
-                    min={project.minimumInvestment}
+                    min={minimumInvestment}
                   />
               </div>
               
@@ -171,7 +176,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
               
               <Button
                 onClick={handleInvestClick}
-                disabled={!user || loading || !investmentAmount || parseFloat(investmentAmount) < project.minimumInvestment}
+                disabled={!user || loading || !investmentAmount || parseFloat(investmentAmount) < minimumInvestment}
                 className="w-full"
                 size="lg"
               >
