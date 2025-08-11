@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Progress } from "./ui/progress";
-import { Loader2, Users } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 type Props = { project: Production };
 
