@@ -1,4 +1,7 @@
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { db } from "@/lib/firebase-admin";
@@ -12,11 +15,7 @@ export async function POST(req: NextRequest) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(
-      rawBody,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (err: any) {
     console.error("Invalid webhook signature:", err?.message);
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
@@ -26,13 +25,13 @@ export async function POST(req: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session;
     const amount = session.amount_total ?? 0;
     const projectId = session.metadata?.projectId;
+
     if (projectId && amount > 0) {
-      const ref = db.collection("productions").doc(projectId);
-      await db.runTransaction(async (tx) => {
+      const ref = db().collection("productions").doc(projectId);
+      await db().runTransaction(async (tx) => {
         const snap = await tx.get(ref);
         if (!snap.exists) return;
         const current = (snap.data()?.raised ?? 0) as number;
-        // The amount from stripe is in cents, which is what we store
         tx.update(ref, { raised: current + amount });
       });
     }

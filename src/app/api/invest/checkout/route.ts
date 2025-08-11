@@ -1,4 +1,7 @@
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { db } from "@/lib/firebase-admin";
@@ -13,12 +16,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    // Verify project exists & active
-    const doc = await db.collection("productions").doc(projectId).get();
-    const projectData = doc.data();
-
-    if (!doc.exists || projectData?.status !== 'active') {
-      return NextResponse.json({ error: "This project is not currently available for investment." }, { status: 400 });
+    const doc = await db().collection("productions").doc(projectId).get();
+    if (!doc.exists || !doc.data()?.active) {
+      return NextResponse.json({ error: "Project unavailable" }, { status: 400 });
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -37,15 +37,14 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: process.env.STRIPE_CANCEL_URL,
+      success_url: process.env.STRIPE_SUCCESS_URL!,
+      cancel_url: process.env.STRIPE_CANCEL_URL!,
       metadata: { projectId },
     });
 
     return NextResponse.json({ url: session.url });
   } catch (err: any) {
-    console.error('Stripe Checkout Error:', err);
-    const errorMessage = err.raw ? err.raw.message : 'An unexpected error occurred with our payment processor.';
-    return NextResponse.json({ error: `Server error: ${errorMessage}` }, { status: 500 });
+    console.error(err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

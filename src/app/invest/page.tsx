@@ -1,11 +1,21 @@
 
-import { db } from "@/lib/firebase-admin";
-import type { Production } from "@/lib/types";
-import InvestmentProjectCard from "@/components/investment-project-card";
-import { HandCoins } from "lucide-react";
+export const dynamic = "force-dynamic"; // avoid build-time fetch
+export const runtime = "nodejs";
 
-export const revalidate = 60; // ISR (rebuild every 60s)
-export const dynamic = "force-static"; // cache-friendly for list
+import { db } from "@/lib/firebase-admin";
+import InvestmentProjectCard from "@/components/investment-project-card";
+
+type Production = {
+  id: string;
+  title: string;
+  slug: string;
+  summary?: string;
+  goal?: number;       // cents
+  raised?: number;     // cents
+  heroImage?: string;
+  minInvestment?: number; // cents
+  active: boolean;
+};
 
 async function getActiveProductions(): Promise<Production[]> {
     const productionsRef = db.collection("productions");
@@ -23,10 +33,10 @@ async function getActiveProductions(): Promise<Production[]> {
             title: data.title || 'Untitled Project',
             slug: data.slug || doc.id,
             summary: data.description || '', // Using description field as summary
-            goal: data.fundingGoal || 0,
-            raised: data.currentFunding || 0,
-            heroImage: data.imageUrl || 'https://placehold.co/600x400.png',
-            minInvestment: data.minimumInvestment || 100,
+            goal: data.fundingGoal || data.goal || 0,
+            raised: data.currentFunding || data.raised || 0,
+            heroImage: data.imageUrl || data.heroImage || 'https://placehold.co/600x400.png',
+            minInvestment: data.minimumInvestment || data.minInvestment || 100,
             active: data.status === 'active'
         });
     });
@@ -34,34 +44,27 @@ async function getActiveProductions(): Promise<Production[]> {
     return productions;
 }
 
-
 export default async function InvestPage() {
-  const projects = await getActiveProductions();
+  let projects: Production[] = [];
+  try {
+    projects = await getActiveProductions();
+  } catch (e) {
+    console.error(e);
+  }
 
   return (
-    <div className="container mx-auto py-12">
-        <div className="max-w-4xl mx-auto text-center mb-12">
-            <HandCoins className="mx-auto h-12 w-12 text-primary" />
-            <h1 className="mt-4 font-headline text-4xl font-bold">Invest in Independent Cinema</h1>
-            <p className="mt-4 text-lg text-muted-foreground">
-                Become a part of the next wave of filmmaking. Your investment helps bring unique stories to the screen and supports independent creators.
-            </p>
-        </div>
+    <main className="mx-auto max-w-5xl px-4 py-10">
+      <h1 className="text-3xl font-semibold mb-6">Invest in Projects</h1>
 
       {projects.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="text-lg text-muted-foreground">There are no active investment opportunities at the moment.</p>
-          <p className="text-sm text-muted-foreground">
-            Please check back later for new projects.
-          </p>
-        </div>
+        <p className="text-neutral-500">No Active Investments</p>
       ) : (
-        <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-1">
+        <div className="grid gap-6 md:grid-cols-2">
           {projects.map((p) => (
-            <InvestmentProjectCard key={p.id} project={p} />
+            <InvestmentProjectCard key={p.id} project={p as any} />
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 }

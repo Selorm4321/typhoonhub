@@ -1,3 +1,7 @@
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 import { db } from "@/lib/firebase-admin";
 
 type Row = {
@@ -9,10 +13,8 @@ type Row = {
   minInvestment?: number;
 };
 
-export const revalidate = 15;
-
 async function getProductions(): Promise<Row[]> {
-  const snap = await db.collection("productions").get();
+  const snap = await db().collection("productions").get();
   return snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) }));
 }
 
@@ -60,7 +62,9 @@ export default async function AdminInvest() {
                   <td className="px-4 py-3">${(raised / 100).toLocaleString()}</td>
                   <td className="px-4 py-3">{goal ? `$${(goal / 100).toLocaleString()}` : "—"}</td>
                   <td className="px-4 py-3">{pct}%</td>
-                  <td className="px-4 py-3">{r.minInvestment ? `$${(r.minInvestment / 100).toLocaleString()}` : "—"}</td>
+                  <td className="px-4 py-3">
+                    {r.minInvestment ? `$${(r.minInvestment / 100).toLocaleString()}` : "—"}
+                  </td>
                   <td className="px-4 py-3 text-neutral-500">{r.id}</td>
                 </tr>
               );
