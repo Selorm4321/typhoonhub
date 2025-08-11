@@ -20,6 +20,7 @@ const navLinks = [
   { href: '/browse', label: 'Browse' },
   { href: '/live', label: 'Live TV' },
   { href: '/global-cinema', label: 'Global Cinema' },
+  { href: '/invest', label: 'Invest' },
   { href: '/submit', label: 'Submit Film' },
   { href: '/contact', label: 'Join Us' },
 ];
