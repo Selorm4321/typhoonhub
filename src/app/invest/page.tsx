@@ -11,6 +11,7 @@ import { TierCard } from '@/components/invest/TierCard';
 import { FAQ } from '@/components/invest/FAQ';
 import { InvestModal } from '@/components/invest/InvestModal';
 import { ArrowRight, BarChart, Search, Zap } from 'lucide-react';
+import { FeaturedProjectCard } from '@/components/invest/FeaturedProjectCard';
 
 // Note: generateMetadata is commented out because it only works in Server Components.
 // We are using a Client Component here to handle the modal state.
@@ -111,30 +112,7 @@ export default function InvestPage() {
           <section id="featured" className="w-full py-12 md:py-24 lg:py-32 bg-background">
             <div className="container px-4 md:px-6">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">Featured Project</h2>
-                <Card className="max-w-4xl mx-auto overflow-hidden shadow-lg md:grid md:grid-cols-2">
-                    <div className="relative">
-                        <Image src="https://images.unsplash.com/photo-1534531635582-0197b1b5a133?q=80&w=2070&auto=format&fit=crop" alt="Mary & Rose Poster" layout="fill" objectFit="cover"/>
-                    </div>
-                    <div className="p-6 md:p-8">
-                        <CardHeader>
-                            <CardTitle className="text-2xl font-bold">Mary &amp; Rose</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground mb-4">A heartfelt story of resilience and friendship set against the indie film world, seeking finishing funds for post-production and festival run.</p>
-                            <div className="mb-4">
-                                <div className="flex justify-between items-center mb-1">
-                                    <span className="text-sm font-medium text-primary">$42,000 Raised</span>
-                                    <span className="text-sm text-muted-foreground">28%</span>
-                                </div>
-                                <InvestmentProgressBar value={28} />
-                                <div className="text-right text-sm font-medium mt-1">Goal: $150,000</div>
-                            </div>
-                            <Link href="#register" className="inline-flex items-center text-primary font-semibold">
-                                View details <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </CardContent>
-                    </div>
-                </Card>
+                <FeaturedProjectCard />
             </div>
           </section>
 
