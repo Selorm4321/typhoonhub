@@ -1,0 +1,14 @@
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "YOUR_VALUE",
+  authDomain: "YOUR_VALUE",
+  projectId: "typhoon-indie-stream",
+  storageBucket: "YOUR_VALUE",
+  messagingSenderId: "YOUR_VALUE",
+  appId: "YOUR_VALUE",
+};
+
+export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+export const db = getFirestore(app);
