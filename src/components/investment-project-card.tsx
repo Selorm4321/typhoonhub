@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import type { Production } from "@/lib/types";
+import { Production } from "@/lib/types";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
@@ -18,11 +18,11 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 0,
 });
 
-
 export default function InvestmentProjectCard({ project }: Props) {
   const [amount, setAmount] = React.useState<string>("");
   const [loading, setLoading] = React.useState(false);
   
+  // Normalize values directly inside the component
   const min = (project.minInvestment ?? 2500) / 100;
   const goal = (project.goal ?? 0) / 100;
   const raised = (project.raised ?? 0) / 100;
@@ -70,7 +70,7 @@ export default function InvestmentProjectCard({ project }: Props) {
         <div className="relative min-h-[300px] md:min-h-full">
             <Image
                 src={project.heroImage || 'https://placehold.co/600x900.png'}
-                alt={project.title}
+                alt={project.title || 'Project Poster'}
                 fill
                 className="object-cover"
                 data-ai-hint="movie poster"
