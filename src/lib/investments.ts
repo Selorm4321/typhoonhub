@@ -28,3 +28,23 @@ export async function fetchInvestmentBySlug(slug: string): Promise<Investment | 
     return null;
   }
 }
+
+export async function getInvestments(): Promise<Investment[]> {
+  try {
+    const q = query(
+      collection(db, 'investments'),
+      where('status', '==', 'active')
+    );
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.warn('No active investments found.');
+      return [];
+    }
+
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Investment));
+  } catch (error) {
+    console.error('Error fetching investments:', error);
+    return [];
+  }
+}
