@@ -89,7 +89,7 @@ export default function InvestmentProjectCard({ project }: Props) {
               <Progress value={fundingPercentage} aria-label={`${fundingPercentage.toFixed(0)}% funded`} />
               <div className="flex justify-between items-center text-sm font-medium">
                 <span className="text-primary">{formatter.format(raised)} raised</span>
-                <span className="text-muted-foreground">Goal: {formatter.format(goal)}</span>
+                {goal > 0 && <span className="text-muted-foreground">Goal: {formatter.format(goal)}</span>}
               </div>
             </div>
 
