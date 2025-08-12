@@ -1,5 +1,6 @@
 import { collection, getDocs, query, where, limit } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { adminDb } from './firebase-admin';
 import type { Investment } from '@/lib/types/investment';
 
 export async function fetchInvestmentBySlug(slug: string): Promise<Investment | null> {
@@ -31,20 +32,20 @@ export async function fetchInvestmentBySlug(slug: string): Promise<Investment | 
 
 export async function getInvestments(): Promise<Investment[]> {
   try {
-    const q = query(
-      collection(db, 'investments'),
-      where('status', '==', 'active')
-    );
-    const querySnapshot = await getDocs(q);
+    const snapshot = await adminDb
+      .collection('investments')
+      .where('status', '==', 'active')
+      .get();
 
-    if (querySnapshot.empty) {
+    if (snapshot.empty) {
       console.warn('No active investments found.');
       return [];
     }
 
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Investment));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Investment));
   } catch (error) {
-    console.error('Error fetching investments:', error);
+    console.error('Error fetching investments with admin SDK:', error);
+    // In case of error, return empty array to prevent breaking the page.
     return [];
   }
 }
