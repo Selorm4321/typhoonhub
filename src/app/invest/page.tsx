@@ -143,65 +143,6 @@ export default function InvestPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <header className="border-b border-gray-800 bg-black">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <span className="text-xl font-bold text-white">TYPHOON HUB</span>
-              </div>
-              <nav className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="https://typhoonhub.ca"
-                    className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
-                  >
-                    Home
-                  </a>
-                  <a
-                    href="https://typhoonhub.ca/browse"
-                    className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
-                  >
-                    Browse
-                  </a>
-                  <a
-                    href="https://typhoonhub.ca/live-tv"
-                    className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
-                  >
-                    Live TV
-                  </a>
-                  <a
-                    href="https://typhoonhub.ca/global-cinema"
-                    className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
-                  >
-                    Global Cinema
-                  </a>
-                  <span className="text-white px-3 py-2 text-sm font-medium">Invest</span>
-                  <a
-                    href="https://typhoonhub.ca/submit-film"
-                    className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
-                  >
-                    Submit Film
-                  </a>
-                  <a
-                    href="https://typhoonhub.ca/join-us"
-                    className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
-                  >
-                    Join Us
-                  </a>
-                </div>
-              </nav>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium">Log In</button>
-              <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-medium">
-                Sign Up
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <section className="py-16 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">INVEST IN INDEPENDENT CINEMA</h1>
