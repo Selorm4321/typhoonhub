@@ -10,15 +10,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Progress } from "./ui/progress";
 import { Loader2 } from "lucide-react";
 import RoiCalculator, { RoiConfig } from "@/components/roi-calculator";
+import { money } from "@/lib/currency";
 
 
 type Props = { project: Production };
-
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 0,
-});
 
 export default function InvestmentProjectCard({ project }: Props) {
   const [amount, setAmount] = React.useState<string>("");
@@ -111,8 +106,8 @@ export default function InvestmentProjectCard({ project }: Props) {
               <h3 className="font-semibold text-foreground/90">Funding Status</h3>
               <Progress value={fundingPercentage} aria-label={`${fundingPercentage.toFixed(0)}% funded`} />
               <div className="flex justify-between items-center text-sm font-medium">
-                <span className="text-primary">{formatter.format(raised)} raised</span>
-                {goal > 0 && <span className="text-muted-foreground">Goal: {formatter.format(goal)}</span>}
+                <span className="text-primary">{money(project.raised, roiConfig.currency)} raised</span>
+                {goal > 0 && <span className="text-muted-foreground">Goal: {money(project.goal, roiConfig.currency)}</span>}
               </div>
             </div>
 
@@ -162,7 +157,7 @@ export default function InvestmentProjectCard({ project }: Props) {
 
           <CardFooter className="bg-secondary/30 p-4 -mx-6 -mb-6 mt-6 border-t border-border/20">
              <p className="text-xs text-muted-foreground text-center w-full">
-               Minimum Investment: ${min.toFixed(2)}. Investments are subject to terms and conditions.
+               Minimum Investment: {money(project.minInvestment, roiConfig.currency)}. Investments are subject to terms and conditions.
             </p>
           </CardFooter>
         </div>
