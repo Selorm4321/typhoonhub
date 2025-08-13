@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invest in Mary and Rose</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Invest in Mary and Rose</h1>
+    <form id="investForm">
+      <input name="name" placeholder="Your Name" required />
+      <input name="email" type="email" placeholder="Email Address" required />
+      <input name="amount" type="number" min="50" placeholder="Investment Amount (CAD)" required />
+      <select name="paymentMethod" required>
+        <option value="">Select Payment Method</option>
+        <option>Card</option>
+        <option>E-Transfer</option>
+        <option>Crypto</option>
+      </select>
+      <textarea name="notes" placeholder="Optional notes or message..."></textarea>
+      <button type="submit">Submit Investment</button>
+    </form>
+    <p id="status"></p>
+  </div>
+  
+  <script type="module" src="script.js"></script>
+</body>
+</html>
