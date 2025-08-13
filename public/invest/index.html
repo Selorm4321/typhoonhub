@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invest | Typhoon Hub</title>
+    <meta name="description" content="Back indie films and shows on Typhoon Hub. Browse open opportunities and invest securely.">
+    <meta name="theme-color" content="#0b1020">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Invest | Typhoon Hub">
+    <meta property="og:description" content="Back indie films and shows on Typhoon Hub. Browse open opportunities and invest securely.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://typhoonhub.ca/invest">
+    <!-- <meta property="og:image" content="https://typhoonhub.ca/og-invest.png"> -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0b1020;
+            --panel: #0f172a;
+            --text: #e5e7eb;
+            --muted: #9ba3af;
+            --brand: #22d3ee;
+            --accent: #a78bfa;
+            --good: #34d399;
+            --warn: #f59e0b;
+            --danger: #ef4444;
+            --border: #1e293b;
+
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        /* Header */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: color-mix(in srgb, var(--bg) 80%, transparent);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .logo-img { height: 40px; }
+        .logo-text { display: none; }
+
+        .header-nav a {
+            color: var(--muted);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .header-nav a:hover {
+            background-color: var(--panel);
+            color: var(--text);
+        }
+        .header-nav a:focus-visible {
+            outline: 2px solid var(--brand);
+            outline-offset: 2px;
+        }
+
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .hero-eyebrow {
+            color: var(--brand);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.75rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--muted);
+            font-size: 1.125rem;
+        }
+
+        /* Filter Chips */
+        .filter-chips {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .filter-chip {
+            background-color: var(--panel);
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-chip:hover {
+            background-color: color-mix(in srgb, var(--panel) 50%, var(--brand));
+            color: var(--text);
+        }
+        .filter-chip.active {
+            background-color: var(--brand);
+            color: var(--bg);
+            border-color: var(--brand);
+        }
+        .filter-chip:focus-visible {
+            outline: 2px solid var(--brand);
+            outline-offset: 2px;
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding: 4rem 0;
+        }
+
+        /* Project Card */
+        .project-card {
+            background-color: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: var(--shadow-md);
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px color-mix(in srgb, var(--brand) 15%, transparent);
+        }
+
+        .card-img-container {
+            position: relative;
+            aspect-ratio: 16 / 9;
+        }
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-status-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .card-status-badge.open { background-color: var(--good); color: var(--bg); }
+        .card-status-badge.closed { background-color: var(--muted); color: var(--bg); }
+
+        .card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .card-logline {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: color-mix(in srgb, var(--bg) 50%, var(--panel));
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--brand), var(--accent));
+            border-radius: 9999px;
+        }
+
+        .card-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card-pill {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+        .card-btn {
+            background-color: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+            text-align: center;
+        }
+        .card-btn:hover {
+            background-color: var(--border);
+        }
+        .card-btn.primary {
+            background-color: var(--brand);
+            color: var(--bg);
+            border-color: var(--brand);
+        }
+        .card-btn.primary:hover {
+            background-color: color-mix(in srgb, var(--brand) 80%, white);
+        }
+        .card-btn:focus-visible {
+            outline: 2px solid var(--brand);
+            outline-offset: 2px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-container {
+            background-color: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s;
+        }
+        .modal-overlay.visible .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+        .modal-close-btn:hover {
+            color: var(--text);
+            background-color: var(--border);
+        }
+
+        .modal-img-container {
+            position: relative;
+            aspect-ratio: 16 / 9;
+        }
+        .modal-img { width: 100%; height: 100%; object-fit: cover; border-top-left-radius: 20px; border-top-right-radius: 20px;}
+        .modal-status-badge {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .modal-status-badge.open { background-color: var(--good); color: var(--bg); }
+        .modal-status-badge.closed { background-color: var(--muted); color: var(--bg); }
+
+        .modal-content { padding: 2rem; }
+        .modal-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .modal-logline { color: var(--muted); font-size: 1.1rem; margin-bottom: 1.5rem; }
+        .modal-about { margin-bottom: 2rem; }
+
+        .key-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            background-color: var(--bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+        .key-value-item strong { display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem; }
+        .key-value-item span { font-size: 1.25rem; font-weight: 600; }
+
+        .modal-funding-status {
+            margin-bottom: 2rem;
+        }
+        .modal-funding-status .progress-bar-container { height: 12px; }
+        .modal-funding-status p { text-align: right; margin-top: 0.5rem; font-weight: 500; color: var(--muted); }
+
+        .perks-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        .perks-list h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .perk-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .perk-item svg {
+            color: var(--good);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .modal-btn {
+            background-color: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s, color 0.2s;
+            text-align: center;
+            text-decoration: none;
+            flex-grow: 1;
+        }
+        .modal-btn:hover { background-color: var(--border); }
+        .modal-btn.primary {
+            background: linear-gradient(90deg, var(--brand), var(--accent));
+            color: var(--bg);
+            border: none;
+        }
+        .modal-btn.primary:hover {
+            opacity: 0.9;
+        }
+        .modal-btn:focus-visible {
+            outline: 2px solid var(--brand);
+            outline-offset: 2px;
+        }
+
+        /* Help Box */
+        .help-box {
+            background-color: var(--panel);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 4rem 0;
+        }
+        .help-box h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .help-box p { color: var(--muted); }
+
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--good);
+            color: var(--bg);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translate(-50%, 20px);
+        }
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container">
+            <a href="https://typhoonhub.ca" class="logo-container">
+                <img src="/brand/typhoonhub-logo.png" alt="Typhoon Hub Logo" class="logo-img" id="logo-img">
+                <span class="logo-text" id="logo-text">Typhoon Hub</span>
+            </a>
+            <nav class="header-nav">
+                <a href="https://typhoonhub.ca">Back to site</a>
+                <a href="#help">How to invest</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="hero-eyebrow">Community-backed cinema</p>
+            <h1>Invest in indie films &amp; series</h1>
+            <p>Discover unique stories from visionary creators. Your support helps bring the next generation of groundbreaking films to the screen.</p>
+            <div class="filter-chips" id="filter-chips">
+                <button class="filter-chip active" data-filter="all">All</button>
+                <button class="filter-chip" data-filter="open">Open</button>
+                <button class="filter-chip" data-filter="closed">Closed</button>
+                <button class="filter-chip" data-filter="film">Film</button>
+                <button class="filter-chip" data-filter="series">Series</button>
+            </div>
+        </section>
+
+        <section class="project-grid" id="project-grid">
+            <!-- Project cards will be injected here by JavaScript -->
+        </section>
+
+        <section class="help-box" id="help">
+            <h2>Important Information</h2>
+            <p>Investing in film is risky and may not be suitable for all investors. There is no guarantee of a return. We encourage you to read the full prospectus for each project and consult with a financial advisor before making any investment decisions. Returns are not guaranteed.</p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="current-year"></span> Typhoon Hub • Built for fans & filmmakers</p>
+    </footer>
+
+    <!-- Modal Structure -->
+    <div class="modal-overlay" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-container" id="modal-container">
+            <!-- Modal content will be injected here -->
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Link copied to clipboard!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const investments = [
+              {
+                "id": "mary-rose",
+                "title": "Cleaning House: Mary & Rose",
+                "type": "film",
+                "status": "open",
+                "goal": 15000,
+                "raised": 6200,
+                "min": 50,
+                "close": "2025-09-15",
+                "img": "https://images.unsplash.com/photo-1521577352947-9bb58764b69a?q=80&w=1200&auto=format&fit=crop",
+                "logline": "Two immigrant cleaners find a high-society secret they were never meant to see.",
+                "about": "Backing covers crew, Lower Mainland locations, insurance, and post. Produced by Typhoon Entertainment Inc.",
+                "perks": ["Thank-you credit on site","Private screener link on completion","Set visit in Vancouver (if local)","Name in end credits (top 100 backers)"]
+              },
+              {
+                "id": "urban-echoes",
+                "title": "Urban Echoes (Docu-Series Pilot)",
+                "type": "series",
+                "status": "open",
+                "goal": 12000,
+                "raised": 3400,
+                "min": 25,
+                "close": "2025-10-05",
+                "img": "https://images.unsplash.com/photo-1552083375-1447ce886485?q=80&w=1200&auto=format&fit=crop",
+                "logline": "A boots-on-the-ground docu-series about artists building community through music and mentorship.",
+                "about": "Funds cover BC travel, permits, and post. Targeting digital distribution and brand partners.",
+                "perks": ["Early access pass","Associate supporter credit","Invite to a private online Q&A"]
+              },
+              {
+                "id": "wilderness",
+                "title": "Wilderness (Short Film)",
+                "type": "film",
+                "status": "closed",
+                "goal": 8000,
+                "raised": 8000,
+                "min": 25,
+                "close": "2025-07-30",
+                "img": "https://images.unsplash.com/photo-1482192505345-5655af888cc4?q=80&w=1200&auto=format&fit=crop",
+                "logline": "A father and son fight to reconcile after a tragic accident in the mountains.",
+                "about": "Fully funded. In post-production. Follow socials for festival dates.",
+                "perks": ["Thank-you credit","Private screener on release"]
+              }
+            ];
+
+            const grid = document.getElementById('project-grid');
+            const filterChipsContainer = document.getElementById('filter-chips');
+            const modalOverlay = document.getElementById('project-modal');
+            const modalContainer = document.getElementById('modal-container');
+            const toast = document.getElementById('toast');
+
+            const CONTACT_EMAIL = 'selormtyphoon@gmail.com';
+
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(amount);
+            }
+
+            function calculatePercentage(raised, goal) {
+                if (goal === 0) return 0;
+                return Math.min(100, Math.round((raised / goal) * 100));
+            }
+
+            function renderCards(filter = 'all') {
+                grid.innerHTML = '';
+                const filteredInvestments = investments.filter(item => {
+                    if (filter === 'all') return true;
+                    return item.status === filter || item.type === filter;
+                });
+
+                if (filteredInvestments.length === 0) {
+                    grid.innerHTML = `<p>No projects match the current filter.</p>`;
+                    return;
+                }
+
+                filteredInvestments.forEach(item => {
+                    const percentage = calculatePercentage(item.raised, item.goal);
+                    const card = document.createElement('div');
+                    card.className = 'project-card';
+                    card.innerHTML = `
+                        <div class="card-img-container">
+                            <img src="${item.img}" alt="Promotional image for ${item.title}" class="card-img">
+                            <div class="card-status-badge ${item.status}">${item.status}</div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">${item.title}</h3>
+                            <p class="card-logline">${item.logline}</p>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: ${percentage}%"></div>
+                            </div>
+                            <div class="card-pills">
+                                <span class="card-pill">${percentage}% funded</span>
+                                <span class="card-pill">Min: ${formatCurrency(item.min)}</span>
+                                <span class="card-pill">${item.type}</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="card-btn primary view-details-btn" data-id="${item.id}">View details</button>
+                                <button class="card-btn share-link-btn" data-id="${item.id}">Share link</button>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            function renderModal(item) {
+                const percentage = calculatePercentage(item.raised, item.goal);
+                const mailtoSubject = `Invest in ${item.title}`;
+                const mailtoBody = `Hello, I'm interested in investing in "${item.title}".\n\nMy Name: \nInvestment Amount (CAD): \nMy Location (City, Province/State): \n\nThank you!`;
+
+                modalContainer.innerHTML = `
+                    <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+                    <div class="modal-img-container">
+                        <img src="${item.img}" alt="Promotional image for ${item.title}" class="modal-img">
+                        <div class="modal-status-badge ${item.status}">${item.status}</div>
+                    </div>
+                    <div class="modal-content">
+                        <h2 class="modal-title" id="modal-title">${item.title}</h2>
+                        <p class="modal-logline">${item.logline}</p>
+                        <p class="modal-about">${item.about}</p>
+
+                        <div class="key-values">
+                            <div class="key-value-item"><strong>Goal</strong><span>${formatCurrency(item.goal)}</span></div>
+                            <div class="key-value-item"><strong>Raised</strong><span>${formatCurrency(item.raised)}</span></div>
+                            <div class="key-value-item"><strong>Minimum</strong><span>${formatCurrency(item.min)}</span></div>
+                            <div class="key-value-item"><strong>Closes</strong><span>${item.close}</span></div>
+                        </div>
+
+                        <div class="modal-funding-status">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: ${percentage}%"></div>
+                            </div>
+                            <p>${percentage}% funded</p>
+                        </div>
+
+                        <div class="perks-list">
+                            <h3>Perks</h3>
+                            <ul>
+                                ${item.perks.map(perk => `
+                                    <li class="perk-item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                        <span>${perk}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="modal-actions">
+                            <a href="mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(mailtoBody)}" class="modal-btn primary">Invest now</a>
+                            <button class="modal-btn" id="modal-share-btn" data-id="${item.id}">Share</button>
+                        </div>
+                    </div>
+                `;
+                modalOverlay.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+
+                document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+                document.getElementById('modal-share-btn').addEventListener('click', (e) => shareProject(e.currentTarget.dataset.id));
+            }
+
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+
+            async function shareProject(id) {
+                const project = investments.find(p => p.id === id);
+                if (!project) return;
+
+                const shareData = {
+                    title: `Invest in ${project.title} on Typhoon Hub`,
+                    text: project.logline,
+                    url: `${window.location.origin}${window.location.pathname}#${project.id}`
+                };
+
+                if (navigator.share) {
+                    try {
+                        await navigator.share(shareData);
+                    } catch (err) {
+                        console.error("Share failed:", err);
+                    }
+                } else {
+                    try {
+                        await navigator.clipboard.writeText(shareData.url);
+                        showToast('Link copied to clipboard!');
+                    } catch (err) {
+                        console.error('Failed to copy: ', err);
+                        alert('Could not copy link.');
+                    }
+                }
+            }
+
+            function openModal(id) {
+                const item = investments.find(p => p.id === id);
+                if (item) {
+                    renderModal(item);
+                    window.location.hash = id;
+                }
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('visible');
+                document.body.style.overflow = '';
+                window.location.hash = '';
+            }
+
+            // Event Listeners
+            filterChipsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-chip')) {
+                    document.querySelector('.filter-chip.active').classList.remove('active');
+                    e.target.classList.add('active');
+                    renderCards(e.target.dataset.filter);
+                }
+            });
+
+            grid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('view-details-btn')) {
+                    openModal(e.target.dataset.id);
+                }
+                if (e.target.classList.contains('share-link-btn')) {
+                    shareProject(e.target.dataset.id);
+                }
+            });
+
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) {
+                    closeModal();
+                }
+            });
+
+            // Logo fallback
+            const logoImg = document.getElementById('logo-img');
+            logoImg.addEventListener('error', () => {
+                logoImg.style.display = 'none';
+                document.getElementById('logo-text').style.display = 'inline';
+            });
+            if (logoImg.complete && logoImg.naturalHeight === 0) {
+                 logoImg.dispatchEvent(new Event('error'));
+            }
+
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Initial render
+            renderCards();
+
+            // Handle hash on load
+            if (window.location.hash) {
+                const id = window.location.hash.substring(1);
+                openModal(id);
+            }
+        });
+    </script>
+
+    <!--
+    <script type="module">
+        // OPTIONAL: Example of how to load data from Firestore
+        // To use this, you would need to include the Firebase SDKs.
+
+        /*
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "YOUR_API_KEY",
+          authDomain: "YOUR_AUTH_DOMAIN",
+          projectId: "YOUR_PROJECT_ID",
+          storageBucket: "YOUR_STORAGE_BUCKET",
+          messagingSenderId: "YOUR_SENDER_ID",
+          appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadInvestmentsFromFirestore() {
+            const investmentsCol = collection(db, 'investments');
+            const investmentSnapshot = await getDocs(investmentsCol);
+            const investmentsList = investmentSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            // After fetching, you would replace the static `investments` array
+            // with `investmentsList` and then call renderCards() again.
+            // e.g., window.investments = investmentsList; renderCards();
+            console.log("Loaded from Firestore:", investmentsList);
+        }
+
+        // You would call this function on page load.
+        // loadInvestmentsFromFirestore();
+        */
+    </script>
+    -->
+
+</body>
+</html>
