@@ -9,6 +9,8 @@ import { Input } from "./ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Progress } from "./ui/progress";
 import { Loader2 } from "lucide-react";
+import RoiCalculator, { RoiConfig } from "@/components/roi-calculator";
+
 
 type Props = { project: Production };
 
@@ -27,6 +29,15 @@ export default function InvestmentProjectCard({ project }: Props) {
   const goal = (project.goal ?? 0) / 100;
   const raised = (project.raised ?? 0) / 100;
   const fundingPercentage = goal > 0 ? (raised / goal) * 100 : 0;
+
+  const roiConfig: RoiConfig = {
+    platformFeePct: (project as any)?.platformFeePct,
+    distributorFeePct: (project as any)?.distributorFeePct,
+    otherCostsCents: (project as any)?.otherCostsCents,
+    targetMultiple: (project as any)?.targetMultiple,
+    investorSharePreRecoup: (project as any)?.investorSharePreRecoup,
+    investorSharePostRecoup: (project as any)?.investorSharePostRecoup,
+  };
 
   async function handleInvest(e: React.FormEvent) {
     e.preventDefault();
@@ -124,6 +135,12 @@ export default function InvestmentProjectCard({ project }: Props) {
                 )}
               </Button>
             </form>
+
+            <RoiCalculator
+              investmentCents={Math.max(Math.round(parseFloat(amount || String(min)) * 100) || (project.minInvestment ?? 2500), (project.minInvestment ?? 2500))}
+              config={roiConfig}
+            />
+
           </CardContent>
 
           <CardFooter className="bg-secondary/30 p-4 -mx-6 -mb-6 mt-6 border-t border-border/20">
