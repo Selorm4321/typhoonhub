@@ -50,7 +50,7 @@ const seed: Investment[] = [
     min: 50,
     close: "2025-09-15",
     img: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Offcail%20image%20%20Mary%20and%20Rose-L2DxI3sXUT5d2hxHxJi8VoFpoRiEBo.png",
-    logline: "Two immigrant cleaners find a high-society secret they were never meant to see.",
+    logline: "Mary and Rose” is a gritty, low-budget crime drama about two sisters posing as house cleaners who con wealthy homeowners across the suburbs — but when they start stealing to help struggling families, the line between justice and crime begins to blur.",
     about: "Backing covers crew, Lower Mainland locations, insurance, and post. Produced by Typhoon Entertainment Inc.",
     perks: [
       "Thank-you credit on site",
