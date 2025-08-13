@@ -37,6 +37,8 @@ export default function InvestmentProjectCard({ project }: Props) {
     targetMultiple: (project as any)?.targetMultiple,
     investorSharePreRecoup: (project as any)?.investorSharePreRecoup,
     investorSharePostRecoup: (project as any)?.investorSharePostRecoup,
+    currency: (project as any)?.currency || "USD",
+    offerTermsUrl: (project as any)?.offerTermsUrl || "",
   };
 
   async function handleInvest(e: React.FormEvent) {
@@ -94,6 +96,16 @@ export default function InvestmentProjectCard({ project }: Props) {
           </CardHeader>
           <CardContent className="space-y-6 p-0 flex-grow">
             {project.summary ? <p className="text-sm text-muted-foreground">{project.summary}</p> : null}
+            {(project as any).offerTermsUrl ? (
+              <a
+                href={(project as any).offerTermsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-block text-xs underline text-neutral-300"
+              >
+                View Offer Terms
+              </a>
+            ) : null}
             
             <div className="space-y-2">
               <h3 className="font-semibold text-foreground/90">Funding Status</h3>
@@ -137,7 +149,12 @@ export default function InvestmentProjectCard({ project }: Props) {
             </form>
 
             <RoiCalculator
-              investmentCents={Math.max(Math.round(parseFloat(amount || String(min)) * 100) || (project.minInvestment ?? 2500), (project.minInvestment ?? 2500))}
+              investmentCents={
+                Math.max(
+                  Math.round(parseFloat(amount || String(min)) * 100) || (project.minInvestment ?? 2500),
+                  (project.minInvestment ?? 2500)
+                )
+              }
               config={roiConfig}
             />
 
