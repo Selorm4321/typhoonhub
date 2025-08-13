@@ -31,21 +31,15 @@ export async function fetchInvestmentBySlug(slug: string): Promise<Investment | 
 }
 
 export async function getInvestments(): Promise<Investment[]> {
-  try {
-    const snapshot = await adminDb
-      .collection('investments')
-      .where('status', '==', 'active')
-      .get();
+  const snapshot = await adminDb
+    .collection('investments')
+    .where('status', '==', 'active')
+    .get();
 
-    if (snapshot.empty) {
-      console.warn('No active investments found.');
-      return [];
-    }
-
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Investment));
-  } catch (error) {
-    console.error('Error fetching investments with admin SDK:', error);
-    // In case of error, return empty array to prevent breaking the page.
+  if (snapshot.empty) {
+    // This is not an error, just an empty state.
     return [];
   }
+
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Investment));
 }
