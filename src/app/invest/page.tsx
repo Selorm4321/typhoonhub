@@ -2,6 +2,7 @@
 "use client"
 import type React from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
+import RoiCalculator, { type RoiConfig } from "@/components/roi-calculator"
 
 // Brand tokens updated to match typhoonhub.ca
 const tokens = {
@@ -241,89 +242,12 @@ function shareProject(p: Investment) {
   }
 }
 
-const Row: React.FC<{ label: string; value: string | React.ReactNode; help?: string }> = ({ label, value, help }) => (
-  <div className="flex justify-between items-center text-sm" title={help}>
-    <span className="text-gray-400">{label}</span>
-    <span className="font-medium text-white">{value}</span>
-  </div>
-);
-
-const Projection: React.FC<{ p: Investment }> = ({ p }) => {
-  const budget = (p.budgetCents ?? 0) / 100;
-  const otherCosts = (p.otherCostsCents ?? 0) / 100;
-  const platformFee = p.platformFeePct ?? 0.1;
-  const distributorFee = p.distributorFeePct ?? 0.05;
-  const targetMultiple = p.targetMultiple ?? 1.2;
-  const investorSharePre = p.investorSharePreRecoup ?? 1.0;
-  const investorSharePost = p.investorSharePostRecoup ?? 0.5;
-
-  const [revenue, setRevenue] = useState(100000);
-  const [yourInvestment, setYourInvestment] = useState(1000);
-
-  const yourShare = yourInvestment / p.goal;
-  const recoupTarget = p.goal * targetMultiple;
-
-  const grossFees = revenue * (platformFee + distributorFee);
-  const netRevenue = revenue - grossFees - otherCosts;
-  
-  let distributableToInvestors = 0;
-  if (netRevenue > 0) {
-    if (netRevenue <= recoupTarget) {
-      distributableToInvestors = netRevenue * investorSharePre;
-    } else {
-      const preAmount = recoupTarget * investorSharePre;
-      const postAmount = (netRevenue - recoupTarget) * investorSharePost;
-      distributableToInvestors = preAmount + postAmount;
-    }
-  }
-
-  const yourReturn = Math.max(0, distributableToInvestors * yourShare);
-  const yourMultiple = yourInvestment > 0 ? (yourReturn / yourInvestment).toFixed(2) : "0.00";
-
-  return (
-    <div className="space-y-4 mt-4 pt-4 border-t border-gray-800">
-      <h4 className="text-lg font-semibold text-white mb-3">ROI Projection</h4>
-      <div className="text-xs text-gray-400 -mt-2">
-        This is a hypothetical model. Actual returns are not guaranteed.
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="text-xs text-gray-400">Hypothetical Gross Revenue</label>
-          <input
-            type="number"
-            value={revenue}
-            onChange={(e) => setRevenue(Number(e.target.value))}
-            className="w-full bg-gray-800 border-gray-700 rounded p-2 text-white mt-1"
-          />
-        </div>
-        <div>
-          <label className="text-xs text-gray-400">Your Investment</label>
-          <input
-            type="number"
-            value={yourInvestment}
-            onChange={(e) => setYourInvestment(Number(e.target.value))}
-            className="w-full bg-gray-800 border-gray-700 rounded p-2 text-white mt-1"
-          />
-        </div>
-      </div>
-
-      <div className="bg-gray-800 p-3 rounded-lg space-y-2">
-        <Row label="Net Revenue (after fees/costs)" value={CAD.format(netRevenue)} />
-        <Row label="Your Share of Project" value={`${(yourShare * 100).toFixed(2)}%`} />
-        <Row label="Your Potential Return" value={CAD.format(yourReturn)} />
-        <Row label="Return Multiple" value={`${yourMultiple}x`} />
-      </div>
-    </div>
-  );
-};
-
-
 const Modal: React.FC<{
   active: Investment | null
   onClose: () => void
 }> = ({ active, onClose }) => {
   const ref = useRef<HTMLDivElement>(null)
+  const [investmentAmount, setInvestmentAmount] = useState(1000);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -336,6 +260,7 @@ const Modal: React.FC<{
   useEffect(() => {
     if (!active) return
     ref.current?.focus()
+    setInvestmentAmount(active.min || 1000);
   }, [active])
 
   if (!active) return null
@@ -343,8 +268,17 @@ const Modal: React.FC<{
 
   const mail = encodeURIComponent(`Invest in ${active.title}`)
   const body = encodeURIComponent(
-    `Hi Typhoon team,\n\nI'm interested in investing in "${active.title}". Please send me the details.\n\nName:\nAmount:\nLocation:\n\nThanks!`,
+    `Hi Typhoon team,\n\nI'm interested in investing in "${active.title}". Please send me the details.\n\nName:\nAmount: ${investmentAmount}\nLocation:\n\nThanks!`,
   )
+
+  const roiConfig: RoiConfig = {
+    platformFeePct: active.platformFeePct,
+    distributorFeePct: active.distributorFeePct,
+    otherCostsCents: active.otherCostsCents,
+    targetMultiple: active.targetMultiple,
+    investorSharePreRecoup: active.investorSharePreRecoup,
+    investorSharePostRecoup: active.investorSharePostRecoup,
+  }
 
   return (
     <div
@@ -420,7 +354,18 @@ const Modal: React.FC<{
               ))}
             </div>
             
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-3">
+              <div>
+                <label className="text-sm font-medium text-white">Your Investment (CAD)</label>
+                <input
+                  type="number"
+                  value={investmentAmount}
+                  onChange={(e) => setInvestmentAmount(Number(e.target.value))}
+                  className="w-full bg-gray-800 border-gray-700 rounded p-2 text-white mt-1"
+                  min={active.min}
+                  placeholder={String(active.min)}
+                />
+              </div>
               <a
                 href={`mailto:selormtyphoon@gmail.com?subject=${mail}&body=${body}`}
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded font-medium text-center"
@@ -435,7 +380,10 @@ const Modal: React.FC<{
               </button>
             </div>
             
-            <Projection p={active} />
+            <div>
+              <h4 className="text-lg font-semibold text-white mt-6 mb-2">ROI Projection</h4>
+              <RoiCalculator investmentCents={investmentAmount * 100} config={roiConfig} />
+            </div>
           </div>
         </div>
       </div>
