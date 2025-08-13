@@ -1,3 +1,4 @@
+
 "use client"
 import type React from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
@@ -51,7 +52,7 @@ const seed: Investment[] = [
     close: "2025-09-15",
     img: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Offcail%20image%20%20Mary%20and%20Rose-L2DxI3sXUT5d2hxHxJi8VoFpoRiEBo.png",
     logline: "Mary and Rose” is a gritty, low-budget crime drama about two sisters posing as house cleaners who con wealthy homeowners across the suburbs — but when they start stealing to help struggling families, the line between justice and crime begins to blur.",
-    about: "Backing covers crew, Lower Mainland locations, insurance, and post. Produced by Typhoon Entertainment Inc.",
+    about: "Format: Low-budget web series<br/>Genre: Crime Drama / Heist / Thriller<br/>Episode Length: ~20 minutes<br/>Status: In development",
     perks: [
       "Thank-you credit on site",
       "Private screener link on completion",
@@ -154,18 +155,18 @@ export default function InvestPage() {
               const pct = clampPct((p.raised / p.goal) * 100)
               return (
                 <article key={p.id} className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800">
-                  <div className="relative aspect-video overflow-hidden">
+                  <div className="relative">
                     <img
                       src={p.img || "/placeholder.svg"}
                       alt={`${p.title} poster`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-auto object-contain"
                       loading="lazy"
                     />
                     <Badge state={p.status} />
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-2">{p.title}</h3>
-                    <p className="text-gray-400 mb-4 line-clamp-2">{p.logline}</p>
+                    <p className="text-gray-400 mb-4 line-clamp-3">{p.logline}</p>
 
                     <div className="mb-4">
                       <div className="flex justify-between text-sm text-gray-400 mb-2">
@@ -209,7 +210,7 @@ export default function InvestPage() {
               be featured on Typhoonhub.
             </p>
             <a
-              href="https://typhoonhub.ca/submit-film"
+              href="https://typhoonhub.ca/submit"
               className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded font-medium"
             >
               Submit Your Film
@@ -324,6 +325,9 @@ const Modal: React.FC<{
               <p className="text-sm text-gray-400">{pct}% funded</p>
             </div>
 
+            <h4 className="text-lg font-semibold text-white mb-3">About</h4>
+            <div className="text-gray-300 mb-6" dangerouslySetInnerHTML={{ __html: active.about }} />
+
             <h4 className="text-lg font-semibold text-white mb-3">Perks</h4>
             <div className="mb-6 space-y-2">
               {active.perks.map((perk, i) => (
@@ -333,10 +337,7 @@ const Modal: React.FC<{
                 </div>
               ))}
             </div>
-
-            <h4 className="text-lg font-semibold text-white mb-3">About</h4>
-            <p className="text-gray-300 mb-6">{active.about}</p>
-
+            
             <div className="flex gap-3">
               <a
                 href={`mailto:selormtyphoon@gmail.com?subject=${mail}&body=${body}`}
@@ -357,3 +358,5 @@ const Modal: React.FC<{
     </div>
   )
 }
+
+    
