@@ -100,7 +100,7 @@ export const films: Film[] = yourShowsData.map((show, index) => {
       { name: 'Creator Name', character: 'Host/Director', avatarUrl: `https://placehold.co/100x${100 + index}` },
     ],
     reviews: [],
-    durationMinutes: 15,
+    durationMinutes: 20,
   };
 });
 
