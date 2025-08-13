@@ -22,7 +22,7 @@ export default function InvestmentProjectCard({ project }: Props) {
   const [amount, setAmount] = React.useState<string>("");
   const [loading, setLoading] = React.useState(false);
   
-  // Normalize values directly inside the component
+  // All amounts are in cents, convert to dollars for display and input logic
   const min = (project.minInvestment ?? 2500) / 100;
   const goal = (project.goal ?? 0) / 100;
   const raised = (project.raised ?? 0) / 100;
@@ -65,7 +65,7 @@ export default function InvestmentProjectCard({ project }: Props) {
   }
 
   return (
-     <Card className="overflow-hidden shadow-2xl shadow-primary/10">
+     <Card className="overflow-hidden shadow-2xl shadow-primary/10 bg-card/50 border-border/20">
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div className="relative min-h-[300px] md:min-h-full">
             <Image
@@ -85,7 +85,7 @@ export default function InvestmentProjectCard({ project }: Props) {
             {project.summary ? <p className="text-sm text-muted-foreground">{project.summary}</p> : null}
             
             <div className="space-y-2">
-              <h3 className="font-semibold">Funding Status</h3>
+              <h3 className="font-semibold text-foreground/90">Funding Status</h3>
               <Progress value={fundingPercentage} aria-label={`${fundingPercentage.toFixed(0)}% funded`} />
               <div className="flex justify-between items-center text-sm font-medium">
                 <span className="text-primary">{formatter.format(raised)} raised</span>
@@ -94,7 +94,7 @@ export default function InvestmentProjectCard({ project }: Props) {
             </div>
 
             <form onSubmit={handleInvest} className="space-y-3">
-              <label className="font-semibold">Invest Now</label>
+              <label className="font-semibold text-foreground/90">Invest Now</label>
               <div className="flex items-center gap-2">
                   <span className="text-xl font-bold">$</span>
                   <Input
@@ -126,7 +126,7 @@ export default function InvestmentProjectCard({ project }: Props) {
             </form>
           </CardContent>
 
-          <CardFooter className="bg-secondary/30 p-4 -mx-6 -mb-6 mt-6">
+          <CardFooter className="bg-secondary/30 p-4 -mx-6 -mb-6 mt-6 border-t border-border/20">
              <p className="text-xs text-muted-foreground text-center w-full">
                Minimum Investment: ${min.toFixed(2)}. Investments are subject to terms and conditions.
             </p>
