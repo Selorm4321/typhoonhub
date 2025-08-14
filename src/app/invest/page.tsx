@@ -221,12 +221,15 @@ export default function InvestPage() {
               Are you an independent filmmaker with a story to tell? We want to see it. Submit your film for a chance to
               be featured on Typhoonhub.
             </p>
-            <a
-              href="https://typhoonhub.ca/submit"
-              className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded font-medium"
-            >
-              Submit Your Film
-            </a>
+            <iframe 
+              src="https://docs.google.com/forms/d/e/1FAIpQLScpDswrDtXdqosQJRA/viewform?embedded=true" 
+              width="100%" 
+              height="1100" 
+              frameBorder="0" 
+              marginHeight={0} 
+              marginWidth={0}>
+              Loading…
+            </iframe>
           </div>
         </section>
         
