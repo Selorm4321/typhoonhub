@@ -2,7 +2,7 @@ import { Mail, Waves, Users, Tv } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Facebook, Instagram, Youtube } from 'lucide-react';
+import { Facebook, Instagram, Youtube, DollarSign } from 'lucide-react';
 
 const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -71,7 +71,7 @@ export default function JoinUsPage() {
       <Card className="max-w-2xl mx-auto mt-12">
         <CardHeader className="text-center">
           <CardTitle>Connect With Us</CardTitle>
-          <CardDescription>Have a question or a great idea? We'd love to hear it.</CardDescription>
+          <CardDescription>Have a question, a great idea, or want to support our mission? We'd love to hear from you.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-center gap-4 border-b pb-6">
@@ -83,8 +83,18 @@ export default function JoinUsPage() {
               </a>
             </div>
           </div>
+
+           <div className="pt-2 text-center space-y-4">
+             <h3 className="font-semibold">Support Our Mission</h3>
+                <Button asChild size="lg">
+                    <Link href="https://paypal.me/typhoonhub" target="_blank" rel="noopener noreferrer">
+                        <DollarSign className="mr-2 h-5 w-5" />
+                        Donate via PayPal
+                    </Link>
+                </Button>
+            </div>
           
-          <div className="pt-2 text-center">
+          <div className="pt-2 text-center border-t pt-6">
             <h3 className="font-semibold mb-4">Follow the Movement</h3>
             <div className="flex items-center justify-center gap-6">
                <Button asChild variant="outline" size="icon">
