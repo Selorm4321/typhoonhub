@@ -3,6 +3,10 @@
 import type React from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
 import RoiCalculator, { type RoiConfig } from "@/components/roi-calculator"
+import { Button } from "@/components/ui/button"
+import { DollarSign } from "lucide-react"
+import Link from "next/link"
+
 
 // Brand tokens updated to match typhoonhub.ca
 const tokens = {
@@ -223,6 +227,21 @@ export default function InvestPage() {
             >
               Submit Your Film
             </a>
+          </div>
+        </section>
+        
+        <section className="py-16 text-center border-t border-gray-800">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-white mb-6">Support Our Mission</h2>
+            <p className="text-gray-300 mb-8">
+              Prefer to make a direct contribution? Your donation helps us build a sustainable platform for independent storytellers.
+            </p>
+            <Button asChild size="lg">
+                <Link href="https://paypal.me/typhoonhub" target="_blank" rel="noopener noreferrer">
+                    <DollarSign className="mr-2 h-5 w-5" />
+                    Donate via PayPal
+                </Link>
+            </Button>
           </div>
         </section>
       </main>
