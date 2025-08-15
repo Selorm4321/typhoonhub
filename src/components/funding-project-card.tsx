@@ -13,7 +13,6 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
 import { useAuth } from '@/context/auth-context';
-import { createCheckoutSession } from '@/ai/flows/create-checkout-session';
 import { useRouter } from 'next/navigation';
 import { Input } from './ui/input';
 import Link from 'next/link';
@@ -51,7 +50,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
     return 'Backer';
   };
 
-  const handleInvestClick = async () => {
+  const handleInvestClick = () => {
     if (!user) {
       toast({ variant: 'destructive', title: 'Authentication Required', description: 'Please log in or sign up to invest.' });
       router.push('/login');
@@ -65,27 +64,18 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
     }
     
     setLoading(true);
+    
+    const payPalLink = `https://paypal.me/typhoonhub/${amount}`;
+    
+    // Open PayPal in a new tab
+    window.open(payPalLink, '_blank');
+    
+    toast({
+        title: 'Redirecting to PayPal',
+        description: `Please complete your investment of ${formatter.format(amount)} for "${project.title}". You will need to manually track this transaction.`
+    });
 
-    try {
-      const { url } = await createCheckoutSession({
-        userId: user.uid,
-        userEmail: user.email!,
-        tierName: getInvestmentLevel(amount),
-        tierAmount: amount, // Send amount in dollars
-        projectName: project.title,
-        productionId: project.id
-      });
-
-      if (url) {
-        window.location.assign(url);
-      } else {
-        throw new Error('Could not retrieve checkout URL.');
-      }
-    } catch (error) {
-      console.error(error);
-      toast({ variant: 'destructive', title: 'Payment Error', description: 'Could not create a checkout session. Please try again.' });
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   return (
@@ -187,7 +177,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
                     Processing...
                   </>
                 ) : (
-                  'Invest Now'
+                  'Invest with PayPal'
                 )}
               </Button>
               {!user && <p className="text-center text-xs text-muted-foreground">Please <Link href="/login" className="underline">sign in</Link> to invest.</p>}
