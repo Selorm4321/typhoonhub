@@ -4,37 +4,37 @@ export const runtime = "nodejs";
 
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { db } from "@/lib/firebase-admin";
+import * as admin from 'firebase-admin';
+import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 
-// --- Make sure these env vars are set in Firebase Hosting env ---
-// STRIPE_SECRET_KEY
-// STRIPE_WEBHOOK_SECRET
+// Initialize Firebase Admin SDK if not already initialized
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+  });
+}
+const db = getFirestore();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-06-20",
 });
 
-// Fetch projectId from metadata (Checkout Session or PaymentIntent)
-function getProjectId(obj: any): string | undefined {
-  const md = obj?.metadata || {};
-  return md.projectId || md.project_id || md.project || undefined;
-}
-
 // Idempotency: store processed event ids
 async function alreadyProcessed(eventId: string) {
-  const ref = db().collection("stripe_events").doc(eventId);
+  const ref = db.collection("stripe_events").doc(eventId);
   const snap = await ref.get();
-  return { exists: snap.exists, ref };
+  if (snap.exists) {
+    console.log(`Event ${eventId} already processed.`);
+    return true;
+  }
+  return false;
 }
 
-async function incrementRaised(projectId: string, amountCents: number) {
-  const ref = db().collection("productions").doc(projectId);
-  await db().runTransaction(async (tx) => {
-    const snap = await tx.get(ref);
-    if (!snap.exists) return; // silently ignore
-    const current = Number(snap.data()?.raised ?? 0);
-    tx.update(ref, { raised: current + amountCents });
-  });
+async function markEventAsProcessed(eventId: string, data: any) {
+    await db.collection("stripe_events").doc(eventId).set({
+        ...data,
+        processedAt: FieldValue.serverTimestamp(),
+    });
 }
 
 export async function POST(req: NextRequest) {
@@ -49,56 +49,68 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    // IMPORTANT: use the raw body for signature verification
     const rawBody = await req.text();
     event = stripe.webhooks.constructEvent(rawBody, sig, whSecret);
   } catch (err: any) {
     console.error("Webhook signature verification failed:", err?.message || err);
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
   }
 
+  if (await alreadyProcessed(event.id)) {
+    return NextResponse.json({ ok: true, message: "Event already processed." });
+  }
+
+  // Handle the event
   try {
-    // idempotency
-    const { exists, ref } = await alreadyProcessed(event.id);
-    if (exists) {
-      return NextResponse.json({ ok: true, duplicate: true });
-    }
-
-    // Handle events
     switch (event.type) {
-      case "checkout.session.completed": {
+      case 'checkout.session.completed':
         const session = event.data.object as Stripe.Checkout.Session;
-        const projectId = getProjectId(session);
-        // Prefer amount_total; fallback to amount_subtotal if needed
-        const amount = session.amount_total ?? session.amount_subtotal ?? 0;
-        if (projectId && amount > 0) {
-          await incrementRaised(projectId, amount);
-        }
-        break;
-      }
+        
+        const { userId, productionId, tierName } = session.metadata || {};
+        const amount = session.amount_total;
 
-      case "payment_intent.succeeded": {
-        const pi = event.data.object as Stripe.PaymentIntent;
-        const projectId = getProjectId(pi);
-        // Stripe guarantees amount_received when succeeded
-        const amount = pi.amount_received ?? pi.amount ?? 0;
-        if (projectId && amount > 0) {
-          await incrementRaised(projectId, amount);
+        if (!userId || !productionId || !amount) {
+          console.error('Missing metadata in checkout session:', session.id);
+          break;
         }
-        break;
-      }
 
+        // 1. Update Production's funding
+        const productionRef = db.collection('productions').doc(productionId);
+        await db.runTransaction(async (transaction) => {
+            const prodDoc = await transaction.get(productionRef);
+            if (!prodDoc.exists) throw new Error('Production not found');
+            
+            const newFunding = (prodDoc.data()?.currentFunding || 0) + amount;
+            const newInvestors = (prodDoc.data()?.investors || 0) + 1;
+
+            transaction.update(productionRef, {
+                currentFunding: newFunding,
+                investors: newInvestors
+            });
+        });
+
+        // 2. Create an investment record for the user
+        const investmentRef = db.collection('users').doc(userId).collection('investments').doc(session.id);
+        await investmentRef.set({
+            productionId,
+            amount, // in cents
+            tierName,
+            status: 'completed',
+            createdAt: FieldValue.serverTimestamp(),
+            stripeSessionId: session.id,
+        });
+
+        break;
       default:
-        // Ignore everything else for now
-        break;
+        console.log(`Unhandled event type ${event.type}`);
     }
-
-    // mark processed
-    await ref.set({ processedAt: Date.now(), type: event.type });
+    
+    await markEventAsProcessed(event.id, { type: event.type });
 
     return NextResponse.json({ ok: true });
-  } catch (err) {
-    console.error("Webhook handler error:", err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+
+  } catch (error: any) {
+    console.error('Webhook handler error:', error);
+    return NextResponse.json({ error: `Webhook handler failed: ${error.message}` }, { status: 500 });
   }
 }
