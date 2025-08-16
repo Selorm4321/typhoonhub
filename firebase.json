@@ -1,13 +1,13 @@
 {
-  "hosting": {
-    "public": "public",
+  "apphosting": {
+    "source": ".",
     "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      { "source": "**", "destination": "/index.html" }
+      "node_modules",
+      ".git",
+      ".env.local",
+      ".next",
+      "firebase-debug.log",
+      "firebase-debug.*.log"
     ]
   }
 }
