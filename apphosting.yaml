@@ -4,4 +4,15 @@
 runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
-  maxInstances: 1
+  minInstances: 0
+  maxInstances: 10
+  concurrency: 1000
+  cpu: 1
+  memoryMiB: 512
+  
+env:
+  # Environment variables for production
+  - variable: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    value: pk_live_51RV4piFduXK8JTmvvnIzHLnb30NB4dEpVXcdqxjlY3rv1douYZVMzRpWZuwqufsGskvXqx3WefPOqJGlfqlISJaw00zvKcWrH1
+  - variable: GCLOUD_PROJECT
+    value: typhoon-indie-stream
