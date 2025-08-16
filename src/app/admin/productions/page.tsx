@@ -21,11 +21,12 @@ import { useRouter } from 'next/navigation';
 
 const productionFormSchema = z.object({
   title: z.string().min(2, { message: 'Title must be at least 2 characters.' }),
-  description: z.string().min(20, { message: 'Description must be at least 20 characters.' }),
+  synopsis: z.string().min(20, { message: 'Synopsis must be at least 20 characters.' }),
   fundingGoal: z.coerce.number().min(1, { message: 'Funding goal must be a positive number.' }),
   minimumInvestment: z.coerce.number().min(1, { message: 'Minimum investment must be a positive number.' }),
   category: z.string(),
-  imageUrl: z.string().url({ message: 'Please enter a valid URL.' }).optional().or(z.literal('')),
+  posterUrl: z.string().url({ message: 'Please enter a valid URL.' }).optional().or(z.literal('')),
+  trailerYoutubeId: z.string().optional(),
   expectedROI: z.string().optional(),
   productionTimeline: z.string().optional(),
 });
@@ -43,11 +44,12 @@ export default function AddProductionPage() {
     resolver: zodResolver(productionFormSchema),
     defaultValues: {
       title: '',
-      description: '',
+      synopsis: '',
       fundingGoal: 0,
       minimumInvestment: 100,
       category: 'feature',
-      imageUrl: '',
+      posterUrl: '',
+      trailerYoutubeId: '',
       expectedROI: '',
       productionTimeline: '',
     },
@@ -58,8 +60,8 @@ export default function AddProductionPage() {
     try {
       await addDoc(collection(db, 'productions'), {
         ...values,
-        fundingGoal: values.fundingGoal * 100,
-        minimumInvestment: values.minimumInvestment * 100,
+        fundingGoal: values.fundingGoal * 100, // Store in cents
+        minimumInvestment: values.minimumInvestment * 100, // Store in cents
         currentFunding: 0,
         investors: 0,
         status: 'active',
@@ -132,9 +134,9 @@ export default function AddProductionPage() {
                   <FormMessage />
                 </FormItem>
               )} />
-              <FormField control={form.control} name="description" render={({ field }) => (
+              <FormField control={form.control} name="synopsis" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Synopsis</FormLabel>
                   <FormControl><Textarea placeholder="A brief synopsis of the film..." {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
@@ -177,6 +179,7 @@ export default function AddProductionPage() {
                 <FormItem>
                   <FormLabel>Expected ROI</FormLabel>
                   <FormControl><Input placeholder="e.g., 15-25%" {...field} /></FormControl>
+                   <FormDescription>Enter a percentage or descriptive text.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )} />
@@ -184,14 +187,23 @@ export default function AddProductionPage() {
                 <FormItem>
                   <FormLabel>Production Timeline</FormLabel>
                   <FormControl><Input placeholder="e.g., 6 months" {...field} /></FormControl>
+                   <FormDescription>Estimated duration of the production.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )} />
-              <FormField control={form.control} name="imageUrl" render={({ field }) => (
+              <FormField control={form.control} name="posterUrl" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Poster Image URL</FormLabel>
                   <FormControl><Input type="url" placeholder="https://placehold.co/600x900.png" {...field} /></FormControl>
                   <FormDescription>A direct link to the poster image.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )} />
+              <FormField control={form.control} name="trailerYoutubeId" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Trailer YouTube ID</FormLabel>
+                  <FormControl><Input placeholder="e.g., dQw4w9WgXcQ" {...field} /></FormControl>
+                  <FormDescription>The ID from a YouTube video URL (not the full link).</FormDescription>
                   <FormMessage />
                 </FormItem>
               )} />

@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     }
 
     const doc = await db().collection("productions").doc(projectId).get();
-    if (!doc.exists || !doc.data()?.active) {
+    if (!doc.exists || !doc.data()?.status || doc.data()?.status !== 'active') {
       return NextResponse.json({ error: "Project unavailable" }, { status: 400 });
     }
 
@@ -37,8 +37,8 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      success_url: process.env.STRIPE_SUCCESS_URL!,
-      cancel_url: process.env.STRIPE_CANCEL_URL!,
+      success_url: process.env.STRIPE_SUCCESS_URL! || 'https://typhoonhub.ca/dashboard',
+      cancel_url: process.env.STRIPE_CANCEL_URL! || `https://typhoonhub.ca/invest`,
       metadata: { projectId },
     });
 

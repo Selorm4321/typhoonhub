@@ -115,15 +115,14 @@ export type InvestmentTier = {
 export type FundingProject = {
   id: string;
   title: string;
-  tagline?: string;
   synopsis: string;
   trailerYoutubeId?: string;
-  fundingGoal: number;
-  currentFunding: number;
+  fundingGoal: number; // in cents
+  currentFunding: number; // in cents
   investors: number;
   posterUrl: string;
   investmentTiers?: InvestmentTier[];
-  minimumInvestment: number;
+  minimumInvestment: number; // in cents
   expectedROI?: string;
   productionTimeline?: string;
   category?: string;

@@ -50,7 +50,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
     return 'Backer';
   };
 
-  const handleInvestClick = () => {
+  const handleInvestClick = async () => {
     if (!user) {
       toast({ variant: 'destructive', title: 'Authentication Required', description: 'Please log in or sign up to invest.' });
       router.push('/login');
@@ -64,29 +64,38 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
     }
     
     setLoading(true);
-    
-    const payPalLink = `https://paypal.me/typhoonhub/${amount}`;
-    
-    // Open PayPal in a new tab
-    window.open(payPalLink, '_blank');
-    
-    toast({
-        title: 'Redirecting to PayPal',
-        description: `Please complete your investment of ${formatter.format(amount)} for "${project.title}". You will need to manually track this transaction.`
-    });
 
-    setLoading(false);
+    try {
+      const res = await fetch("/api/invest/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectId: project.id,
+          projectTitle: project.title,
+          amountCents: Math.round(amount * 100),
+        }),
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Checkout failed");
+      }
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch (err: any) {
+      console.error(err);
+      alert(`Could not start checkout: ${err.message}. Please try again.`);
+      setLoading(false);
+    }
   };
 
   return (
     <Card className="overflow-hidden shadow-2xl shadow-primary/10">
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <div className="relative">
+        <div className="relative min-h-[450px]">
           <Image
-            src={project.posterUrl}
+            src={project.posterUrl || 'https://placehold.co/600x900.png'}
             alt={`Poster for ${project.title}`}
-            width={600}
-            height={900}
+            fill
             className="w-full h-full object-cover"
             data-ai-hint="movie poster"
           />
@@ -139,8 +148,8 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
             
             <div className="space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-muted-foreground">Minimum Investment:</span><span className="font-semibold">{formatter.format(minimumInvestment)}</span></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">Expected ROI:</span><span className="font-semibold">{project.expectedROI}</span></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">Timeline:</span><span className="font-semibold">{project.productionTimeline}</span></div>
+                {project.expectedROI && <div className="flex justify-between"><span className="text-muted-foreground">Expected ROI:</span><span className="font-semibold">{project.expectedROI}</span></div>}
+                {project.productionTimeline && <div className="flex justify-between"><span className="text-muted-foreground">Timeline:</span><span className="font-semibold">{project.productionTimeline}</span></div>}
             </div>
 
             <Separator />
@@ -177,7 +186,7 @@ export default function FundingProjectCard({ project }: FundingProjectCardProps)
                     Processing...
                   </>
                 ) : (
-                  'Invest with PayPal'
+                  'Invest with Stripe'
                 )}
               </Button>
               {!user && <p className="text-center text-xs text-muted-foreground">Please <Link href="/login" className="underline">sign in</Link> to invest.</p>}
