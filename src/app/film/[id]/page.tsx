@@ -1,3 +1,9 @@
+// Temporary so static export succeeds
+export const dynamicParams = false;
+export async function generateStaticParams() {
+  return []; // no /film/[id] pages prebuilt yet
+}
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
