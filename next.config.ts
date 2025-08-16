@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   distDir: 'out',
   
-  // Speed up builds
+  // Speed up builds by ignoring errors
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -37,11 +37,6 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  
-  // Reduce build time
-  experimental: {
-    optimizePackageImports: ['lucide-react'],
   },
 };
 
