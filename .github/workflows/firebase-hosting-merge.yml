@@ -1,5 +1,4 @@
 name: Deploy to Firebase Hosting on merge
-
 on:
   push:
     branches: [ main ]
@@ -7,27 +6,35 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Node.js 20
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: 20
+          cache: npm
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci
 
-      - name: Build project
-        run: npm run build
+      # Next.js static export: your next.config.ts already has output: 'export'
+      - name: Build site
+        run: |
+          npm run build
+          # If your build doesn't create "out", uncomment the next line:
+          # npm run export
+          test -d out && echo "✅ out/ exists" || (echo "❌ No out/ dir — check next.config.ts" && exit 1)
 
-      - name: Deploy to Firebase Hosting (live)
+      - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_TYPHOON_INDIE_STREAM }}
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
           channelId: live
           projectId: typhoon-indie-stream
