@@ -1,3 +1,8 @@
+// Temporary so static export succeeds
+export const dynamicParams = false;
+export async function generateStaticParams() {
+  return []; // no /watch/[id] pages prebuilt yet
+}
 
 'use client';
 
