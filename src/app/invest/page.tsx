@@ -66,10 +66,23 @@ const faqItems = [
 
 export default function InvestPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<{tierName: string, amount: number} | null>(null);
+
+  const handleTierSelection = (tierName: string, amount: number) => {
+    setSelectedTier({ tierName, amount });
+    setIsModalOpen(true);
+  };
 
   return (
     <>
-      <InvestModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <InvestModal 
+        isOpen={isModalOpen} 
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedTier(null);
+        }} 
+        preselectedAmount={selectedTier?.amount}
+      />
       <div className="flex flex-col min-h-[100dvh]">
         <main className="flex-1">
           {/* Hero Section */}
@@ -179,17 +192,20 @@ export default function InvestPage() {
                   tierName="Bronze"
                   amount="$100"
                   perks={["Digital copy of the film", "Your name in the credits", "Exclusive updates"]}
+                  onInvest={handleTierSelection}
                 />
                 <TierCard
                   tierName="Silver"
                   amount="$500"
                   perks={["All Bronze perks", "Signed movie poster", "Two premiere tickets"]}
                   isFeatured={true}
+                  onInvest={handleTierSelection}
                 />
                 <TierCard
                   tierName="Gold"
                   amount="$1,500"
                   perks={["All Silver perks", "Associate Producer credit", "Set visit invitation"]}
+                  onInvest={handleTierSelection}
                 />
               </div>
             </div>

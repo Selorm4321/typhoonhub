@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -37,24 +38,33 @@ const formSchema = z.object({
 type InvestModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  preselectedAmount?: number;
 };
 
-export function InvestModal({ isOpen, onClose }: InvestModalProps) {
+export function InvestModal({ isOpen, onClose, preselectedAmount }: InvestModalProps) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
       email: '',
-      amount: 10,
+      amount: preselectedAmount || 100,
       message: '',
     },
   });
+  
+  // Update form when preselected amount changes
+  React.useEffect(() => {
+    if (preselectedAmount) {
+      form.setValue('amount', preselectedAmount);
+    }
+  }, [preselectedAmount, form]);
 
   const { isSubmitting } = form.formState;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      // Store lead information
       const docRef = await addDoc(collection(db, 'invest_leads'), {
         slug: 'mary-and-rose',
         ...values,
@@ -62,18 +72,44 @@ export function InvestModal({ isOpen, onClose }: InvestModalProps) {
       });
       console.log('Lead document written with ID: ', docRef.id);
 
-      toast({
-        title: 'Interest Registered!',
-        description: "Thank you! We'll be in touch with more details soon.",
+      // Create Stripe checkout session
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tierName: values.amount >= 1500 ? 'Gold' : values.amount >= 500 ? 'Silver' : 'Bronze',
+          tierAmount: values.amount,
+          projectName: 'Mary and Rose',
+          userEmail: values.email,
+          userName: values.name,
+          userId: docRef.id, // Use the document ID as user ID
+          productionId: 'mary-and-rose',
+        }),
       });
-      form.reset();
-      onClose();
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const { url } = await response.json();
+      
+      if (url) {
+        // Close modal and redirect to Stripe Checkout
+        form.reset();
+        onClose();
+        window.location.href = url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+      
     } catch (error) {
-      console.error('Error adding document: ', error);
+      console.error('Error processing investment:', error);
       toast({
         variant: 'destructive',
-        title: 'Submission Failed',
-        description: 'There was an error submitting your interest. Please try again.',
+        title: 'Processing Failed',
+        description: 'There was an error processing your investment. Please try again.',
       });
     }
   }
