@@ -38,8 +38,8 @@ export const metadata: Metadata = {
 };
 */
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Note: These exports are removed as they don't work with client components
+// Dynamic behavior is handled by the client-side state management
 
 const faqItems = [
   {
