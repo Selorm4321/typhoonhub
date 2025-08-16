@@ -1,3 +1,14 @@
+
+'use client';
+
+export const dynamicParams = false;
+export async function generateStaticParams() {
+  return []; // no /watch/[id] pages prebuilt yet
+}
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+// …rest of your imports and component code…
 // Temporary so static export succeeds
 export const dynamicParams = false;
 export async function generateStaticParams() {
