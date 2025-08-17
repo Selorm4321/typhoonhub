@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Film, Loader2, Sparkles } from 'lucide-react';
 
-import { generateFilmRecommendations } from '@/ai/flows/generate-film-recommendations';
+import { films } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -39,15 +39,33 @@ export default function RecommendationsForm() {
     },
   });
 
+  function simpleRecommend(viewingHistory: string): string[] {
+    const text = viewingHistory.toLowerCase();
+    const results = films
+      .map(f => {
+        const tokens = [f.title, f.tagline, f.synopsis, ...f.genres].join(' ').toLowerCase();
+        let score = 0;
+        // crude scoring: count overlapping words length>=4
+        const words = Array.from(new Set(text.split(/[^a-z0-9]+/).filter(w => w.length >= 4)));
+        for (const w of words) {
+          if (tokens.includes(w)) score += 1;
+        }
+        return { title: f.title, score };
+      })
+      .sort((a, b) => b.score - a.score);
+
+    const top = results.filter(r => r.score > 0).slice(0, 5).map(r => r.title);
+    if (top.length > 0) return top;
+    // fallback: first 5 films as "hidden gems"
+    return films.slice(0, 5).map(f => f.title);
+  }
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setRecommendations([]);
 
     try {
-      const result = await generateFilmRecommendations({
-        viewingHistory: values.viewingHistory,
-      });
-      const recs = result.recommendations.split(',').map((rec) => rec.trim());
+      const recs = simpleRecommend(values.viewingHistory);
       setRecommendations(recs);
     } catch (error) {
       console.error(error);
