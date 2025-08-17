@@ -1,0 +1,6 @@
+- name: Build
+  env:
+    NEXT_PUBLIC_PAYPAL_CLIENT_ID: EIsT4PAJ7h--tClaTEWiimFQkhAQ69Co-MtShGEXF_OokhqDLvlySVnrOvlJ3h1FSDuY7BWjabAPMJT1
+  run: |
+    npm ci
+    npm run build
