@@ -1,20 +1,20 @@
+'use client';
+
 import FilmCard from '@/components/film-card';
 import SearchInput from '@/components/search-input';
-import { films, type Film } from '@/lib/data';
+import { films } from '@/lib/data';
+import { useSearchParams } from 'next/navigation';
 
-export default function SearchPage({
-  searchParams,
-}: {
-  searchParams?: { q?: string };
-}) {
-  const query = searchParams?.q || '';
+export default function SearchPage() {
+  const searchParams = useSearchParams();
+  const query = (searchParams.get('q') || '').toLowerCase();
 
   const filteredFilms = films.filter((film) => {
-    const searchTerm = query.toLowerCase();
+    if (!query) return true;
     return (
-      film.title.toLowerCase().includes(searchTerm) ||
-      film.genres.some((genre) => genre.toLowerCase().includes(searchTerm)) ||
-      film.cast.some((actor) => actor.name.toLowerCase().includes(searchTerm))
+      film.title.toLowerCase().includes(query) ||
+      film.genres.some((genre) => genre.toLowerCase().includes(query)) ||
+      film.cast.some((actor) => actor.name.toLowerCase().includes(query))
     );
   });
 
