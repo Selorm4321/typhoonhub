@@ -1,6 +1,6 @@
 import WatchClient from './WatchClient';
 
-// Server Component
+// Required for static export
 export const dynamicParams = false;
 export async function generateStaticParams() {
   return []; // no /watch/[id] pages prebuilt yet
