@@ -2,6 +2,12 @@
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+// Required for static export
+export const dynamicParams = false;
+export async function generateStaticParams() {
+  return []; // no /admin/invest/[id] pages prebuilt yet
+}
+
 import { db } from "@/lib/firebase-admin";
 import AdminProductionForm from "@/components/admin/admin-production-form";
 
