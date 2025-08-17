@@ -1,3 +1,4 @@
+// This route is statically generated via generateStaticParams to support output: 'export'.
 import WatchClient from './WatchClient';
 import { films } from '@/lib/data';
 
