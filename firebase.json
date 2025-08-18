@@ -5,6 +5,13 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      { "source": "/api/invest/checkout", "function": "createCheckoutSession" },
+      { "source": "/api/invest/webhook", "function": "stripeWebhook" }
     ]
+  },
+  "functions": {
+    "source": "functions"
   }
 }
