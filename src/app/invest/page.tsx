@@ -1,4 +1,6 @@
-'use client';
+"use client";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 import { useState } from 'react';
 import type { Metadata } from 'next';
@@ -12,34 +14,6 @@ import { FAQ } from '@/components/invest/FAQ';
 import { InvestModal } from '@/components/invest/InvestModal';
 import { ArrowRight, BarChart, Search, Zap } from 'lucide-react';
 import { FeaturedProjectCard } from '@/components/invest/FeaturedProjectCard';
-
-// Note: generateMetadata is commented out because it only works in Server Components.
-// We are using a Client Component here to handle the modal state.
-// SEO metadata can be set in a parent layout or via a custom hook if needed.
-/*
-export const metadata: Metadata = {
-  title: 'Invest in Independent Cinema | Typhoonhub',
-  description: 'Discover and invest in the next generation of groundbreaking independent films. Your support brings unique stories to the screen.',
-  openGraph: {
-    title: 'Invest in Independent Cinema | Typhoonhub',
-    description: 'Discover and invest in the next generation of groundbreaking independent films.',
-    url: 'https://typhoonhub.ca/invest',
-    siteName: 'Typhoonhub',
-    images: [
-      {
-        url: 'https://typhoonhub.ca/og-invest.png', // Placeholder OG image
-        width: 1200,
-        height: 630,
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-};
-*/
-
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 const faqItems = [
   {
