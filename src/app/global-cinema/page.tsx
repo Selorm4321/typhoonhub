@@ -51,6 +51,17 @@ export default function GlobalCinemaPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4 rounded-lg">
+                {/* Alert: Audio file not yet uploaded to Firebase Storage */}
+                <div className="bg-yellow-500/20 border-2 border-yellow-500 rounded-lg p-4 mb-4">
+                  <p className="text-yellow-200 font-semibold flex items-center gap-2">
+                    <span className="text-2xl">🎙️</span>
+                    <span>Audio Coming Soon! We're preparing this episode for you.</span>
+                  </p>
+                  <p className="text-yellow-200/80 text-sm mt-2">
+                    The podcast audio file needs to be uploaded to Firebase Storage. 
+                    See <code className="bg-black/30 px-2 py-1 rounded">PODCAST_AUDIO_FIX.md</code> for instructions.
+                  </p>
+                </div>
                 <audio controls className="w-full" key={activeEpisode.id} src={activeEpisode.audioUrl}>
                   Your browser does not support the audio element.
                 </audio>
