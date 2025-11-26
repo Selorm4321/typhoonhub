@@ -7,11 +7,18 @@ import { cn } from '@/lib/utils';
 type FilmCardProps = {
   film: Film;
   className?: string;
+  linkTo?: 'detail' | 'browse' | 'watch';
 };
 
-export default function FilmCard({ film, className }: FilmCardProps) {
+export default function FilmCard({ film, className, linkTo = 'browse' }: FilmCardProps) {
+  const href = linkTo === 'detail' 
+    ? `/film/${film.id}` 
+    : linkTo === 'watch'
+    ? `/watch/${film.id}`
+    : '/browse';
+
   return (
-    <Link href={`/film/${film.id}`} className="group block">
+    <Link href={href} className="group block">
       <Card
         className={cn(
           'overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-primary/20',

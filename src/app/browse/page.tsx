@@ -16,7 +16,7 @@ export default function BrowsePage() {
       {films.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
           {films.map((film) => (
-            <FilmCard key={film.id} film={film} />
+            <FilmCard key={film.id} film={film} linkTo="watch" />
           ))}
         </div>
       ) : (
