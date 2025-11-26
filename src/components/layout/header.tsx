@@ -18,8 +18,9 @@ import { useRouter } from 'next/navigation';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/browse', label: 'Browse' },
+  { href: '/typhoonhubpods', label: 'Typhoonpod' },
   { href: '/live', label: 'Live TV' },
-  { href: '/global-cinema', label: 'Global Cinema' },
+  { href: '/set-games', label: 'Set Games' },
   { href: '/invest', label: 'Invest' },
   { href: '/submit', label: 'Submit Film' },
   { href: '/contact', label: 'Join Us' },
