@@ -1,32 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { films } from '@/lib/data';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Loader2 } from 'lucide-react';
-import { useAuth } from '@/context/auth-context';
+import { ArrowLeft } from 'lucide-react';
 
 export default function WatchClient({ id }: { id: string }) {
-  const { user, loading } = useAuth();
-  const router = useRouter();
-
   const film = films.find((f) => f.id.toString() === id);
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
-  if (loading || !user) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center bg-black">
-        <Loader2 className="h-10 w-10 animate-spin text-primary" />
-      </div>
-    );
-  }
 
   if (!film || !film.youtubeVideoId) {
     notFound();
