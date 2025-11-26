@@ -89,7 +89,7 @@ const legendsOfLegacyEpisodes: Film[] = [
     synopsis: 'Discover the remarkable story of Ignatius Sancho, a composer, actor, and writer who became the first Black person of African origin to vote in Britain. His legacy lives on as a champion of abolition and equality.',
     posterUrl: 'https://placehold.co/480x360.png?text=Ignatius+Sancho',
     backdropUrl: 'https://placehold.co/1280x720.png?text=Ignatius+Sancho',
-    firebaseVideoUrl: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/videos%20episodes%2FLegends%20of%20Legacy%2FIgnatius%20Sancho%2FTyphoonhub%20Presents_%20Ignatius%20Sancho_2025_11_16(1).mp4?alt=media',
+    firebaseVideoUrl: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/videos%20episodes%2FLegends%20of%20Legacy%20Episodes%2FIgnatius%20Sancho%2FTyphoonhub%20Presents_%20Ignatius%20Sancho_2025_11_16(1).mp4?alt=media&token=3bf95181-4f81-43b6-8857-852df6635cea',
     videoType: 'firebase' as const,
     genres: ['Documentary', 'History'],
     cast: [
@@ -105,7 +105,7 @@ const legendsOfLegacyEpisodes: Film[] = [
     synopsis: 'The inspiring journey of Dr. Matilda Arabella Evans, who overcame immense obstacles to become the first African American woman licensed to practice medicine in South Carolina, dedicating her life to serving her community.',
     posterUrl: 'https://placehold.co/480x360.png?text=Matilda+Evans',
     backdropUrl: 'https://placehold.co/1280x720.png?text=Matilda+Evans',
-    firebaseVideoUrl: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/videos%20episodes%2FLegends%20of%20Legacy%2FMatilda%20C.%20Evans%20-%20Healing%2C%20Advancing%2C%20Inspiring%2FMatilda%20C.%20Evans%20%E2%80%93%20Healing%2C%20Advancing%2C%20Inspiring..mov?alt=media',
+    firebaseVideoUrl: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/videos%20episodes%2FLegends%20of%20Legacy%20Episodes%2FMatilda%20C.%20Evans%20First%20African%20American%20Woman%20Physician%20in%20South%20Carolina%2FMatilda%20C.%20Evans%20%E2%80%93%20Healing.%20Advancing.%20Inspiring..mov?alt=media&token=fed0b2b7-b7ed-4eca-96eb-9fe0d0f45eae',
     videoType: 'firebase' as const,
     genres: ['Documentary', 'History'],
     cast: [
@@ -121,7 +121,7 @@ const legendsOfLegacyEpisodes: Film[] = [
     synopsis: 'Explore the life of Elijah McCoy, the brilliant Black inventor whose automatic lubricating devices revolutionized the railroad industry. His innovations were so superior that people began asking for "the real McCoy."',
     posterUrl: 'https://placehold.co/480x360.png?text=The+Real+McCoy',
     backdropUrl: 'https://placehold.co/1280x720.png?text=The+Real+McCoy',
-    firebaseVideoUrl: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/videos%20episodes%2FLegends%20of%20Legacy%2FThe%20Real%20McCoy%2FThe-RealMcCoy-Web1080p.mp4?alt=media',
+    firebaseVideoUrl: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/videos%20episodes%2FLegends%20of%20Legacy%20Episodes%2FThe%20Real%20McCoy%2FThe-RealMcCoy-Web1080p.mp4?alt=media&token=4d840db1-928b-426b-8912-487f7979682f',
     videoType: 'firebase' as const,
     genres: ['Documentary', 'History'],
     cast: [
