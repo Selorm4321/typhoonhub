@@ -28,7 +28,7 @@ export default function LivePage() {
     setCurrentIndex(index);
   };
   
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${activeFilm.youtubeVideoId}?autoplay=1&rel=0`;
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${activeFilm.youtubeVideoId}?autoplay=1&rel=0&modestbranding=1`;
 
   return (
     <div className="container mx-auto py-8">
