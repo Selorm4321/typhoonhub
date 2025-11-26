@@ -27,8 +27,6 @@ export default function LivePage() {
   const handleSelectFilm = (index: number) => {
     setCurrentIndex(index);
   };
-  
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${activeFilm.youtubeVideoId}?autoplay=1&rel=0&modestbranding=1`;
 
   return (
     <div className="container mx-auto py-8">
@@ -37,15 +35,29 @@ export default function LivePage() {
         {/* Left Column */}
         <div className="lg:col-span-2 space-y-6">
           <div className="w-full aspect-video bg-black rounded-lg overflow-hidden shadow-2xl shadow-primary/20">
-            <iframe
-              key={activeFilm.id}
-              className="w-full h-full"
-              src={youtubeEmbedUrl}
-              title={activeFilm.title}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+            {activeFilm.videoType === 'youtube' && activeFilm.youtubeVideoId ? (
+              <iframe
+                key={activeFilm.id}
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${activeFilm.youtubeVideoId}?autoplay=1&rel=0&modestbranding=1`}
+                title={activeFilm.title}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : activeFilm.videoType === 'firebase' && activeFilm.firebaseVideoUrl ? (
+              <video
+                key={activeFilm.id}
+                className="w-full h-full"
+                controls
+                autoPlay
+                controlsList="nodownload"
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                <source src={activeFilm.firebaseVideoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ) : null}
           </div>
           
           <div>

@@ -9,11 +9,14 @@ import { ArrowLeft } from 'lucide-react';
 export default function WatchClient({ id }: { id: string }) {
   const film = films.find((f) => f.id.toString() === id);
 
-  if (!film || !film.youtubeVideoId) {
+  if (!film) {
     notFound();
   }
 
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${film.youtubeVideoId}?autoplay=1&rel=0&modestbranding=1`;
+  // Check if we have a valid video source
+  if (!film.youtubeVideoId && !film.firebaseVideoUrl) {
+    notFound();
+  }
 
   return (
     <div className="bg-black flex flex-col h-screen">
@@ -28,15 +31,28 @@ export default function WatchClient({ id }: { id: string }) {
       </header>
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-6xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
-          <iframe
-            className="w-full h-full"
-            src={youtubeEmbedUrl}
-            title={film.title}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
+          {film.videoType === 'youtube' && film.youtubeVideoId ? (
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube.com/embed/${film.youtubeVideoId}?autoplay=1&rel=0&modestbranding=1`}
+              title={film.title}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          ) : film.videoType === 'firebase' && film.firebaseVideoUrl ? (
+            <video
+              className="w-full h-full"
+              controls
+              autoPlay
+              controlsList="nodownload"
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <source src={film.firebaseVideoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ) : null}
         </div>
       </div>
     </div>
