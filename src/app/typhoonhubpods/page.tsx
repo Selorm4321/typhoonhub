@@ -11,28 +11,31 @@ import Link from 'next/link';
 export default function TyphoonHubPodsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Mock data for featured episodes (using the podcast data we have)
+  // Real podcast episode from data + coming soon placeholders
   const featuredEpisodes = [
     {
       id: 1,
       title: 'Global Cinema: Filming Around the World',
       subtitle: 'Filming Around the World',
       image: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/Global%20cinema%20cover.png?alt=media&token=04f7a39d-18c7-4bcf-890b-b80be847fc54',
-      category: 'TyphoonHub Originals'
+      category: 'TyphoonHub Originals',
+      available: true
     },
     {
       id: 2,
       title: 'Global Cinema: International Film Markets',
-      subtitle: 'International Film Markets',
+      subtitle: 'Coming Soon',
       image: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/Global%20cinema%20cover.png?alt=media&token=04f7a39d-18c7-4bcf-890b-b80be847fc54',
-      category: 'TyphoonHub Originals'
+      category: 'TyphoonHub Originals',
+      available: false
     },
     {
       id: 3,
       title: 'Global Cinema: Cultural Storytelling',
-      subtitle: 'Cultural Storytelling',
+      subtitle: 'Coming Soon',
       image: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/Global%20cinema%20cover.png?alt=media&token=04f7a39d-18c7-4bcf-890b-b80be847fc54',
-      category: 'TyphoonHub Originals'
+      category: 'TyphoonHub Originals',
+      available: false
     }
   ];
 
@@ -40,23 +43,26 @@ export default function TyphoonHubPodsPage() {
     {
       id: 4,
       title: 'The Golden Age of Cinema',
-      subtitle: 'Classic Hollywood',
+      subtitle: 'Coming Soon',
       image: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/Global%20cinema%20cover.png?alt=media&token=04f7a39d-18c7-4bcf-890b-b80be847fc54',
-      category: 'TyphoonHub Originals'
+      category: 'TyphoonHub Originals',
+      available: false
     },
     {
       id: 5,
       title: 'Rise of Independent Film',
-      subtitle: 'The Indie Movement',
+      subtitle: 'Coming Soon',
       image: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/Global%20cinema%20cover.png?alt=media&token=04f7a39d-18c7-4bcf-890b-b80be847fc54',
-      category: 'TyphoonHub Originals'
+      category: 'TyphoonHub Originals',
+      available: false
     },
     {
       id: 6,
       title: 'Digital Revolution in Filmmaking',
-      subtitle: 'Modern Cinema',
+      subtitle: 'Coming Soon',
       image: 'https://firebasestorage.googleapis.com/v0/b/typhoon-indie-stream.firebasestorage.app/o/Global%20cinema%20cover.png?alt=media&token=04f7a39d-18c7-4bcf-890b-b80be847fc54',
-      category: 'TyphoonHub Originals'
+      category: 'TyphoonHub Originals',
+      available: false
     }
   ];
 
@@ -122,27 +128,45 @@ export default function TyphoonHubPodsPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredEpisodes.map((episode, index) => (
-              <Link key={episode.id} href="/global-cinema">
-                <Card className="bg-zinc-900 border-zinc-800 overflow-hidden hover:border-red-600 transition-all group cursor-pointer">
-                  <div className="aspect-square relative">
-                    <Image
-                      src={episode.image}
-                      alt={episode.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-bold text-lg mb-1 line-clamp-1">
-                      {episode.title}
-                    </h3>
-                    <p className="text-sm text-red-600 mb-2">{episode.subtitle}</p>
-                    <p className="text-xs text-gray-400">{episode.category}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+            {featuredEpisodes.map((episode, index) => {
+              const CardWrapper = episode.available ? Link : 'div';
+              const cardProps = episode.available ? { href: "/global-cinema" } : {};
+              
+              return (
+                <CardWrapper key={episode.id} {...cardProps}>
+                  <Card className={`bg-zinc-900 border-zinc-800 overflow-hidden transition-all group ${
+                    episode.available 
+                      ? 'hover:border-red-600 cursor-pointer' 
+                      : 'opacity-60 cursor-not-allowed'
+                  }`}>
+                    <div className="aspect-square relative">
+                      <Image
+                        src={episode.image}
+                        alt={episode.title}
+                        fill
+                        className={`object-cover transition-transform duration-300 ${
+                          episode.available ? 'group-hover:scale-105' : ''
+                        }`}
+                      />
+                      {!episode.available && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+                          <span className="text-white text-2xl font-bold">COMING SOON</span>
+                        </div>
+                      )}
+                    </div>
+                    <CardContent className="p-4">
+                      <h3 className="font-bold text-lg mb-1 line-clamp-1">
+                        {episode.title}
+                      </h3>
+                      <p className={`text-sm mb-2 ${episode.available ? 'text-red-600' : 'text-gray-500'}`}>
+                        {episode.subtitle}
+                      </p>
+                      <p className="text-xs text-gray-400">{episode.category}</p>
+                    </CardContent>
+                  </Card>
+                </CardWrapper>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -180,26 +204,45 @@ export default function TyphoonHubPodsPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {historyEpisodes.map((episode) => (
-              <Link key={episode.id} href="/global-cinema">
-                <Card className="bg-zinc-900 border-zinc-800 overflow-hidden hover:border-red-600 transition-all group cursor-pointer">
-                  <div className="aspect-square relative">
-                    <Image
-                      src={episode.image}
-                      alt={episode.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-bold text-lg mb-1 line-clamp-1">
-                      {episode.title}
-                    </h3>
-                    <p className="text-sm text-gray-400">{episode.category}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+            {historyEpisodes.map((episode) => {
+              const CardWrapper = episode.available ? Link : 'div';
+              const cardProps = episode.available ? { href: "/global-cinema" } : {};
+              
+              return (
+                <CardWrapper key={episode.id} {...cardProps}>
+                  <Card className={`bg-zinc-900 border-zinc-800 overflow-hidden transition-all group ${
+                    episode.available 
+                      ? 'hover:border-red-600 cursor-pointer' 
+                      : 'opacity-60 cursor-not-allowed'
+                  }`}>
+                    <div className="aspect-square relative">
+                      <Image
+                        src={episode.image}
+                        alt={episode.title}
+                        fill
+                        className={`object-cover transition-transform duration-300 ${
+                          episode.available ? 'group-hover:scale-105' : ''
+                        }`}
+                      />
+                      {!episode.available && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+                          <span className="text-white text-2xl font-bold">COMING SOON</span>
+                        </div>
+                      )}
+                    </div>
+                    <CardContent className="p-4">
+                      <h3 className="font-bold text-lg mb-1 line-clamp-1">
+                        {episode.title}
+                      </h3>
+                      <p className={`text-sm mb-2 ${episode.available ? 'text-red-600' : 'text-gray-500'}`}>
+                        {episode.subtitle}
+                      </p>
+                      <p className="text-xs text-gray-400">{episode.category}</p>
+                    </CardContent>
+                  </Card>
+                </CardWrapper>
+              );
+            })}
           </div>
         </div>
       </section>
